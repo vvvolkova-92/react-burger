@@ -1,0 +1,36 @@
+
+
+.flex {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+.menuContainer {
+  width: 100%;
+  background-color: #1C1C21;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  min-height: 56px;
+  margin: 0 auto;
+}
+
+.menuItems {
+  min-width: 383px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.text {
+  text-decoration: none;
+}
+
+.logo {
+  
+}
+

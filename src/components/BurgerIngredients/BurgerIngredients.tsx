@@ -1,11 +1,9 @@
 import React from "react";
 import styles from './BurgerIngredients.module.css';
-class BurgerIngredients extends React.Component {
-  render() {
+function BurgerIngredients () {
     return (
       <p>BurgerIngredients</p>
     );
   }
-}
 
 export default BurgerIngredients 

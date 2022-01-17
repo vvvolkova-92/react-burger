@@ -1,11 +1,9 @@
 import React from "react";
 import styles from './BurgerConstructor.module.css';
-class BurgerConstructor extends React.Component {
-  render() {
+function BurgerConstructor () {
     return (
       <p>BurgerConstructor</p>
     );
   }
-}
 
 export default BurgerConstructor 
