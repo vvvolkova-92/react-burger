@@ -2,3 +2,9 @@
   padding: 0;
   margin: 0 auto;
 }
+
+.main {
+  display: flex;
+  max-width: 1280px;
+  margin: 0 auto;
+}

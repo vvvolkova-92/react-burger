@@ -1,5 +1,3 @@
-
-
 .flex {
   display: flex;
   align-items: center;
@@ -16,7 +14,6 @@
   align-items: center;
   justify-content: space-between;
   max-width: 1280px;
-  min-height: 56px;
   margin: 0 auto;
 }
 
@@ -31,6 +28,6 @@
 }
 
 .logo {
-  
+  margin-left: -172px;
 }
 

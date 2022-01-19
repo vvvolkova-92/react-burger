@@ -10,8 +10,11 @@ function App() {
   return (
     <div className={styles.App}>
       <AppHeader />
-      <BurgerConstructor />
-      <BurgerIngredients />
+      <main className={styles.main}>
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </main>
+
     </div>
   );
 }
