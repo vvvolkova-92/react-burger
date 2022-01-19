@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom'
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';

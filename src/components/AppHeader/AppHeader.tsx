@@ -3,15 +3,10 @@ import { nanoid } from 'nanoid';
 import styles from './AppHeader.module.css';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/tab';
 import MenuItem from '../MenuItem/MenuItem';
 function AppHeader () {
-  const [current, setCurrent] = React.useState('one');
     return (
     <header className={styles.menuContainer}>
-      <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-        One
-        </Tab>
       <div className={styles.menu}>
         <ul className={styles.menuItems + " " + styles.flex}>
           <MenuItem 
