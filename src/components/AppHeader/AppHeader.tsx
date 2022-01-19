@@ -14,7 +14,7 @@ function AppHeader () {
           icon={<BurgerIcon type="primary" />}
           link={"#"}
           stylesComp={"mr-2 pl-5 pt-4 pr-5 pb-4 " + styles.flex}
-          stylesText={"ml-2 text text_type_main-default text_color_inactive " + styles.text}
+          stylesText={"ml-2 text text_type_main-default text_color_primary " + styles.text}
           title={"Конструктор"}
           />
           <MenuItem 

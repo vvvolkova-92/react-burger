@@ -1,0 +1,21 @@
+.card {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  max-width: 272px;
+  box-sizing: border-box;
+}
+
+.image {
+  max-width: 240px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  max-width: 270px;
+}
