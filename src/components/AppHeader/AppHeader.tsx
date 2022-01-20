@@ -1,4 +1,3 @@
-import React from "react";
 import { nanoid } from 'nanoid';
 import styles from './AppHeader.module.css';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';

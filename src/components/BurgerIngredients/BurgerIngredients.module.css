@@ -26,3 +26,16 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.card {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  max-width: 272px;
+  box-sizing: border-box;
+}
+
+.card:nth-child(2n) {
+  margin-right: 0;
+}

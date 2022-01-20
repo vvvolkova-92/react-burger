@@ -1,14 +1,14 @@
-import React from "react";
+import PropTypes from 'prop-types';
 import styles from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerConstructor ({data} : any) {
   let total = 0;
-  //для тестового заполнения 
+  //для тестового заполнения (выбранные инг)
   const someIngr = data.slice(5,12).map((item: any) => {
     total += item.price;
-    return (<li className={styles.item + " mr-2 mt-4 mb-4"}>
-      <DragIcon type="primary" />
+    return (<li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
+      <div className=""><DragIcon type="primary" /></div>
       <ConstructorElement
         text={item.name}
         price={item.price}
@@ -18,8 +18,8 @@ function BurgerConstructor ({data} : any) {
     )
   });
   return ( <>
-  <div className={styles.block + " mr-5"}>
-    <div className={styles.ingr + " pt-25 pl-4 mr-4 "}>
+  <div className={styles.block}>
+    <div className={styles.ingr + " pt-25 mr-4 "}>
       <div className={styles.item+ " mr-4 "}>
       <ConstructorElement
         type="top"
@@ -43,7 +43,7 @@ function BurgerConstructor ({data} : any) {
       />
       </div>
       {/* итого */}
-      <div className={styles.total + " mt-10"}>
+      <div className={styles.total + " mt-10 mr-4"}>
         <div className="pr-10">
           <span className="text text_type_digits-medium pr-2">{total}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
@@ -53,11 +53,19 @@ function BurgerConstructor ({data} : any) {
         </Button>
       </div>
   </div>
-
 </div>
-  
 </>
-    );
-  }
+)}
+
+  BurgerConstructor.propTypes = {
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        image: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        id: PropTypes.string,
+      })
+    )
+  };
 
 export default BurgerConstructor 
