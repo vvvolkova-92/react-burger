@@ -14,9 +14,10 @@ function BurgerConstructor ({data} : any) {
         price={item.price}
         thumbnail={item.image_mobile}
       />
-    </li>
+    </li> 
     )
   });
+
   return ( <>
   <div className={styles.block}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
@@ -29,10 +30,11 @@ function BurgerConstructor ({data} : any) {
         thumbnail={'https://code.s3.yandex.net/react/code/bun-01.png'}
       />
       </div>
-      {/* дальше то, то можно изменить! и для этого блока скрол */}
+
       <ul className={styles.list}>
         {someIngr}
       </ul>
+
       <div className={styles.item +" mr-4 "}>
       <ConstructorElement
         type="bottom"
@@ -42,7 +44,7 @@ function BurgerConstructor ({data} : any) {
         thumbnail={'https://code.s3.yandex.net/react/code/bun-01.png'}
       />
       </div>
-      {/* итого */}
+
       <div className={styles.total + " mt-10 mr-4"}>
         <div className="pr-10">
           <span className="text text_type_digits-medium pr-2">{total}</span>

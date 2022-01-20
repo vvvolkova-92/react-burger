@@ -1,8 +1,8 @@
 import React from "react";
-function MenuItem ({id, icon, link, stylesComp, stylesText, title}: any) {
+function MenuItem ({icon, link, stylesComp, stylesText, title}: any) {
 
     return (
-      <li key={id} className={stylesComp}>
+      <li className={stylesComp}>
         {icon}
         <a href={link} className={stylesText}>{title}</a>
       </li>

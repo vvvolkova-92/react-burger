@@ -25,6 +25,7 @@ function AppHeader () {
           title={"Лента заказов"}
           />
         </ul>
+        
         <div className={styles.logo}>
         <Logo />
         </div>

@@ -25,49 +25,46 @@ function BurgerIngredients ({data}: any) {
 
   //ингредиенты
     //булки
-  const bun = data
-  .map((card : any) => {
+  const bun = data.map((card : any) => {
     if (card.type === 'bun') {
-      return <li className={"ml-4 mr-6 " + styles.card} key={card._id}>
+      return (<li className={"ml-4 mr-6 " + styles.card} key={card._id}>
         <IngredientsCard 
-    imglink = {card.image}
-    price = {card.price}
-    name = {card.name}
-    id = {card._id}
-    /> 
-    </li>}
-  })
-  .filter((element:any) => element !== undefined);
+          imglink = {card.image}
+          price = {card.price}
+          name = {card.name}
+        /> 
+    </li>
+      )
+    }
+  }).filter((element:any) => element !== undefined);
 
     // соусы
-  const sauce = data
-  .map((card : any) => {
+  const sauce = data.map((card : any) => {
     if (card.type === 'sauce') {
-      return <li className={"ml-4 mr-6 " + styles.card} key={card._id}>
+      return ( <li className={"ml-4 mr-6 " + styles.card} key={card._id}>
         <IngredientsCard 
-    imglink = {card.image}
-    price = {card.price}
-    name = {card.name}
-    id = {card._id}
-    />
-    </li>}
-  })
-  .filter((element:any) => element !== undefined);
+          imglink = {card.image}
+          price = {card.price}
+          name = {card.name}
+        />
+      </li>
+      )
+    }
+  }).filter((element:any) => element !== undefined);
 
     //котлетосы
-    const main = data
-    .map((card : any) => {
+    const main = data.map((card : any) => {
       if (card.type === 'main') {
-        return <li className={"ml-4 mr-6 " + styles.card} key={card._id}>
+        return (<li className={"ml-4 mr-6 " + styles.card} key={card._id}>
           <IngredientsCard 
-      imglink = {card.image}
-      price = {card.price}
-      name = {card.name}
-      id = {card._id}
-      />
-      </li>}
-    })
-    .filter((element:any) => element !== undefined);
+            imglink = {card.image}
+            price = {card.price}
+            name = {card.name}
+          />
+        </li>
+        )
+      }
+    }).filter((element:any) => element !== undefined);
 
     return ( 
     <div className={styles.block + " ml-5"}>

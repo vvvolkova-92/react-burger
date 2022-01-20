@@ -21,7 +21,6 @@ function IngredientsCard ({imglink, price, name} : any) {
     imglink: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    id: PropTypes.string,
   };
 
 export default IngredientsCard; 
