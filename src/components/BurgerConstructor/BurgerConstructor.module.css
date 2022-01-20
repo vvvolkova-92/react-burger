@@ -2,12 +2,34 @@
   max-height: 80px;
 }
 
-.basket {
-
+.block {
+min-width: 600px;
+max-height: 900px;
 }
 
 .list {
   list-style-type: none;
   padding-left: 0;
   margin: 0;
+  max-height: 568px;
+  overflow: scroll;
+}
+
+.ingr {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: stretch;
+  max-height: 760px;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  display: inline-block;
+  transform: scale(1.5,1.5);
 }

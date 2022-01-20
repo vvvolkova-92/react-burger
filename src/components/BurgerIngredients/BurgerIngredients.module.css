@@ -1,11 +1,13 @@
 .block {
   display: flex;
   flex-direction: column;
-  max-height: 912px;
-  overflow: scroll;
-  max-width: 608px;
+  max-width: 600px;
+  box-sizing: border-box;
 }
-
+.ingr {
+  max-height: 600px;
+  overflow: scroll;
+}
 .list {
   min-width: 383px;
   list-style-type: none;

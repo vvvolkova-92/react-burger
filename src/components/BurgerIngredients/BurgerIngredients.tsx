@@ -49,23 +49,25 @@ function BurgerIngredients ({data}: any) {
     })
 
     return ( 
-    <div className={styles.block}>
+    <div className={styles.block + " ml-5"}>
       <h1 className="mt-10 mb-5 text text_type_main-large">Соберите бургер</h1>
       <ul className={styles.menu + ' ' + styles.list}>
           {menu}
     </ul>
-    <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
-    <ul className={styles.flex}>
-      {bun}
-    </ul>
-    <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
-    <ul className={styles.flex}>
-      {sauce}
-    </ul>
-    <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
-    <ul className={styles.flex}>
-      {main}
-    </ul>
+    <div className={styles.ingr}>
+      <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+      <ul className={styles.flex}>
+        {bun}
+      </ul>
+      <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
+      <ul className={styles.flex}>
+        {sauce}
+      </ul>
+      <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
+      <ul className={styles.flex}>
+        {main}
+      </ul>
+    </div>
     </div>
     
     );
