@@ -1,0 +1,41 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+.ingr {
+  max-height: 600px;
+  overflow: scroll;
+}
+.list {
+  min-width: 383px;
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.menu {
+  display: flex;
+  min-width: 600px;
+}
+
+.flex {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  max-width: 272px;
+  box-sizing: border-box;
+}
+
+.card:nth-child(2n) {
+  margin-right: 0;
+}
