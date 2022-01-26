@@ -2,6 +2,7 @@ import {EffectCallback, useEffect, useState} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 const BASEURL = 'https://norma.nomoreparties.space/api/ingredients';
 function App() {
@@ -23,6 +24,7 @@ function App() {
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
+        <Modal title={'тест'}/>
         <BurgerIngredients data = {data}/>
         <BurgerConstructor data = {data}/>
       </main>
