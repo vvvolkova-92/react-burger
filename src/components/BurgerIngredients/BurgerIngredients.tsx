@@ -5,7 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import styles from './BurgerIngredients.module.css';
 
-function BurgerIngredients ({data, open} : any) {
+function BurgerIngredients ({data, onClickCard} : any) {
 
   const [current, setCurrent] = useState('one');
   const menuItems = [
@@ -26,12 +26,11 @@ function BurgerIngredients ({data, open} : any) {
     //булки
   const bun = data.map((card : any) => {
     if (card.type === 'bun') {
-      return (<li className={"ml-4 mr-6 " + styles.card} key={card._id}>
+      return (<li className={"ml-4 mr-6 " + styles.card} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
           imglink = {card.image}
           price = {card.price}
           name = {card.name}
-          open = {open}
         /> 
     </li>
       )
@@ -41,12 +40,11 @@ function BurgerIngredients ({data, open} : any) {
     // соусы
   const sauce = data.map((card : any) => {
     if (card.type === 'sauce') {
-      return ( <li className={"ml-4 mr-6 " + styles.card} key={card._id}>
+      return ( <li className={"ml-4 mr-6 " + styles.card} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
           imglink = {card.image}
           price = {card.price}
           name = {card.name}
-          open = {open}
         />
       </li>
       )
@@ -56,12 +54,11 @@ function BurgerIngredients ({data, open} : any) {
     //котлетосы
     const main = data.map((card : any) => {
       if (card.type === 'main') {
-        return (<li className={"ml-4 mr-6 " + styles.card} key={card._id}>
+        return (<li className={"ml-4 mr-6 " + styles.card} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
             imglink = {card.image}
             price = {card.price}
             name = {card.name}
-            open = {open}
           />
         </li>
         )
@@ -101,7 +98,7 @@ function BurgerIngredients ({data, open} : any) {
         name: PropTypes.string.isRequired,
       })
     ),
-    open : PropTypes.func,
+    onClickCard : PropTypes.func,
   };
   
 export default BurgerIngredients 

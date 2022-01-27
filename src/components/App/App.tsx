@@ -21,20 +21,20 @@ function App() {
       .then(( {data}) => setData(data));
   }, []);
 
-  const onClickCard = (evt: any) => {
-    setIngredient(evt.currentTarget);
-    console.log(ingredient);
-  };
+  // const onClickCard = (evt: any) => {
+  //   setIngredient(evt.currentTarget);
+  // };
 
   return (
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
-        <BurgerIngredients data = {data} open = {onClickCard} />
+        <BurgerIngredients data = {data} onClickCard = {(evt) => setIngredient(evt.currentTarget)} />
         <BurgerConstructor data = {data}/>
       </main>
       {ingredient && (
         <Modal title={"Детали ингредиента"}>
+          тестовый текст в окне
         </Modal>
       )}
 
