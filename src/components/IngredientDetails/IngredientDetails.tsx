@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {createPortal} from "react-dom";
+import PropTypes from 'prop-types';
 import styles from './IngredientDetails.module.css';
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -30,6 +31,20 @@ function IngredientDetails ({data, ingredient} : any) {
     </ul>
   </div>
 }
-    
+
+IngredientDetails.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      image_large: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      calories: PropTypes.number,
+      proteins: PropTypes.number,
+      fat: PropTypes.number,
+      carbohydrates: PropTypes.number,
+    })
+  ),
+  ingredient : PropTypes.string,
+};
 
 export default IngredientDetails 
