@@ -5,7 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import styles from './BurgerIngredients.module.css';
 
-function BurgerIngredients ({data}: any) {
+function BurgerIngredients ({data, open} : any) {
 
   const [current, setCurrent] = useState('one');
   const menuItems = [
@@ -13,7 +13,6 @@ function BurgerIngredients ({data}: any) {
     {id: nanoid(10), name: 'Соусы', value: 'two'},
     {id: nanoid(10), name: 'Начинки', value: 'three'},
   ]
-
   const menu = menuItems.map(item => {
     return (<li key={item.id}>
       <Tab value={item.value} active={current === item.value} onClick={setCurrent}>
@@ -32,6 +31,7 @@ function BurgerIngredients ({data}: any) {
           imglink = {card.image}
           price = {card.price}
           name = {card.name}
+          open = {open}
         /> 
     </li>
       )
@@ -46,6 +46,7 @@ function BurgerIngredients ({data}: any) {
           imglink = {card.image}
           price = {card.price}
           name = {card.name}
+          open = {open}
         />
       </li>
       )
@@ -60,6 +61,7 @@ function BurgerIngredients ({data}: any) {
             imglink = {card.image}
             price = {card.price}
             name = {card.name}
+            open = {open}
           />
         </li>
         )
@@ -98,7 +100,8 @@ function BurgerIngredients ({data}: any) {
         price: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
       })
-    )
+    ),
+    open : PropTypes.func,
   };
   
 export default BurgerIngredients 

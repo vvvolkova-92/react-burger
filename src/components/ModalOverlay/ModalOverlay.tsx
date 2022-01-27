@@ -1,7 +1,7 @@
 import styles from './ModalOverlay.module.css';
 
-function ModalOverlay () {
-  return <div className={styles.setModal} onClick={() => {console.log('тест клика по оверлею')}}></div>;
+function ModalOverlay ({ close }: any) {
+  return <div className={styles.modalOverlay} onClick={close}></div>;
 }
 
 export default ModalOverlay 
