@@ -26,7 +26,7 @@ function BurgerIngredients ({data, onClickCard} : any) {
     //булки
   const bun = data.map((card : any) => {
     if (card.type === 'bun') {
-      return (<li className={"ml-4 mr-6 " + styles.card} key={card._id} onClick={onClickCard}>
+      return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
           imglink = {card.image}
           price = {card.price}
@@ -40,7 +40,7 @@ function BurgerIngredients ({data, onClickCard} : any) {
     // соусы
   const sauce = data.map((card : any) => {
     if (card.type === 'sauce') {
-      return ( <li className={"ml-4 mr-6 " + styles.card} key={card._id} onClick={onClickCard}>
+      return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
           imglink = {card.image}
           price = {card.price}
@@ -54,7 +54,7 @@ function BurgerIngredients ({data, onClickCard} : any) {
     //котлетосы
     const main = data.map((card : any) => {
       if (card.type === 'main') {
-        return (<li className={"ml-4 mr-6 " + styles.card} key={card._id} onClick={onClickCard}>
+        return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
             imglink = {card.image}
             price = {card.price}

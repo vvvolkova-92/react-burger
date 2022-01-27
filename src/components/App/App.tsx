@@ -2,6 +2,7 @@ import {EffectCallback, useEffect, useState} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 const BASEURL = 'https://norma.nomoreparties.space/api/ingredients';
@@ -37,7 +38,10 @@ function App() {
         <Modal 
         title={"Детали ингредиента"} 
         closeBtn = {() => setIngredient('')}>
-          тестовый текст в окне
+          <IngredientDetails 
+          data = {data}
+          ingredient = {ingredient}
+          />
         </Modal>
       )}
 
