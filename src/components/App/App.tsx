@@ -12,28 +12,31 @@ function App() {
     if (res.ok) return res.json();
     return Promise.reject(`Ошибка: ${res.status + " - " + res.statusText}`);
   }
-  const [data, setData] = useState([]);
-  // const [order, setOrder] = useState(false);
-  const [ingredient, setIngredient] = useState('');
 
   useEffect( () => {
     getData(BASEURL)
       .then(( {data}) => setData(data));
   }, []);
 
-  // const onClickCard = (evt: any) => {
-  //   setIngredient(evt.currentTarget);
-  // };
+
+  const [data, setData] = useState([]);
+  // const [order, setOrder] = useState(false);
+  const [ingredient, setIngredient] = useState('');
 
   return (
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
-        <BurgerIngredients data = {data} onClickCard = {(evt) => setIngredient(evt.currentTarget)} />
+        <BurgerIngredients 
+          data = {data} 
+          onClickCard = {(evt) => setIngredient(evt.currentTarget)} 
+        />
         <BurgerConstructor data = {data}/>
       </main>
       {ingredient && (
-        <Modal title={"Детали ингредиента"}>
+        <Modal 
+        title={"Детали ингредиента"} 
+        closeBtn = {() => setIngredient('')}>
           тестовый текст в окне
         </Modal>
       )}

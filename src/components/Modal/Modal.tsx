@@ -6,7 +6,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const MODAL = document.getElementById('modal')!;
 
-function Modal ({title, children} : any) {
+function Modal ({title, children, closeBtn} : any) {
 
   const [modal, setModal] = useState(false);
   //закрытие окна по кнопочкам
@@ -31,12 +31,12 @@ function Modal ({title, children} : any) {
     //разметка
     (
       <>
-      <ModalOverlay close={close}/>
+      <ModalOverlay closeBtn={closeBtn}/>
       <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
         <div className={styles.titleBlock}>
           <h2 className={styles.title + " text text_type_main-large"}>{title}</h2>
           <div className={styles.btnClose}>
-          <CloseIcon type="primary" onClick={() => {setModal(false)}} />
+          <CloseIcon type="primary" onClick={closeBtn} />
           </div>
         </div>
         {children}
