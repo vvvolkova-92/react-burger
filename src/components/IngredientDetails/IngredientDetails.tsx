@@ -1,14 +1,10 @@
-import {useEffect, useState} from "react";
-import {createPortal} from "react-dom";
 import PropTypes from 'prop-types';
 import styles from './IngredientDetails.module.css';
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function IngredientDetails ({data, ingredient} : any) {
   const modalCard = data.find((element:any) => element._id == ingredient.id);
   console.dir(modalCard);
-  return <div className={styles.container}>
+  return (<div className={styles.container}>
     <img src = {modalCard.image_large} alt ={modalCard.name} className={styles.image}/>
     <h3 className={styles.subtitle + " text text_type_main-medium mt-4 mb-8"}>{modalCard.name}</h3>
     <ul className={styles.values}>
@@ -30,6 +26,7 @@ function IngredientDetails ({data, ingredient} : any) {
       </li>
     </ul>
   </div>
+  )
 }
 
 IngredientDetails.propTypes = {

@@ -3,12 +3,12 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 const BASEURL = 'https://norma.nomoreparties.space/api/ingredients';
+
 function App() {
-  // Подключитесь к API
+  // <========= Подключитесь к API
   const getData = async (url: string) => {
     const res = await fetch(url);
     if (res.ok) return res.json();
@@ -17,9 +17,10 @@ function App() {
 
   useEffect( () => {
     getData(BASEURL)
-      .then(( {data}) => setData(data));
+      .then(( {data}) => setData(data))
+      .catch((err) => console.log(err))
   }, []);
-
+  // Подключитесь к API =============>
 
   const [data, setData] = useState([]);
   const [ingredient, setIngredient] = useState('');

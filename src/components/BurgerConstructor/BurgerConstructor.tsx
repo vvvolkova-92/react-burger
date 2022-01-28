@@ -8,12 +8,12 @@ import Modal from '../Modal/Modal';
 function BurgerConstructor ({data} : any) {
 
   const [order, setOrder] = useState(false);
-
+  const ORDER_NUMBER = Math.floor(Math.random()*1000001);
+  
   function showOrderDetails () {
-    console.log(order);
     return order && (
       <Modal closeBtn = {() => setOrder(false)}>
-        <OrderDetails />
+        <OrderDetails orderNumber={ORDER_NUMBER}/>
       </Modal>
     )}
 

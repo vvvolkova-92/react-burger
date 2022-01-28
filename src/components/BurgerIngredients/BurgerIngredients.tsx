@@ -86,7 +86,6 @@ function BurgerIngredients ({data, onClickCard} : any) {
       </ul>
     </div>
     </div>
-    
     );
   }
 

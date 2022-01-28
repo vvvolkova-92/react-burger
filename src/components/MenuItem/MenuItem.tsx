@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from 'prop-types';
 function MenuItem ({icon, link, stylesComp, stylesText, title}: any) {
 
     return (
@@ -8,5 +8,15 @@ function MenuItem ({icon, link, stylesComp, stylesText, title}: any) {
       </li>
     );
   }
+  
+  MenuItem.propTypes = {
+    id: PropTypes.string,
+    icon: PropTypes.object,
+    link: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    stylesComp: PropTypes.string,
+    stylesText: PropTypes.string,
+  };
+
 
 export default MenuItem 

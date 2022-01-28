@@ -4,11 +4,11 @@ import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const MODAL = document.getElementById('modal')!;
-
 function Modal ({title, children, closeBtn} : any) {
 
+  const MODAL = document.getElementById('modal')!;
   const [modal, setModal] = useState(false);
+
   //закрытие окна по кнопочкам
   function closeByEscape (evt : any) {
     if (evt.key === "Escape" ) {
@@ -16,19 +16,11 @@ function Modal ({title, children, closeBtn} : any) {
     }
   }
 
-  const close = () => {
-    console.log(modal);
-    return setModal(false);
-  }
-
-  //навесить слушатель (когда снять?!)
   useEffect( () => {
     document.addEventListener("keyup", closeByEscape);
   }, []);
   
-  //рендер через портал и модаловерлей
   return createPortal (
-    //разметка
     (
       <>
       <ModalOverlay closeBtn={closeBtn}/>

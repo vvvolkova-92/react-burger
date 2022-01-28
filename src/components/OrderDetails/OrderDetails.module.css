@@ -1,0 +1,34 @@
+@keyframes iconrotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon {
+  width: 107px;
+  height: 102px;
+  position: relative;
+
+  animation: 4s linear 0s normal none infinite running iconrotate;
+}
+
+.number {
+  color: #F2F2F3;
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.checkicon {
+  position: absolute;
+  top: 59%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+  transform: scale(2);
+}
