@@ -34,6 +34,7 @@
   flex-direction: column;
   max-width: 256px;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .card:nth-child(2n) {

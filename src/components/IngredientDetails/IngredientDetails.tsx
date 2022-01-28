@@ -3,7 +3,6 @@ import styles from './IngredientDetails.module.css';
 
 function IngredientDetails ({data, ingredient} : any) {
   const modalCard = data.find((element:any) => element._id == ingredient.id);
-  console.dir(modalCard);
   return (<div className={styles.container}>
     <img src = {modalCard.image_large} alt ={modalCard.name} className={styles.image}/>
     <h3 className={styles.subtitle + " text text_type_main-medium mt-4 mb-8"}>{modalCard.name}</h3>
