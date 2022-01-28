@@ -3,6 +3,7 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 const BASEURL = 'https://norma.nomoreparties.space/api/ingredients';
@@ -21,7 +22,6 @@ function App() {
 
 
   const [data, setData] = useState([]);
-  // const [order, setOrder] = useState(false);
   const [ingredient, setIngredient] = useState('');
 
   return (

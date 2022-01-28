@@ -1,10 +1,24 @@
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import Modal from '../Modal/Modal';
 
 function BurgerConstructor ({data} : any) {
-  let total = 0;
+
+  const [order, setOrder] = useState(false);
+
+  function showOrderDetails () {
+    console.log(order);
+    return order && (
+      <Modal closeBtn = {() => setOrder(false)}>
+        <OrderDetails />
+      </Modal>
+    )}
+
   //для тестового заполнения (выбранные инг)
+  let total = 0;
   const someIngr = data.slice(5,12).map((item: any) => {
     total += item.price;
     return (<li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
@@ -50,9 +64,12 @@ function BurgerConstructor ({data} : any) {
           <span className="text text_type_digits-medium pr-2">{total}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={() => {
+          setOrder(true);
+        }}>
         Оформить заказ
         </Button>
+        {showOrderDetails()}
       </div>
   </div>
 </div>
