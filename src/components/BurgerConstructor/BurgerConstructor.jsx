@@ -13,7 +13,7 @@ function BurgerConstructor ({data}) {
 
   function showOrderDetails () {
     return order && (
-      <Modal onCloseBtn = {() => setOrder(false)}>
+      <Modal onClose = {() => setOrder(false)}>
         <OrderDetails orderNumber={ORDER_NUMBER}/>
       </Modal>
     )}

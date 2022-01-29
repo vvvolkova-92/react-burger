@@ -40,7 +40,7 @@ function App() {
       {ingredient && (
         <Modal 
         title={"Детали ингредиента"} 
-        onCloseBtn = {() => setIngredient('')}>
+        onClose = {() => setIngredient('')}>
           <IngredientDetails 
           ingredient = {selectedIngredientCard}
           />

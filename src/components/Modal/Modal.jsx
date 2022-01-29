@@ -4,34 +4,33 @@ import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
+import {MODAL} from '../../constants/constans';
 
-function Modal ({title, children, onCloseBtn}) {
+function Modal ({title, children, onClose}) {
 
-  const MODAL = document.getElementById('modal');
   const [modal, setModal] = useState(false);
 
-  //закрытие окна по кнопочкам
-  function closeByEscape (evt) {
-    if (evt.key === "Escape" ) {
-      setModal(false);
-      onCloseBtn();
-    }
-  }
-
   useEffect( () => {
+    function closeByEscape (evt) {
+      if (evt.key === "Escape" ) {
+        setModal(false);
+        onClose();
+      }
+    }
     document.addEventListener("keyup", closeByEscape);
-    return  () => {document.removeEventListener("keyup", closeByEscape); console.log('clean');}
-  }, [modal]);
+    return  () => document.removeEventListener("keyup", closeByEscape);
+    }, 
+    [modal]);
   
   return createPortal (
     (
       <>
-      <ModalOverlay onCloseBtn={onCloseBtn}/>
+      <ModalOverlay onClose={onClose}/>
       <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
         <div className={styles.titleBlock}>
           <h2 className={styles.title + " text text_type_main-large"}>{title}</h2>
           <div className={styles.btnClose}>
-          <CloseIcon type="primary" onClick={onCloseBtn} />
+          <CloseIcon type="primary" onClick={onClose} />
           </div>
         </div>
         {children}
@@ -45,7 +44,7 @@ function Modal ({title, children, onCloseBtn}) {
 Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
-  onCloseBtn: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 export default Modal 

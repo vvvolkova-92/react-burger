@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 export const BASEURL = 'https://norma.nomoreparties.space/api';
 export const ORDER_NUMBER = Math.floor(Math.random()*1000001);
+export const MODAL = document.getElementById('modal');
 
 export const propTypesForIngridients = PropTypes.shape({
   _id: PropTypes.string,
