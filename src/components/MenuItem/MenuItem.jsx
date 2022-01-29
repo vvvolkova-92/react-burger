@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-function MenuItem ({icon, link, stylesComp, stylesText, title}: any) {
+function MenuItem ({icon, link, stylesComp, stylesText, title}) {
 
     return (
       <li className={stylesComp}>
@@ -11,7 +11,7 @@ function MenuItem ({icon, link, stylesComp, stylesText, title}: any) {
   
   MenuItem.propTypes = {
     id: PropTypes.string,
-    icon: PropTypes.object,
+    icon: PropTypes.element,
     link: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     stylesComp: PropTypes.string,

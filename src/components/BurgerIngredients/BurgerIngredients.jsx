@@ -1,18 +1,14 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import styles from './BurgerIngredients.module.css';
+import {propTypesForIngridients, menuItems} from '../../constants/constans';
 
-function BurgerIngredients ({data, onClickCard} : any) {
+function BurgerIngredients ({data, onClickCard}) {
 
   const [current, setCurrent] = useState('one');
-  const menuItems = [
-    {id: nanoid(10), name: 'Булки', value: 'one'},
-    {id: nanoid(10), name: 'Соусы', value: 'two'},
-    {id: nanoid(10), name: 'Начинки', value: 'three'},
-  ]
+
   const menu = menuItems.map(item => {
     return (<li key={item.id}>
       <Tab value={item.value} active={current === item.value} onClick={setCurrent}>
@@ -24,7 +20,7 @@ function BurgerIngredients ({data, onClickCard} : any) {
 
   //ингредиенты
     //булки
-  const bun = data.map((card : any) => {
+  const bun = data.map((card) => {
     if (card.type === 'bun') {
       return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -35,10 +31,10 @@ function BurgerIngredients ({data, onClickCard} : any) {
     </li>
       )
     }
-  }).filter((element:any) => element !== undefined);
+  }).filter((element) => element !== undefined);
 
     // соусы
-  const sauce = data.map((card : any) => {
+  const sauce = data.map((card) => {
     if (card.type === 'sauce') {
       return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -49,10 +45,10 @@ function BurgerIngredients ({data, onClickCard} : any) {
       </li>
       )
     }
-  }).filter((element:any) => element !== undefined);
+  }).filter((element) => element !== undefined);
 
     //котлетосы
-    const main = data.map((card : any) => {
+    const main = data.map((card) => {
       if (card.type === 'main') {
         return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
@@ -63,7 +59,7 @@ function BurgerIngredients ({data, onClickCard} : any) {
         </li>
         )
       }
-    }).filter((element:any) => element !== undefined);
+    }).filter((element) => element !== undefined);
 
     return ( 
     <div className={styles.block + " ml-5"}>
@@ -90,14 +86,8 @@ function BurgerIngredients ({data, onClickCard} : any) {
   }
 
   BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        image: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
-    onClickCard : PropTypes.func,
+    data: PropTypes.arrayOf(propTypesForIngridients),
+    onClickCard : PropTypes.func.isRequired,
   };
   
 export default BurgerIngredients 

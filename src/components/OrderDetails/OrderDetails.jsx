@@ -4,7 +4,7 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 import imageBackgroung from '../../images/graphics.png';
 
 
-  function OrderDetails ({orderNumber}: any) {
+  function OrderDetails ({orderNumber}) {
 
     return (<div className={styles.container}>
       <span className={styles.number+ " text text_type_digits-large mb-8"}>{orderNumber}</span>

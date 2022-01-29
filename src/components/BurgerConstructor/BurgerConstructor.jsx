@@ -1,25 +1,26 @@
 import {useState} from 'react';
 import PropTypes from 'prop-types';
-import styles from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
-function BurgerConstructor ({data} : any) {
+import styles from './BurgerConstructor.module.css';
+import {ORDER_NUMBER, propTypesForIngridients}  from '../../constants/constans';
+
+function BurgerConstructor ({data}) {
 
   const [order, setOrder] = useState(false);
-  const ORDER_NUMBER = Math.floor(Math.random()*1000001);
-  
+
   function showOrderDetails () {
     return order && (
-      <Modal closeBtn = {() => setOrder(false)}>
+      <Modal onCloseBtn = {() => setOrder(false)}>
         <OrderDetails orderNumber={ORDER_NUMBER}/>
       </Modal>
     )}
 
   //для тестового заполнения (выбранные инг)
   let total = 0;
-  const someIngr = data.slice(5,12).map((item: any) => {
+  const someIngr = data.slice(5,12).map((item) => {
     total += item.price;
     return (<li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
       <div className=""><DragIcon type="primary" /></div>
@@ -77,14 +78,7 @@ function BurgerConstructor ({data} : any) {
 )}
 
   BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        image: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        id: PropTypes.string,
-      })
-    )
+    data: PropTypes.arrayOf(propTypesForIngridients).isRequired
   };
 
 export default BurgerConstructor 
