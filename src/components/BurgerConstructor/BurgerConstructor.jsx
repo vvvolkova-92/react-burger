@@ -5,7 +5,7 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
 import styles from './BurgerConstructor.module.css';
-import {ORDER_NUMBER, propTypesForIngridients}  from '../../constants/constans';
+import {ORDER_NUMBER, propTypesForIngridients}  from '../../constants/constants';
 
 function BurgerConstructor ({data}) {
 

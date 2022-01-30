@@ -4,23 +4,19 @@ import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
-import {MODAL} from '../../constants/constans';
+import {MODAL} from '../../constants/constants';
 
 function Modal ({title, children, onClose}) {
-
-  const [modal, setModal] = useState(false);
 
   useEffect( () => {
     function closeByEscape (evt) {
       if (evt.key === "Escape" ) {
-        setModal(false);
-        onClose();
       }
     }
     document.addEventListener("keyup", closeByEscape);
     return  () => document.removeEventListener("keyup", closeByEscape);
     }, 
-    [modal]);
+    [onClose]);
   
   return createPortal (
     (

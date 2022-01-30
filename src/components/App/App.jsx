@@ -5,7 +5,7 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
-import {BASEURL} from '../../constants/constans';
+import {BASEURL} from '../../constants/constants';
 
 function App() {
   // <========= Подключитесь к API
