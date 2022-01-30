@@ -11,6 +11,7 @@ function Modal ({title, children, onClose}) {
   useEffect( () => {
     function closeByEscape (evt) {
       if (evt.key === "Escape" ) {
+        onClose();
       }
     }
     document.addEventListener("keyup", closeByEscape);
