@@ -1,11 +1,26 @@
+import {useState} from 'react';
 import PropTypes from 'prop-types';
-import styles from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import Modal from '../Modal/Modal';
 
-function BurgerConstructor ({data} : any) {
-  let total = 0;
+import styles from './BurgerConstructor.module.css';
+import {ORDER_NUMBER, propTypesForIngridients}  from '../../constants/constants';
+
+function BurgerConstructor ({data}) {
+
+  const [order, setOrder] = useState(false);
+
+  function showOrderDetails () {
+    return order && (
+      <Modal onClose = {() => setOrder(false)}>
+        <OrderDetails orderNumber={ORDER_NUMBER}/>
+      </Modal>
+    )}
+
   //для тестового заполнения (выбранные инг)
-  const someIngr = data.slice(5,12).map((item: any) => {
+  let total = 0;
+  const someIngr = data.slice(5,12).map((item) => {
     total += item.price;
     return (<li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
       <div className=""><DragIcon type="primary" /></div>
@@ -50,9 +65,12 @@ function BurgerConstructor ({data} : any) {
           <span className="text text_type_digits-medium pr-2">{total}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={() => {
+          setOrder(true);
+        }}>
         Оформить заказ
         </Button>
+        {showOrderDetails()}
       </div>
   </div>
 </div>
@@ -60,14 +78,7 @@ function BurgerConstructor ({data} : any) {
 )}
 
   BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        image: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        id: PropTypes.string,
-      })
-    )
+    data: PropTypes.arrayOf(propTypesForIngridients).isRequired
   };
 
 export default BurgerConstructor 

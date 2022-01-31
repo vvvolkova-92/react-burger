@@ -3,6 +3,7 @@ import styles from './AppHeader.module.css';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import MenuItem from '../MenuItem/MenuItem';
+
 function AppHeader () {
     return (
     <header className={styles.menuContainer}>
