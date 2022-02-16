@@ -5,7 +5,8 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
-import {BASEURL} from '../../constants/constants';
+import {BASEURL} from '../../utils/constants';
+import {IngredientsContext} from '../../utils/context'
 
 function App() {
   // <========= Подключитесь к API
@@ -35,7 +36,11 @@ function App() {
           data = {data} 
           onClickCard = {(evt) => setIngredient(evt.currentTarget.id)} 
         />
-        <BurgerConstructor data = {data}/>
+        <IngredientsContext.Provider value={{data, setData}}>        
+          <BurgerConstructor/>
+        </IngredientsContext.Provider>
+
+
       </main>
       {ingredient && (
         <Modal 

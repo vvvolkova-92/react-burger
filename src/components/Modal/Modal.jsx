@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {createPortal} from "react-dom";
 import styles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
-import {MODAL} from '../../constants/constants';
+import {MODAL} from '../../utils/constants';
 
 function Modal ({title, children, onClose}) {
 

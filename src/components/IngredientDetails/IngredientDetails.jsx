@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styles from './IngredientDetails.module.css';
-import {propTypesForIngridients} from '../../constants/constants';
+import {propTypesForIngridients} from '../../utils/constants';
 
 function IngredientDetails ({ingredient}) {
 

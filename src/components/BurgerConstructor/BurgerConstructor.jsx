@@ -1,15 +1,17 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
 import styles from './BurgerConstructor.module.css';
-import {ORDER_NUMBER, propTypesForIngridients}  from '../../constants/constants';
+import {ORDER_NUMBER, propTypesForIngridients}  from '../../utils/constants';
+import {IngredientsContext} from '../../utils/context';
 
-function BurgerConstructor ({data}) {
+function BurgerConstructor () {
 
   const [order, setOrder] = useState(false);
+  const {data, setData} = useContext(IngredientsContext);
 
   function showOrderDetails () {
     return order && (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import styles from './BurgerIngredients.module.css';
-import {propTypesForIngridients, menuItems} from '../../constants/constants';
+import {propTypesForIngridients, menuItems} from '../../utils/constants';
 
 function BurgerIngredients ({data, onClickCard}) {
 
