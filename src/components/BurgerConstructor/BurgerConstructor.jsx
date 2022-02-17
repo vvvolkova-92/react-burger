@@ -1,44 +1,66 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
 import styles from './BurgerConstructor.module.css';
-import {ORDER_NUMBER, propTypesForIngridients}  from '../../utils/constants';
+import {ORDER_NUMBER, BASEURL, propTypesForIngridients}  from '../../utils/constants';
 import {IngredientsContext} from '../../utils/context';
 
 function BurgerConstructor () {
 
   const [order, setOrder] = useState(false);
   const {data, setData} = useContext(IngredientsContext);
+  
 
-  function showOrderDetails () {
+  function showOrderDetails (indredients) {
+    const postIngredients = indredients.map (item => {
+      return item._id;
+    });
+    let orderNumber;
+    
+    async function getOrderNumber (url) {
+      const res = await fetch(`${url}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'ingredients': postIngredients,
+        })
+      });
+    if (res.ok) return res.json();
+    return Promise.reject(console.log(res.status));
+  }
+
+    getOrderNumber(BASEURL)
+      .then( number  => orderNumber = number.order.number)
+      .catch((err) => console.log(err))
+  // Подключитесь к API =============>
+
     return order && (
       <Modal onClose = {() => setOrder(false)}>
         <OrderDetails orderNumber={ORDER_NUMBER}/>
       </Modal>
     )}
 
-  let bunPrice = 0;
-  let mainPrice = 0;
-  let totalPrice = 0;
-  //рандомные ингредиенты
-  const someIngredients = data.slice(1,10);
+  let bunPrice = 0, mainPrice = 0;
 
-  //булки
-  let bunArray = someIngredients.map(item => {
-    let activeBun;
-    if (item.type === 'bun') {
-      activeBun = {...item};
-      bunPrice = item.price * 2;
-    }
-    return activeBun;
-  }).filter((element) => element !== undefined);
+  //рандомные ингредиенты
+  const someIngredients = useMemo( () => data.slice(0,14), [data]);
 
   //выбранная булка
-
-  const bun = bunArray[0];
+  const bun = useMemo( () => {
+    return someIngredients.map(item => {
+      let activeBun;
+      if (item.type === 'bun') {
+        activeBun = {...item};
+        bunPrice = item.price * 2;
+      }
+      return activeBun;
+    }).filter((element) => element !== undefined)[0]
+  }, [someIngredients]);
 
   //булка верх для вставки
 
@@ -69,27 +91,27 @@ function BurgerConstructor () {
 
   //остальные ингредиенты для вставки
 
-  let mainIngredients = someIngredients.map(item => {
-    let main;
-    if (item.type !== 'bun') {
-      main = item;
-      mainPrice += item.price;
-    }
-    if (main !== undefined) return (
-      <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
-        <div className=""><DragIcon type="primary" /></div>
-        <ConstructorElement
-          text={item.name}
-          price={item.price}
-          thumbnail={item.image_mobile}
-        />
-      </li> 
-    )
-  }).filter((element) => element !== undefined);
+  const mainIngredients = useMemo( () => {
+    return someIngredients.map(item => {
+      let main;
+      if (item.type !== 'bun') {
+        main = item;
+        mainPrice += item.price;
+      }
+      if (main !== undefined) return (
+        <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
+          <div className=""><DragIcon type="primary" /></div>
+          <ConstructorElement
+            text={item.name}
+            price={item.price}
+            thumbnail={item.image_mobile}
+          />
+        </li> 
+      )
+    }).filter((element) => element !== undefined)
+  }, [someIngredients])
 
-  console.dir(mainIngredients);
-
-  totalPrice = mainPrice + bunPrice;
+  const totalPrice = mainPrice + bunPrice;
 
   return ( <>
   <div className={styles.block}>
@@ -99,7 +121,6 @@ function BurgerConstructor () {
         {mainIngredients}
       </ul>
       {bunTop && bunBottom} 
-
       <div className={styles.total + " mt-10 mr-4"}>
         <div className="pr-10">
           <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
@@ -110,7 +131,7 @@ function BurgerConstructor () {
         }}>
         Оформить заказ
         </Button>
-        {showOrderDetails()}
+        {showOrderDetails(someIngredients)}
       </div>
   </div>
 </div>
