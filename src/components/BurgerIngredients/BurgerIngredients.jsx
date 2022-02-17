@@ -68,7 +68,7 @@ function BurgerIngredients ({data, onClickCard}) {
         {menu}
     </ul>
     <div className={styles.ingr}>
-      <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+      <h2 className="text text_type_main-medium mt-10 mb-6">Пол булки - плати дважды!</h2>
       <ul className={styles.flex}>
         {bun}
       </ul>
