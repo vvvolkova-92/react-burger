@@ -1,47 +1,55 @@
-import {useState, useContext, useMemo} from 'react';
+import {useState, useContext, useMemo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
 import styles from './BurgerConstructor.module.css';
-import {ORDER_NUMBER, BASEURL, propTypesForIngridients}  from '../../utils/constants';
+import {BASEURL, propTypesForIngridients}  from '../../utils/constants';
 import {IngredientsContext} from '../../utils/context';
 
 function BurgerConstructor () {
 
   const [order, setOrder] = useState(false);
   const {data, setData} = useContext(IngredientsContext);
-  
+  const [orderNumber, setOrderNumber] = useState('');
+
 
   function showOrderDetails (indredients) {
     const postIngredients = indredients.map (item => {
       return item._id;
     });
-    let orderNumber;
+
+    const aaaa = useCallback(
+      () => {
+        async function getOrderNumber (url) {
+          const res = await fetch(`${url}/orders`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              'ingredients': postIngredients,
+            })
+          });
+        if (res.ok) return res.json();
+        return Promise.reject(res.status);
+      }
+      getOrderNumber(BASEURL)
+          .then( number  => setOrderNumber(number.order.number))
+          .then (number => {
+            // setOrderNumber(number)
+            // console.log(orderNumber);
+          })
+          .catch((err) => console.log(err))
+      },
+      [indredients],
+    )
     
-    async function getOrderNumber (url) {
-      const res = await fetch(`${url}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          'ingredients': postIngredients,
-        })
-      });
-    if (res.ok) return res.json();
-    return Promise.reject(console.log(res.status));
-  }
-
-    getOrderNumber(BASEURL)
-      .then( number  => orderNumber = number.order.number)
-      .catch((err) => console.log(err))
   // Подключитесь к API =============>
-
-    return order && (
+  return order && (
       <Modal onClose = {() => setOrder(false)}>
-        <OrderDetails orderNumber={ORDER_NUMBER}/>
+        <OrderDetails orderNumber={orderNumber}/>
       </Modal>
     )}
 
@@ -126,9 +134,7 @@ function BurgerConstructor () {
           <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
         </div>
-        <Button type="primary" size="large" onClick={() => {
-          setOrder(true);
-        }}>
+        <Button type="primary" size="large" onClick={aaaa}>
         Оформить заказ
         </Button>
         {showOrderDetails(someIngredients)}
