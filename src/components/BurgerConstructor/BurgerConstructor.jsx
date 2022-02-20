@@ -1,62 +1,19 @@
-import {useState, useContext, useMemo, useCallback} from 'react';
+import {useContext, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import { ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import OrderDetails from '../OrderDetails/OrderDetails';
-import Modal from '../Modal/Modal';
+import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 
 import styles from './BurgerConstructor.module.css';
-import {BASEURL, propTypesForIngridients}  from '../../utils/constants';
+import {propTypesForIngridients}  from '../../utils/constants';
 import {IngredientsContext} from '../../utils/context';
 
 function BurgerConstructor () {
 
-  const [order, setOrder] = useState(false);
   const {data, setData} = useContext(IngredientsContext);
-  const [orderNumber, setOrderNumber] = useState('');
-
-
-  function showOrderDetails (indredients) {
-    const postIngredients = indredients.map (item => {
-      return item._id;
-    });
-
-    const aaaa = useCallback(
-      () => {
-        async function getOrderNumber (url) {
-          const res = await fetch(`${url}/orders`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              'ingredients': postIngredients,
-            })
-          });
-        if (res.ok) return res.json();
-        return Promise.reject(res.status);
-      }
-      getOrderNumber(BASEURL)
-          .then( number  => setOrderNumber(number.order.number))
-          .then (number => {
-            // setOrderNumber(number)
-            // console.log(orderNumber);
-          })
-          .catch((err) => console.log(err))
-      },
-      [indredients],
-    )
-    
-  // Подключитесь к API =============>
-  return order && (
-      <Modal onClose = {() => setOrder(false)}>
-        <OrderDetails orderNumber={orderNumber}/>
-      </Modal>
-    )}
+    //рандомные ингредиенты
+  const someIngredients = useMemo( () => data.slice(0,14), [data]);
 
   let bunPrice = 0, mainPrice = 0;
-
-  //рандомные ингредиенты
-  const someIngredients = useMemo( () => data.slice(0,14), [data]);
 
   //выбранная булка
   const bun = useMemo( () => {
@@ -133,19 +90,13 @@ function BurgerConstructor () {
         <div className="pr-10">
           <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
-        </div>
-        <Button type="primary" size="large" onClick={aaaa}>
-        Оформить заказ
-        </Button>
-        {showOrderDetails(someIngredients)}
+          </div>
+          <ButtonGetOrderNumber ingredients = {someIngredients} />
       </div>
   </div>
 </div>
+
 </>
 )}
-
-  BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(propTypesForIngridients)
-  };
 
 export default BurgerConstructor 

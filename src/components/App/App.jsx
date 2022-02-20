@@ -40,7 +40,6 @@ function App() {
           <BurgerConstructor/>
         </IngredientsContext.Provider>
 
-
       </main>
       {ingredient && (
         <Modal 
