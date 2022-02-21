@@ -1,8 +1,10 @@
 import {useState, useCallback} from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import {BASEURL}  from '../../utils/constants';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import {propTypesForIngridients} from '../../utils/constants';
 
 async function getOrderNumber (url, postIngredients) {
   const res = await fetch(`${url}/orders`, {
@@ -42,12 +44,20 @@ function ButtonGetOrderNumber({ingredients}) {
       Оформить заказ
     </Button>
     {order && (
-      <Modal onClose = {() => setOrder(false)}>
+      <Modal onClose = {() => {setOrder(false);
+        setNumber('');
+      }
+      }>
         <OrderDetails orderNumber={String(number)}/>
       </Modal> ) 
     }
   </>
   )
 }
+
+ButtonGetOrderNumber.propTypes = {
+  ingredients: PropTypes.arrayOf(propTypesForIngridients),
+};
+
 
 export default ButtonGetOrderNumber 

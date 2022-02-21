@@ -6,7 +6,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 import {BASEURL} from '../../utils/constants';
-import {IngredientsContext} from '../../utils/context'
+import {BurgerContext} from '../../utils/context'
 
 function App() {
   // <========= Подключитесь к API
@@ -25,33 +25,34 @@ function App() {
 
   const [data, setData] = useState([]);
   const [ingredient, setIngredient] = useState('');
-  
-  const selectedIngredientCard = data.find((element) => element._id == ingredient);
 
   return (
+    <BurgerContext.Provider value={{data, setData}}>     
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
         <BurgerIngredients 
-          data = {data} 
-          onClickCard = {(evt) => setIngredient(evt.currentTarget.id)} 
-        />
-        <IngredientsContext.Provider value={{data, setData}}>        
+          onClickCard = {(evt) => {
+            //  уже есть функция онКликКард - она возвращает айди ингредиента при клике на ингредиент
+            //ранее в селектедингридиент находила по этому айди остальные данные ингредиента
+            //т.е. айди ингредиента находится при клике, а при передаче ingredient по этому айди находятся данные в дате
+            setIngredient(evt.currentTarget.id);
+            }
+          }/>
           <BurgerConstructor/>
-        </IngredientsContext.Provider>
-
       </main>
       {ingredient && (
         <Modal 
         title={"Детали ингредиента"} 
         onClose = {() => setIngredient('')}>
           <IngredientDetails 
-          ingredient = {selectedIngredientCard}
+          //перенесла сюда
+          ingredient = {data.find((element) => element._id === ingredient)}
           />
         </Modal>
       )}
-
     </div>
+    </BurgerContext.Provider>
   );
 }
 

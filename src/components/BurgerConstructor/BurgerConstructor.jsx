@@ -1,17 +1,16 @@
 import {useContext, useMemo} from 'react';
-import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 
 import styles from './BurgerConstructor.module.css';
-import {propTypesForIngridients}  from '../../utils/constants';
-import {IngredientsContext} from '../../utils/context';
+import {BurgerContext} from '../../utils/context';
 
 function BurgerConstructor () {
 
-  const {data, setData} = useContext(IngredientsContext);
+  const {data, setData} = useContext(BurgerContext);
     //рандомные ингредиенты
   const someIngredients = useMemo( () => data.slice(0,14), [data]);
+
 
   let bunPrice = 0, mainPrice = 0;
 
