@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 export const BASEURL = 'https://norma.nomoreparties.space/api';
-export const ORDER_NUMBER = Math.floor(Math.random()*1000001);
 export const MODAL = document.getElementById('modal');
 
 export const propTypesForIngridients = PropTypes.shape({
-  _id: PropTypes.string,
-  type: PropTypes.string,
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_large: PropTypes.string,
-  image_mobile: PropTypes.string,
-  calories: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  fat: PropTypes.number,
-  proteins: PropTypes.number,
+  _id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  image_large: PropTypes.string.isRequired,
+  image_mobile: PropTypes.string.isRequired,
+  calories: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
 });
 
 export const menuItems = [

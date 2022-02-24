@@ -21,9 +21,8 @@ import imageBackgroung from '../../images/graphics.png';
       <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
   </div>
   )}
-
   OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired,
+    orderNumber: PropTypes.string.isRequired,
   };
 
 export default OrderDetails; 
