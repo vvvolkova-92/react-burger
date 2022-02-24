@@ -22,7 +22,6 @@ function BurgerIngredients ({onClickCard}) {
         // if(bunRef.current.id === value) {
         //   bunRef.current.scrollIntoView({behavior: "smooth"});
         // } 
-
         if(souceRef.current.id === value) {
           souceRef.current.scrollIntoView({behavior: "smooth"});
         } else if(mainRef.current.id === value) {
