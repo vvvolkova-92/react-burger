@@ -11,7 +11,6 @@ function BurgerConstructor () {
     //рандомные ингредиенты
   const someIngredients = useMemo( () => data.slice(0,14), [data]);
 
-
   let bunPrice = 0, mainPrice = 0;
 
   //выбранная булка
