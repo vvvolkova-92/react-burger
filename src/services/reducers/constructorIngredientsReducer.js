@@ -1,10 +1,18 @@
-import {GET_INGREDIENTS_IN_CONSTRUCTOR} from '../types';
-import {initialState} from './ingredientsReducer.js.js';
+import {IN_CONSTRUCTOR_GET_INGREDIENTS} from '../types';
+
+export const initialState = {
+  //список всех ингредиентов в текущем конструкторе бургера
+  constructorIngredients: []
+}
 
 export const constructorIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_INGREDIENTS_IN_CONSTRUCTOR:
-      return { ...state}
+    //временный вариант !!!!
+    case IN_CONSTRUCTOR_GET_INGREDIENTS:
+      return { 
+        ...state,
+        constructorIngredients: action.ingredients
+      }
     default: return state
   }
 }

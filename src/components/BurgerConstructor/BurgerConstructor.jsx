@@ -1,86 +1,90 @@
-import {useContext, useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
+import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction'
 
 import styles from './BurgerConstructor.module.css';
 // import {BurgerContext} from '../../utils/context';
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
 
 function BurgerConstructor () {
-  console.log(useSelector (store => store.ingredients));
 
-  // // const {data, setData} = useContext(BurgerContext);
-  // const {data} = useSelector (store => store.ingredients)
-  //   //рандомные ингредиенты
-  // const someIngredients = useMemo( () => data.slice(0,14), [data]);
+  const dispatch = useDispatch();
+  const data = useSelector (store => store.ingredients.ingredients);
 
-  // let bunPrice = 0, mainPrice = 0;
+  // useEffect( () => {
+  //   dispatch(getIngredientsInConstructor(data));
+  // }, [data]);
 
-  // //выбранная булка
-  // const bun = useMemo( () => {
-  //   return someIngredients.map(item => {
-  //     let activeBun;
-  //     if (item.type === 'bun') {
-  //       activeBun = {...item};
-  //       bunPrice = item.price * 2;
-  //     }
-  //     return activeBun;
-  //   }).filter((element) => element !== undefined)[0]
-  // }, [someIngredients]);
+  const someIngredients = useMemo( () => data.slice(0,14), [data]);
+ 
+  let bunPrice = 0, mainPrice = 0;
 
-  // //булка верх для вставки
+  //выбранная булка
+  const bun = useMemo( () => {
+    return someIngredients.map(item => {
+      let activeBun;
+      if (item.type === 'bun') {
+        activeBun = {...item};
+        bunPrice = item.price * 2;
+      }
+      return activeBun;
+    }).filter((element) => element !== undefined)[0]
+  }, [someIngredients]);
 
-  // const bunTop = bun !== undefined ? (
-  //   <div className={styles.item+ " mr-4 "}>
-  //     <ConstructorElement
-  //       type="top"
-  //       isLocked={true}
-  //       text={bun.name + ' (верх)'}
-  //       price={bun.price}
-  //       thumbnail={bun.image_mobile}
-  //     />
-  //   </div> 
-  //   ) : '';
+  //булка верх для вставки
 
-  // //булка низ для вставки
-  // const bunBottom = bun !== undefined ? (
-  //   <div className={styles.item +" mr-4 "}>
-  //     <ConstructorElement
-  //       type="bottom"
-  //       isLocked={true}
-  //       text={bun.name + ' (низ)'}
-  //       price={bun.price}
-  //       thumbnail={bun.image_mobile}
-  //     />
-  //   </div> 
-  //   ) : '';
+  const bunTop = bun !== undefined ? (
+    <div className={styles.item+ " mr-4 "}>
+      <ConstructorElement
+        type="top"
+        isLocked={true}
+        text={bun.name + ' (верх)'}
+        price={bun.price}
+        thumbnail={bun.image_mobile}
+      />
+    </div> 
+    ) : '';
 
-  // //остальные ингредиенты для вставки
+  //булка низ для вставки
+  const bunBottom = bun !== undefined ? (
+    <div className={styles.item +" mr-4 "}>
+      <ConstructorElement
+        type="bottom"
+        isLocked={true}
+        text={bun.name + ' (низ)'}
+        price={bun.price}
+        thumbnail={bun.image_mobile}
+      />
+    </div> 
+    ) : '';
 
-  // const mainIngredients = useMemo( () => {
-  //   return someIngredients.map(item => {
-  //     let main;
-  //     if (item.type !== 'bun') {
-  //       main = item;
-  //       mainPrice += item.price;
-  //     }
-  //     if (main !== undefined) return (
-  //       <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
-  //         <div className=""><DragIcon type="primary" /></div>
-  //         <ConstructorElement
-  //           text={item.name}
-  //           price={item.price}
-  //           thumbnail={item.image_mobile}
-  //         />
-  //       </li> 
-  //     )
-  //   }).filter((element) => element !== undefined)
-  // }, [someIngredients])
+  //остальные ингредиенты для вставки
 
-  // // const totalPrice = mainPrice + bunPrice;
+  const mainIngredients = useMemo( () => {
+    return someIngredients.map(item => {
+      let main;
+      if (item.type !== 'bun') {
+        main = item;
+        mainPrice += item.price;
+      }
+      if (main !== undefined) return (
+        <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
+          <div className=""><DragIcon type="primary" /></div>
+          <ConstructorElement
+            text={item.name}
+            price={item.price}
+            thumbnail={item.image_mobile}
+          />
+        </li> 
+      )
+    }).filter((element) => element !== undefined)
+  }, [someIngredients])
+
+  // const totalPrice = mainPrice + bunPrice;
 
   return ( <>
-  {/* <div className={styles.block}>
+  {someIngredients && <div className={styles.block}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
       <ul className={styles.list}>
@@ -95,7 +99,8 @@ function BurgerConstructor () {
           <ButtonGetOrderNumber ingredients = {someIngredients} />
       </div>
   </div>
-</div> */}
+</div>
+}
 
 </>
 )}

@@ -26,12 +26,8 @@ const App = () => {
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
-        {/* <BurgerIngredients 
-          onClickCard = {(evt) => {
-            setIngredient(evt.currentTarget.id);
-            }
-          }/> */}
-          <BurgerConstructor/>
+        <BurgerIngredients />
+        {/* <BurgerConstructor/> */}
       </main>
       {/* {ingredient && (
         <Modal 
