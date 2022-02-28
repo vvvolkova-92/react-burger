@@ -5,7 +5,7 @@ import { orderReducer } from './orderReducer';
 
 //тут должен быть rootReducer
 export const rootReducer = combineReducers({
-  ingredientsReducer,
+  ingredients: ingredientsReducer,
   constructorIngredientsReducer,
   orderReducer,
   

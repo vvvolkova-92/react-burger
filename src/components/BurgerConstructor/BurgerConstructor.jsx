@@ -3,11 +3,16 @@ import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-d
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 
 import styles from './BurgerConstructor.module.css';
-import {BurgerContext} from '../../utils/context';
+// import {BurgerContext} from '../../utils/context';
+import { useSelector } from "react-redux";
 
 function BurgerConstructor () {
 
-  const {data, setData} = useContext(BurgerContext);
+  // const {data, setData} = useContext(BurgerContext);
+  const {data} = useSelector(store => {
+    console.log(store);
+    return store;
+  });
     //рандомные ингредиенты
   const someIngredients = useMemo( () => data.slice(0,14), [data]);
 
