@@ -9,75 +9,54 @@ import {BurgerContext} from '../../utils/context'
 import {getIngredients} from '../../services/actions/ingredientsAction'
 
 import {useEffect, useState} from 'react';
-import {connect, useDispatch} from 'react-redux';
-
-const getData = async (url) => {
-  const res = await fetch(`${url}/ingredients`);
-  if (res.ok) {return res.json()};
-  return Promise.reject(`Ошибка: ${res.status + " - " + res.statusText}`);
-}
+import {connect, useDispatch, useSelector} from 'react-redux';
 
 const App = () => {
   const dispatch = useDispatch();
+  const ingredients = useSelector(store => store.ingredients)
   // <========= Подключитесь к API
   useEffect( () => {
-    getData(BASEURL)
-      .then(( {data}) => dispatch(data))
-      .catch((err) => console.log(err))
+    dispatch(getIngredients())
   }, []);
   // Подключитесь к API =============>
 
   // const [data, setData] = useState([]);
   // const [ingredient, setIngredient] = useState('');
-
-  // return (
-  //   <BurgerContext.Provider value={{data, setData}}>     
-  //   <div className={styles.App}>
-  //     <AppHeader />
-  //     <main className={styles.main}>
-  //       <BurgerIngredients 
-  //         onClickCard = {(evt) => {
-  //           setIngredient(evt.currentTarget.id);
-  //           }
-  //         }/>
-  //         <BurgerConstructor/>
-  //     </main>
-  //     {ingredient && (
-  //       <Modal 
-  //       title={"Детали ингредиента"} 
-  //       onClose = {() => setIngredient('')}>
-  //         <IngredientDetails 
-  //         ingredient = {data.find((element) => element._id === ingredient)}
-  //         />
-  //       </Modal>
-  //     )}
-  //   </div>
-  //   </BurgerContext.Provider>
-  // );
-  return (
+  return ( 
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
-        {/* <BurgerIngredients />
-          <BurgerConstructor/> */}
+        {/* <BurgerIngredients 
+          onClickCard = {(evt) => {
+            setIngredient(evt.currentTarget.id);
+            }
+          }/> */}
+          <BurgerConstructor/>
       </main>
-          {/* <IngredientDetails /> */}
+      {/* {ingredient && (
+        <Modal 
+        title={"Детали ингредиента"} 
+        onClose = {() => setIngredient('')}>
+          <IngredientDetails 
+          ingredient = {data.find((element) => element._id === ingredient)}
+          />
+        </Modal>
+      )} */}
     </div>
   );
+  // return (
+  //   <div className={styles.App}>
+  //     <AppHeader />
+  //     <main className={styles.main}>
+  //       {console.log(ingredients)}
+  //       {/* <BurgerIngredients /> */}
+  //         {/* <BurgerConstructor/> */}
+  //     </main>
+  //         {/* <IngredientDetails /> */}
+  //   </div>
+  // );
 
 }
 
-const mapStateToProps = store => {
-  return {
-    ingredients: store.ingredients,
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getIngredients: () => dispatch(getIngredients()),
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

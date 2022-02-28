@@ -25,6 +25,7 @@ export const ingredientsReducer = (state = initialState, action) => {
       return { 
         ...state,
         isFetching: false,
+        // ingredients: state.ingredients,
       }
     default: return state
   }
