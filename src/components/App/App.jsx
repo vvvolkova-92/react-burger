@@ -12,16 +12,21 @@ import {useEffect, useState} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const ingredients = useSelector(store => store.ingredients)
-  // <========= Подключитесь к API
+  
   useEffect( () => {
     dispatch(getIngredients())
   }, []);
+  const dispatch = useDispatch();
+  const {ingredients} = useSelector(store => store.ingredients);
+  const {ingredientCardModal} = useSelector(state => state.modalReducer);
+  const currentIngredient= useSelector(store => store.currentIngredient);
+  // <========= Подключитесь к API
+
   // Подключитесь к API =============>
 
   // const [data, setData] = useState([]);
   // const [ingredient, setIngredient] = useState('');
+  console.log(currentIngredient);
   return ( 
     <div className={styles.App}>
       <AppHeader />
@@ -29,28 +34,15 @@ const App = () => {
         <BurgerIngredients />
         {/* <BurgerConstructor/> */}
       </main>
-      {/* {ingredient && (
+      {ingredientCardModal && (
         <Modal 
-        title={"Детали ингредиента"} 
-        onClose = {() => setIngredient('')}>
+        title={"Детали ингредиента"}>
           <IngredientDetails 
-          ingredient = {data.find((element) => element._id === ingredient)}
-          />
+          ingredient = {currentIngredient}/>
         </Modal>
-      )} */}
+      )}
     </div>
   );
-  // return (
-  //   <div className={styles.App}>
-  //     <AppHeader />
-  //     <main className={styles.main}>
-  //       {console.log(ingredients)}
-  //       {/* <BurgerIngredients /> */}
-  //         {/* <BurgerConstructor/> */}
-  //     </main>
-  //         {/* <IngredientDetails /> */}
-  //   </div>
-  // );
 
 }
 

@@ -2,7 +2,7 @@ import styles from './IngredientDetails.module.css';
 import {propTypesForIngridients} from '../../utils/constants';
 
 function IngredientDetails ({ingredient}) {
-
+// console.log(ingredient);
   return (<div className={styles.container}>
     <img src = {ingredient.image_large} alt ={ingredient.name} className={styles.image}/>
     <h3 className={styles.subtitle + " text text_type_main-medium mt-4 mb-8"}>{ingredient.name}</h3>

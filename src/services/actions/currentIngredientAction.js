@@ -1,4 +1,4 @@
-import { SET_CURRENT_INGREDIENT } from '../types';
+import { SET_CURRENT_INGREDIENT, IN_MODAL_OPEN_INGREDIENT_CARD } from '../types';
 
 export function setCurrentIngredient (item) {
   return function (dispatch) {
@@ -12,6 +12,10 @@ export function setCurrentIngredient (item) {
       proteins: item.proteins,
       fat: item.fat,
       carbohydrates: item.carbohydrates,
+    });
+    dispatch({
+      type: IN_MODAL_OPEN_INGREDIENT_CARD,
+      open: true,
     });
   }
 }
