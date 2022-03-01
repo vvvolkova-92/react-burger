@@ -5,19 +5,22 @@ import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import styles from './BurgerIngredients.module.css';
 import {propTypesForIngridients, menuItems} from '../../utils/constants';
 import {BurgerContext} from '../../utils/context';
-import { useSelector } from "react-redux";
-import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction'
-
-const onClickCard = evt => {
-  //выбранный ингредиент должен быть тут 
-  console.log(evt.currentTarget.id);
-}
+import { useSelector, useDispatch } from "react-redux";
+import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction';
+import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 
 function BurgerIngredients () {
 
   const [current, setCurrent] = useState('one');
 
   const data = useSelector (store => store.ingredients.ingredients);
+  const dispatch = useDispatch();
+
+  const onClickCard = evt => {
+    const currentItem = data.find((element) => element._id === evt.currentTarget.id);
+    dispatch(setCurrentIngredient(currentItem));
+  }
+
 
   const bunRef = useRef(null);
   const souceRef = useRef(null);
