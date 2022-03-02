@@ -5,8 +5,10 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 import {BASEURL} from '../../utils/constants';
-import {BurgerContext} from '../../utils/context'
-import {getIngredients} from '../../services/actions/ingredientsAction'
+import {BurgerContext} from '../../utils/context';
+import {getIngredients} from '../../services/actions/ingredientsAction';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import {useEffect, useState} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
@@ -27,6 +29,7 @@ const App = () => {
   // const [data, setData] = useState([]);
   // const [ingredient, setIngredient] = useState('');
   return ( 
+    <DndProvider backend={HTML5Backend}>
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
@@ -41,6 +44,7 @@ const App = () => {
         </Modal>
       )}
     </div>
+    </DndProvider>
   );
 
 }
