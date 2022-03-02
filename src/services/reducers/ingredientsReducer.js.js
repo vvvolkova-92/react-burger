@@ -3,14 +3,6 @@ import {ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, ALL_GET_INGRED
 export const initialState = {
   //список всех полученных ингредиентов
   ingredients: [],
-  // //список всех ингредиентов в текущем конструкторе бургера
-  // constructorIngredients: [],
-  // //объект текущего просматриваемого ингредиента
-  // currentIngredient: null,
-  // //объект созданного заказа
-  // order: {
-  //   orderNumber: 0
-  // },
   isFetching: false,
 }
 

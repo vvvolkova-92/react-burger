@@ -10,6 +10,9 @@ export const initialState = {
   proteins: null,
   fat: null,
   carbohydrates: null,
+  _id: "",
+  type: null,
+  price: null,
 }
 
 export const currentIngredientReducer = (state = initialState, action) => {
@@ -25,6 +28,9 @@ export const currentIngredientReducer = (state = initialState, action) => {
         proteins: action.proteins,
         fat: action.fat,
         carbohydrates: action.carbohydrates,
+        _id: action._id,
+        type: action.type,
+        price: action.price,
       }
     default: return state
   }

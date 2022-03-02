@@ -12,11 +12,11 @@ function BurgerConstructor () {
   const dispatch = useDispatch();
   const data = useSelector (store => store.ingredients.ingredients);
 
-  // useEffect( () => {
-  //   dispatch(getIngredientsInConstructor(data));
-  // }, [data]);
+  useEffect( () => {
+    dispatch(getIngredientsInConstructor(data));
+  }, [data]);
 
-  const someIngredients = useMemo( () => data.slice(0,14), [data]);
+  const someIngredients = useMemo( () => data.slice(0,6), [data]);
  
   let bunPrice = 0, mainPrice = 0;
 

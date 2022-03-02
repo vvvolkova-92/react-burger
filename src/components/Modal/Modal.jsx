@@ -7,8 +7,10 @@ import PropTypes from 'prop-types';
 import {MODAL} from '../../utils/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import { closeModal } from '../../services/actions/modalAction';
+
+
 function Modal ({ title, children }) {
-  const close = useSelector (store => store.modalReducer);
+  const {close} = useSelector (store => store.modalReducer);
   const dispatch = useDispatch ();
 
 

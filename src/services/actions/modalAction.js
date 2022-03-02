@@ -5,9 +5,9 @@ export function closeModal () {
     dispatch({
       type: IN_MODAL_CLOSE_CARD,
     });
-    dispatch({
-    //дописать удаление ингредиента выбранного!
-    })
+    // dispatch({
+    // //дописать удаление ингредиента выбранного!
+    // })
  
   }
 }

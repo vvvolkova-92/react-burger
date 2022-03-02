@@ -12,7 +12,7 @@ import {useEffect, useState} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
 
 const App = () => {
-  
+
   useEffect( () => {
     dispatch(getIngredients())
   }, []);
@@ -26,13 +26,12 @@ const App = () => {
 
   // const [data, setData] = useState([]);
   // const [ingredient, setIngredient] = useState('');
-  console.log(currentIngredient);
   return ( 
     <div className={styles.App}>
       <AppHeader />
       <main className={styles.main}>
         <BurgerIngredients />
-        {/* <BurgerConstructor/> */}
+        <BurgerConstructor/>
       </main>
       {ingredientCardModal && (
         <Modal 
