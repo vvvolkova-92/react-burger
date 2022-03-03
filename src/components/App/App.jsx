@@ -29,22 +29,23 @@ const App = () => {
   // const [data, setData] = useState([]);
   // const [ingredient, setIngredient] = useState('');
   return ( 
-    <DndProvider backend={HTML5Backend}>
+
     <div className={styles.App}>
       <AppHeader />
-      <main className={styles.main}>
-        <BurgerIngredients />
-        <BurgerConstructor/>
-      </main>
-      {ingredientCardModal && (
-        <Modal 
-        title={"Детали ингредиента"}>
-          <IngredientDetails 
-          ingredient = {currentIngredient}/>
-        </Modal>
-      )}
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <BurgerIngredients />
+          <BurgerConstructor/>
+        </main>
+        {ingredientCardModal && (
+          <Modal 
+          title={"Детали ингредиента"}>
+            <IngredientDetails 
+            ingredient = {currentIngredient}/>
+          </Modal>
+        )}
+      </DndProvider>
     </div>
-    </DndProvider>
   );
 
 }

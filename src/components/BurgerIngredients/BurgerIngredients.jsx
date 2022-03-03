@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 
+
 function BurgerIngredients () {
 
   const [current, setCurrent] = useState('one');
@@ -49,13 +50,14 @@ function BurgerIngredients () {
 
   //ингредиенты
     //булки
-  const bun = data.map((card) => {
+  const bun = data.map((card, i) => {
     if (card.type === 'bun') {
       return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
           imglink = {card.image}
           price = {card.price}
           name = {card.name}
+          item = {card}
         /> 
     </li>
       )
@@ -63,13 +65,14 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     // соусы
-  const sauce = data.map((card) => {
+  const sauce = data.map((card, i) => {
     if (card.type === 'sauce') {
       return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
           imglink = {card.image}
           price = {card.price}
           name = {card.name}
+          item = {card}
         />
       </li>
       )
@@ -77,13 +80,14 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     //котлетосы
-    const main = data.map((card) => {
+    const main = data.map((card, i) => {
       if (card.type === 'main') {
         return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
             imglink = {card.image}
             price = {card.price}
             name = {card.name}
+            item = {card}
           />
         </li>
         )

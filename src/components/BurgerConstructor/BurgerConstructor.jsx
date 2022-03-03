@@ -1,20 +1,31 @@
 import {useEffect, useMemo} from 'react';
+import { useSelector , useDispatch} from "react-redux";
+import { NativeTypes } from 'react-dnd-html5-backend';
+import { useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction'
-
 import styles from './BurgerConstructor.module.css';
-// import {BurgerContext} from '../../utils/context';
-import { useSelector , useDispatch} from "react-redux";
+
 
 function BurgerConstructor () {
+  const {main2, bun2 } = useSelector (store => store.constructorIngredients);
 
   const dispatch = useDispatch();
-  const data = useSelector (store => store.ingredients.ingredients);
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: 'INGREDIENT_CARD',
+    //написать экшен addIngredientCard!!!
+    drop: (item) => {dispatch(addIngredientCard(item, main2, bun2)) },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+  }),
+  }));
+  const isActive = canDrop && isOver;
 
-  useEffect( () => {
-    dispatch(getIngredientsInConstructor(data));
-  }, [data]);
+
+  const data = useSelector (store => store.ingredients.ingredients);
 
   const someIngredients = useMemo( () => data.slice(0,6), [data]);
  
@@ -84,7 +95,7 @@ function BurgerConstructor () {
   // const totalPrice = mainPrice + bunPrice;
 
   return ( <>
-  {someIngredients && <div className={styles.block}>
+  {someIngredients && <div className={styles.block}ref={drop} role={'Card'} >
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
       <ul className={styles.list}>
