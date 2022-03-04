@@ -16,6 +16,7 @@ export function getIngredients () {
           ingredient.counter = 0;
           return ingredient;
         })
+        console.log(pushIngredient);
         dispatch({
           type: ALL_GET_INGREDIENTS_SUCCESS,
           ingredients: pushIngredient,

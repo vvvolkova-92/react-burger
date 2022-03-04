@@ -3,9 +3,10 @@ import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_TOTAL} from '..
 export function getIngredientsInConstructor (ingredients) {
   //вариант 1: отделить булки от остальных ингредиентов
   //количество х2
+  const ing = Array.of(ingredients);
   return function (dispatch) {
-    const bun = ingredients.find(ingredient => (ingredient.type === "bun" ? ingredient : 0));
-    const main = ingredients.filter(ingredient => (ingredient.type !== "bun"));
+    const bun = ing.find(ingredient => (ingredient.type === "bun" ? ingredient : 0));
+    const main = ing.filter(ingredient => (ingredient.type !== "bun"));
     let total = 0;
     bun.counter = 2;
     dispatch({
@@ -18,7 +19,7 @@ export function getIngredientsInConstructor (ingredients) {
     });
     dispatch({
       type: IN_CONSTRUCTOR_TOTAL,
-      total: ingredients.map(ingredient => (total += ingredient.price)),
+      total: ing.map(ingredient => (total += ingredient.price)),
     });
 }
 }
@@ -27,7 +28,7 @@ export function getIngredientsInConstructor (ingredients) {
 
 export function addIngredientCard (item, bun, main) {
 
-  const newMain = {...main};
+  const newMain = [...main];
   const currentIngredient = item.item;
   console.log(bun);
   if (currentIngredient) return function (dispatch) {
