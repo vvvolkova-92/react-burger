@@ -8,21 +8,22 @@ import {propTypesForIngridients} from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderNumber, openOrderModal } from '../../services/actions/orderAction';
 
-function ButtonGetOrderNumber({ingredients}) {
+function ButtonGetOrderNumber({bun, main}) {
 
   // const [order, setOrder] = useState(false);
   // const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const orderNumber = useSelector( store => store.orderReducer.order);
-  const postIngredients = ingredients.map (item => {
-    return item._id;
-  });
-
     const clickHandler = useCallback (
       () => {
-        dispatch(getOrderNumber(postIngredients));
+        if(bun && main) {
+          const postIngredients = bun.concat(main).map(item => {
+            return item._id;
+          })
+          dispatch(getOrderNumber(postIngredients));
+        }
       },
-      [postIngredients, dispatch],
+      [bun, main, dispatch],
     );
 
   return ( <>
@@ -38,9 +39,9 @@ function ButtonGetOrderNumber({ingredients}) {
   )
 }
 
-ButtonGetOrderNumber.propTypes = {
-  ingredients: PropTypes.arrayOf(propTypesForIngridients),
-};
+// ButtonGetOrderNumber.propTypes = {
+//   ingredients: PropTypes.arrayOf(propTypesForIngridients),
+// };
 
 
 export default ButtonGetOrderNumber 

@@ -6,16 +6,15 @@ export function getIngredientsInConstructor (ingredients) {
   const ing = Array.of(ingredients);
   return function (dispatch) {
     const bun = ing.find(ingredient => (ingredient.type === "bun" ? ingredient : 0));
-    const main = ing.filter(ingredient => (ingredient.type !== "bun"));
     let total = 0;
-    bun.counter = 2;
+    if (bun) bun.counter = 2;
     dispatch({
       type: IN_CONSTRUCTOR_BUNS,
       bun: bun,
     });
     dispatch({
       type: IN_CONSTRUCTOR_MAIN,
-      bun: main,
+      main: ing.filter(ingredient => (ingredient.type !== "bun")),
     });
     dispatch({
       type: IN_CONSTRUCTOR_TOTAL,
@@ -27,10 +26,8 @@ export function getIngredientsInConstructor (ingredients) {
 //addIngredientCard написать!!!
 
 export function addIngredientCard (item, bun, main) {
-
   const newMain = [...main];
   const currentIngredient = item.item;
-  console.log(bun);
   if (currentIngredient) return function (dispatch) {
     
       if (currentIngredient.type === 'bun' && currentIngredient !== bun) {

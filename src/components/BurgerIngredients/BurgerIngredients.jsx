@@ -16,7 +16,6 @@ function BurgerIngredients () {
 
   const data = useSelector (store => store.ingredients.ingredients);
   const dispatch = useDispatch();
-  console.log(data);
   const onClickCard = evt => {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);
     dispatch(setCurrentIngredient(currentItem));

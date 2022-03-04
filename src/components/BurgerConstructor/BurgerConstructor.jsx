@@ -25,78 +25,63 @@ function BurgerConstructor () {
   // const someIngredients = useMemo( () => data.slice(0,6), [data]);
  
   let bunPrice = 0, mainPrice = 0;
+let bunBottom = '';
+let bunTop = ''; 
 
-  //выбранная булка
-  // const bun = useMemo( () => {
-  //   return data.map(item => {
-  //     let activeBun;
-  //     if (item.type === 'bun') {
-  //       activeBun = {...item};
-  //       bunPrice = item.price * 2;
-  //     }
-  //     return activeBun;
-  //   }).filter((element) => element !== undefined)[0]
-  // }, [data]);
+  bunTop = bun.type !== undefined ? (<div className={styles.item+ " mr-4 "}>
+  <ConstructorElement
+    type="top"
+    isLocked={true}
+    text={bun.name + ' (верх)'}
+    price={bun.price}
+    thumbnail={bun.image_mobile}
+  />
+</div>) : '';
 
-  //булка верх для вставки
+  bunBottom = bun.type !== undefined ? (<div className={styles.item+ " mr-4 "}>
+  <ConstructorElement
+    type="bottom"
+    isLocked={true}
+    text={bun.name + ' (верх)'}
+    price={bun.price}
+    thumbnail={bun.image_mobile}
+  />
+</div>) : '';
 
-  // const bunTop = bun !== undefined ? (
-  //   <div className={styles.item+ " mr-4 "}>
-  //     <ConstructorElement
-  //       type="top"
-  //       isLocked={true}
-  //       text={bun.name + ' (верх)'}
-  //       price={bun.price}
-  //       thumbnail={bun.image_mobile}
-  //     />
-  //   </div> 
-  //   ) : '';
-
-  //булка низ для вставки
-  // const bunBottom = bun !== undefined ? (
-  //   <div className={styles.item +" mr-4 "}>
-  //     <ConstructorElement
-  //       type="bottom"
-  //       isLocked={true}
-  //       text={bun.name + ' (низ)'}
-  //       price={bun.price}
-  //       thumbnail={bun.image_mobile}
-  //     />
-  //   </div> 
-  //   ) : '';
-
-  //остальные ингредиенты для вставки
-
-  // const mainIngredients = useMemo( () => {
-  //   return data.map(item => {
-  //     let main;
-  //     if (item.type !== 'bun') {
-  //       main = item;
-  //       mainPrice += item.price;
-  //     }
-  //     if (main !== undefined) return (
-  //       <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
-  //         <div className=""><DragIcon type="primary" /></div>
-  //         <ConstructorElement
-  //           text={item.name}
-  //           price={item.price}
-  //           thumbnail={item.image_mobile}
-  //         />
-  //       </li> 
-  //     )
-  //   }).filter((element) => element !== undefined)
-  // }, [data])
+  // остальные ингредиенты для вставки
+  const mainIngredients = main.map(item => {
+      return (
+        <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
+          <div className=""><DragIcon type="primary" /></div>
+          <ConstructorElement
+            text={item.name}
+            price={item.price}
+            thumbnail={item.image_mobile}
+          />
+        </li> 
+      )
+    }).filter((element) => element !== undefined);
 
   // const totalPrice = mainPrice + bunPrice;
 
   return ( <>
-  {bun && <div className={styles.block}ref={drop} role={'Card'} >
+  {<div className={styles.block}ref={drop} role={'Card'} >
     <div className={styles.ingr + " pt-25 mr-4 "}>
-      {/* {bunTop} */}
+      {bunTop 
+      ? (<div className={styles.item+ " mr-4 "}>
+    <ConstructorElement
+      type="top"
+      isLocked={true}
+      text={bun.name + ' (верх)'}
+      price={bun.price}
+      thumbnail={bun.image_mobile}
+    />
+  </div>)
+      : ''}
       <ul className={styles.list}>
-        {/* {mainIngredients} */}
+        {mainIngredients}
       </ul>
-      {/* {bunTop && bunBottom}  */}
+      {bunTop && bunBottom} 
       <div className={styles.total + " mt-10 mr-4"}>
         <div className="pr-10">
           <span className="text text_type_digits-medium pr-2">{}</span>

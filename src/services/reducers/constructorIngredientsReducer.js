@@ -23,7 +23,7 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
     case IN_CONSTRUCTOR_TOTAL:
       return { 
         ...state,
-        main: action.total,
+        total: action.total,
       }   
     default: return state
   }
