@@ -7,11 +7,10 @@ import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-d
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction'
 import styles from './BurgerConstructor.module.css';
-
+import {addIngredientCard} from '../../services/actions/constructorIngredientsAction'
 
 function BurgerConstructor () {
   const {main2, bun2 } = useSelector (store => store.constructorIngredients);
-
   const dispatch = useDispatch();
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'INGREDIENT_CARD',
@@ -25,15 +24,15 @@ function BurgerConstructor () {
   const isActive = canDrop && isOver;
 
 
-  const data = useSelector (store => store.ingredients.ingredients);
+  const data = useSelector (store => store.constructorIngredients);
 
-  const someIngredients = useMemo( () => data.slice(0,6), [data]);
+  // const someIngredients = useMemo( () => data.slice(0,6), [data]);
  
   let bunPrice = 0, mainPrice = 0;
 
   //выбранная булка
   const bun = useMemo( () => {
-    return someIngredients.map(item => {
+    return data.map(item => {
       let activeBun;
       if (item.type === 'bun') {
         activeBun = {...item};
@@ -41,7 +40,7 @@ function BurgerConstructor () {
       }
       return activeBun;
     }).filter((element) => element !== undefined)[0]
-  }, [someIngredients]);
+  }, [data]);
 
   //булка верх для вставки
 
@@ -73,7 +72,7 @@ function BurgerConstructor () {
   //остальные ингредиенты для вставки
 
   const mainIngredients = useMemo( () => {
-    return someIngredients.map(item => {
+    return data.map(item => {
       let main;
       if (item.type !== 'bun') {
         main = item;
@@ -90,12 +89,12 @@ function BurgerConstructor () {
         </li> 
       )
     }).filter((element) => element !== undefined)
-  }, [someIngredients])
+  }, [data])
 
   // const totalPrice = mainPrice + bunPrice;
 
   return ( <>
-  {someIngredients && <div className={styles.block}ref={drop} role={'Card'} >
+  {data && <div className={styles.block}ref={drop} role={'Card'} >
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
       <ul className={styles.list}>
@@ -107,7 +106,7 @@ function BurgerConstructor () {
           <span className="text text_type_digits-medium pr-2">{mainPrice + bunPrice}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
           </div>
-          <ButtonGetOrderNumber ingredients = {someIngredients} />
+          <ButtonGetOrderNumber ingredients = {data} />
       </div>
   </div>
 </div>

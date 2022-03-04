@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
 import { getIngredientsInConstructor } from '../../services/actions/constructorIngredientsAction';
 import { useDispatch } from 'react-redux';
 
-  function IngredientsCard ({imglink, price, name, item}) {
+  function IngredientsCard ({imglink, price, name, item, counter}) {
     const dispatch = useDispatch();
     const [{ isDragging }, drag] = useDrag( () => ({
       type: 'INGREDIENT_CARD',
@@ -28,7 +28,7 @@ import { useDispatch } from 'react-redux';
       <CurrencyIcon type="primary"/>
     </div>
     <p className={styles.title}>{name}</p>
-    <Counter count={0} size="default"/>
+    <Counter count={counter} size="default"/>
   </>
   )}
 
@@ -36,6 +36,7 @@ import { useDispatch } from 'react-redux';
     name: PropTypes.string.isRequired,
     imglink: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
+    counter: PropTypes.number.isRequired,
   }
 
 export default IngredientsCard; 

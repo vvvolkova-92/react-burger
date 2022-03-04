@@ -16,7 +16,7 @@ function BurgerIngredients () {
 
   const data = useSelector (store => store.ingredients.ingredients);
   const dispatch = useDispatch();
-
+  console.log(data);
   const onClickCard = evt => {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);
     dispatch(setCurrentIngredient(currentItem));
@@ -50,7 +50,7 @@ function BurgerIngredients () {
 
   //ингредиенты
     //булки
-  const bun = data.map((card, i) => {
+  const bun = data.map((card) => {
     if (card.type === 'bun') {
       return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -58,6 +58,7 @@ function BurgerIngredients () {
           price = {card.price}
           name = {card.name}
           item = {card}
+          counter = {card.counter}
         /> 
     </li>
       )
@@ -65,7 +66,7 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     // соусы
-  const sauce = data.map((card, i) => {
+  const sauce = data.map((card) => {
     if (card.type === 'sauce') {
       return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -73,6 +74,7 @@ function BurgerIngredients () {
           price = {card.price}
           name = {card.name}
           item = {card}
+          counter = {card.counter}
         />
       </li>
       )
@@ -80,7 +82,7 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     //котлетосы
-    const main = data.map((card, i) => {
+    const main = data.map((card) => {
       if (card.type === 'main') {
         return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
@@ -88,6 +90,7 @@ function BurgerIngredients () {
             price = {card.price}
             name = {card.name}
             item = {card}
+            counter = {card.counter}
           />
         </li>
         )
