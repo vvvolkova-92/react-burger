@@ -14,6 +14,7 @@ export function getIngredients () {
         const pushIngredient = result.data.map(ingredient => {
           ingredient.key = nanoid(10);
           ingredient.counter = 0;
+          ingredient.index = 0;
           return ingredient;
         })
         console.log(pushIngredient);

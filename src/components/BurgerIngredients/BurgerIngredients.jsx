@@ -49,7 +49,7 @@ function BurgerIngredients () {
 
   //ингредиенты
     //булки
-  const bun = data.map((card) => {
+  const bun = data.map((card, index) => {
     if (card.type === 'bun') {
       return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -58,6 +58,7 @@ function BurgerIngredients () {
           name = {card.name}
           item = {card}
           counter = {card.counter}
+          index = {index}
         /> 
     </li>
       )
@@ -65,7 +66,7 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     // соусы
-  const sauce = data.map((card) => {
+  const sauce = data.map((card, index) => {
     if (card.type === 'sauce') {
       return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -74,6 +75,7 @@ function BurgerIngredients () {
           name = {card.name}
           item = {card}
           counter = {card.counter}
+          index = {index}
         />
       </li>
       )
@@ -81,7 +83,7 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     //котлетосы
-    const main = data.map((card) => {
+    const main = data.map((card, index) => {
       if (card.type === 'main') {
         return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
@@ -90,6 +92,7 @@ function BurgerIngredients () {
             name = {card.name}
             item = {card}
             counter = {card.counter}
+            index = {index}
           />
         </li>
         )
