@@ -4,6 +4,7 @@ export const initialState = {
   //список всех полученных ингредиентов
   ingredients: [],
   isFetching: false,
+  total: null,
 }
 
 export const ingredientsReducer = (state = initialState, action) => {

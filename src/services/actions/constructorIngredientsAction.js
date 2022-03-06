@@ -1,4 +1,4 @@
-import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_TOTAL} from '../types';
+import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_TOTAL, IN_CONSTRUCTOR_MOVE_INGREDIENT} from '../types';
 import { nanoid } from 'nanoid';
 
 export function getIngredientsInConstructor (ingredients) {
@@ -58,39 +58,32 @@ export function addIngredientCard (item, bun, main) {
         main: newMain,
       });
     };
+  }
 
-
-
-
-
-
-
-  let newCard = {};
-  const currentIngredient = item.item;
-  if (currentIngredient) return function (dispatch) {
-      if (currentIngredient.type === 'bun' && currentIngredient !== bun) {
-        bun.counter = 0;
-        currentIngredient.counter = 2;
-        dispatch({
-          type: IN_CONSTRUCTOR_BUNS,
-          bun: currentIngredient,
-        });
-      }
-      let newMain = [...main];
-      if (currentIngredient.type !== "bun" && !main.includes(currentIngredient)) {
-
-        newCard = {...currentIngredient};
-        newCard.key = nanoid(10);
-        newMain.push(newCard);
-        console.log('не булка и в массиве нет');
-      } 
-      if (currentIngredient.type !== "bun" && main.includes(currentIngredient)) {
-        newMain.push(currentIngredient);
-        console.log('не булка и ингредиент уже есть');
-      }
+  export function moveIngredient(dragIndex, hoverIndex, main) {
+    const newMain = [...main];
+    const dragMain = newMain[dragIndex];
+    newMain.splice(dragIndex, 1);
+    newMain.splice(hoverIndex, 0, dragMain);
+    return function (dispatch) {
       dispatch({
-        type: IN_CONSTRUCTOR_MAIN,
+        type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
         main: newMain,
       });
-}
-}
+    };
+  }
+
+  export function deleteIngredient(main, id) {
+    let result = [];
+    const filtered = main.filter(item => item._id !== id);
+    main.length === 1
+      ? (result = main)
+      : (result = filtered);
+    return function (dispatch) {
+      dispatch({
+        type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
+        main: result,
+      });
+    };
+  }
+

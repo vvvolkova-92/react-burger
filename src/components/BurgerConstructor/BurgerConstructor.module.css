@@ -42,3 +42,8 @@ box-sizing: border-box;
   align-items: center;
   justify-content: space-between;
 }
+
+.message {
+  display: flex;
+  align-items: center;
+}
