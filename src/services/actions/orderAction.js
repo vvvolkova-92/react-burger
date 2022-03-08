@@ -2,14 +2,14 @@ import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODA
 import {BASEURL} from '../../utils/constants';
 
 
-export function openOrderModal () {
-  return function (dispatch) {
-    dispatch( {
-      type: IN_MODAL_OPEN_ORDER_CARD, 
-      open: true,
-    })
-  }
-}
+// export function openOrderModal () {
+//   return function (dispatch) {
+//     dispatch( {
+//       type: IN_MODAL_OPEN_ORDER_CARD, 
+//       open: true,
+//     })
+//   }
+// }
 
 export function getOrderNumber (ingredients) {
 

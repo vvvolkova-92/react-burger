@@ -6,7 +6,7 @@ import {BASEURL}  from '../../utils/constants';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {propTypesForIngridients} from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderNumber, openOrderModal } from '../../services/actions/orderAction';
+import { getOrderNumber } from '../../services/actions/orderAction';
 
 function ButtonGetOrderNumber() {
   const dispatch = useDispatch();
@@ -17,7 +17,8 @@ function ButtonGetOrderNumber() {
   })
   );
 
-  const {order} = useSelector(store => store.orderReducer)
+  const {orderModal} = useSelector(state => state.modalReducer);
+
 
   const clickHandler = useCallback (
     () => {
@@ -40,11 +41,11 @@ function ButtonGetOrderNumber() {
     <Button type="primary" size="large" onClick={clickHandler}>
       Оформить заказ
     </Button>
-    {/* {order != null && (
+    {orderModal && (
       <Modal onClose ={closeHandler}>
         <OrderDetails />
       </Modal> ) 
-    } */}
+    }
   </>
   )
 }
