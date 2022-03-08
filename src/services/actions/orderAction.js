@@ -1,4 +1,4 @@
-import { ORDER_GET_ORDER_NUMBER_REQUEST, ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODAL_OPEN_ORDER_CARD} from '../types';
+import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODAL_OPEN_ORDER_CARD} from '../types';
 import {BASEURL} from '../../utils/constants';
 
 
@@ -12,10 +12,8 @@ export function openOrderModal () {
 }
 
 export function getOrderNumber (ingredients) {
+
   return function (dispatch) {
-    dispatch({
-      type: ORDER_GET_ORDER_NUMBER_REQUEST,
-    });
     ( async () => {
       try {
         const res = await fetch(`${BASEURL}/orders`, {
@@ -33,7 +31,10 @@ export function getOrderNumber (ingredients) {
           type: ORDER_GET_ORDER_NUMBER_SUCCESS,
           order: result,
         });
-        dispatch(openOrderModal());
+        dispatch({
+          type: IN_MODAL_OPEN_ORDER_CARD,
+          open: true,
+        });
       } 
     } 
     catch(error) {

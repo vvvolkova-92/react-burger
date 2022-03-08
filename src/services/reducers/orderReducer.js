@@ -1,18 +1,12 @@
-import { ORDER_GET_ORDER_NUMBER_REQUEST, ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE } from '../types';
+import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODAL_OPEN_ORDER_CARD } from '../types';
 
 export const initialState = {
   //объект созданного заказа
   order: null,
-  isFetching: false,
 }
 
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ORDER_GET_ORDER_NUMBER_REQUEST:
-      return { 
-        ...state,
-        isFetching: true,
-      }
     case ORDER_GET_ORDER_NUMBER_SUCCESS:
       return { 
         ...state,
@@ -21,7 +15,9 @@ export const orderReducer = (state = initialState, action) => {
       }
     case ORDER_GET_ORDER_NUMBER_FAILURE:
       return { 
-        // дописать
+        ...state,
+        order: null,
+        isFetching: false,
       }
     default: return state
   }

@@ -19,6 +19,12 @@ export const ingredientsReducer = (state = initialState, action) => {
         isFetching: false,
         ingredients: action.ingredients,
       }
+      case ALL_GET_INGREDIENTS_FAILURE:
+        return { 
+          ...state,
+          isFetching: true,
+          ingredients: [],
+        }
     default: return state
   }
 }

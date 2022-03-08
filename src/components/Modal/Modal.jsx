@@ -12,8 +12,6 @@ import { closeModal } from '../../services/actions/modalAction';
 function Modal ({ title, children }) {
   const {close} = useSelector (store => store.modalReducer);
   const dispatch = useDispatch ();
-
-
   useEffect( () => {
     function closeByEscape (evt) {
       if (evt.key === "Escape" ) {

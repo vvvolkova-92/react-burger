@@ -8,40 +8,45 @@ import {propTypesForIngridients} from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderNumber, openOrderModal } from '../../services/actions/orderAction';
 
-function ButtonGetOrderNumber({bun, main}) {
-
-  // const [order, setOrder] = useState(false);
-  // const [number, setNumber] = useState('');
+function ButtonGetOrderNumber() {
   const dispatch = useDispatch();
-  const orderNumber = useSelector( store => store.orderReducer.order);
-    const clickHandler = useCallback (
-      () => {
-        if(bun && main) {
-          const postIngredients = bun.concat(main).map(item => {
-            return item._id;
-          })
-          dispatch(getOrderNumber(postIngredients));
-        }
-      },
-      [bun, main, dispatch],
-    );
+  
+  const { main, bun} = useSelector( store => ({
+    main: store.constructorIngredients.main,
+    bun: store.constructorIngredients.bun,
+  })
+  );
+
+  const {order} = useSelector(store => store.orderReducer)
+
+  const clickHandler = useCallback (
+    () => {
+      if(bun && main) {
+        const postIngredients = main.concat(bun).map(item => {
+          return item._id;
+        })
+        dispatch(getOrderNumber(postIngredients));
+      }
+    },
+    [bun, main],
+  );
+
+  const closeHandler = useCallback(
+    () => dispatch(getOrderNumber(null)),
+    [dispatch],
+  );
 
   return ( <>
     <Button type="primary" size="large" onClick={clickHandler}>
       Оформить заказ
     </Button>
-    {orderNumber != null && (
-      <Modal>
-        <OrderDetails orderNumber={String(orderNumber.order.number)}/>
+    {/* {order != null && (
+      <Modal onClose ={closeHandler}>
+        <OrderDetails />
       </Modal> ) 
-    }
+    } */}
   </>
   )
 }
-
-// ButtonGetOrderNumber.propTypes = {
-//   ingredients: PropTypes.arrayOf(propTypesForIngridients),
-// };
-
 
 export default ButtonGetOrderNumber 

@@ -16,11 +16,11 @@ function BurgerIngredients () {
 
   const data = useSelector (store => store.ingredients.ingredients);
   const dispatch = useDispatch();
+  
   const onClickCard = evt => {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);
     dispatch(setCurrentIngredient(currentItem));
   }
-
 
   const bunRef = useRef(null);
   const souceRef = useRef(null);
@@ -57,7 +57,6 @@ function BurgerIngredients () {
           price = {card.price}
           name = {card.name}
           item = {card}
-          counter = {card.counter}
         /> 
     </li>
       )
@@ -89,7 +88,6 @@ function BurgerIngredients () {
             price = {card.price}
             name = {card.name}
             item = {card}
-            counter = {card.counter}
           />
         </li>
         )

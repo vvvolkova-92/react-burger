@@ -1,34 +1,42 @@
-import {useEffect, useMemo} from 'react';
-import { useSelector , useDispatch} from "react-redux";
-import { NativeTypes } from 'react-dnd-html5-backend';
-import { useDrop } from 'react-dnd';
-import { ConstructorElement, DragIcon, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-
+import { useSelector, useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { useDrop} from 'react-dnd';
+import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
-import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction'
 import styles from './BurgerConstructor.module.css';
-import {addIngredientCard} from '../../services/actions/constructorIngredientsAction'
+import { addIngredientCard } from '../../services/actions/constructorIngredientsAction'
+import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx'
+import { DROP_INGREDIENT, DROP_CARD } from '../../services/types'
 
 function BurgerConstructor () {
+
   const {bun, main} = useSelector (store => store.constructorIngredients);
   const dispatch = useDispatch();
-  const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: 'INGREDIENT_CARD',
+
+  const [{ canDrop, isOver }, drop] = useDrop( 
+    () => ({
+    accept: DROP_INGREDIENT,
     //написать экшен addIngredientCard!!!
-    drop: (item) => {dispatch(addIngredientCard(item, bun, main)) },
+    drop: (item) => {dispatch(addIngredientCard(item, main)) },
     collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
   }),
-  }));
-  const isActive = canDrop && isOver;
-  // const someIngredients = useMemo( () => data.slice(0,6), [data]);
- 
-  let bunPrice = 0, mainPrice = 0;
-let bunBottom = '';
-let bunTop = ''; 
+  }), [main, dispatch]);
 
-  bunTop = bun.type !== undefined ? (<div className={styles.item+ " mr-4 "}>
+  const [, dropCard] = useDrop(() => ( {accept: DROP_CARD}), [main, dispatch]);
+
+  const totalPrice = useMemo(() => {
+    let total = 0;
+    let totalBun;
+    if (bun) totalBun = bun.price * 2
+    else totalBun = 0;
+    main.map(item => total += item.price);
+    return totalBun + total;
+  }, [main, bun]);
+
+  const bunTop= bun 
+  ? (<div className={styles.item+ " mr-4 "}>
   <ConstructorElement
     type="top"
     isLocked={true}
@@ -36,9 +44,11 @@ let bunTop = '';
     price={bun.price}
     thumbnail={bun.image_mobile}
   />
-</div>) : '';
+  </div>) 
+  : '';
 
-  bunBottom = bun.type !== undefined ? (<div className={styles.item+ " mr-4 "}>
+  const bunBottom = bun 
+  ? (<div className={styles.item+ " mr-4 "}>
   <ConstructorElement
     type="bottom"
     isLocked={true}
@@ -46,26 +56,11 @@ let bunTop = '';
     price={bun.price}
     thumbnail={bun.image_mobile}
   />
-</div>) : '';
-
-  // остальные ингредиенты для вставки
-  const mainIngredients = main.map(item => {
-      return (
-        <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={item._id}>
-          <div className=""><DragIcon type="primary" /></div>
-          <ConstructorElement
-            text={item.name}
-            price={item.price}
-            thumbnail={item.image_mobile}
-          />
-        </li> 
-      )
-    }).filter((element) => element !== undefined);
-
-  // const totalPrice = mainPrice + bunPrice;
+  </div>) 
+  : '';
 
   return ( <>
-  {<div className={styles.block}ref={drop} role={'Card'} >
+  { <div className={styles.block} ref={drop}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop 
       ? (<div className={styles.item+ " mr-4 "}>
@@ -77,17 +72,29 @@ let bunTop = '';
       thumbnail={bun.image_mobile}
     />
   </div>)
-      : ''}
-      <ul className={styles.list}>
-        {mainIngredients}
-      </ul>
+    : ''}
+    <ul className={styles.list} ref={dropCard} >
+      { main.length > 0
+      ? main.map((item, index) => {
+        return (
+        <IngredientInConstructor 
+          key= {item.id}
+          item = {item}
+          index = {index}
+          id = {item.id}
+        />
+        )
+      }).filter((element) => element !== undefined)
+      : ''
+      }
+    </ul>
       {bunTop && bunBottom} 
       <div className={styles.total + " mt-10 mr-4"}>
         <div className="pr-10">
-          <span className="text text_type_digits-medium pr-2">{}</span>
+          <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
           <div className={styles.icon}><CurrencyIcon type="primary" /></div>
           </div>
-          <ButtonGetOrderNumber ingredients = {bun, main} />
+          <ButtonGetOrderNumber/>
       </div>
   </div>
 </div>
