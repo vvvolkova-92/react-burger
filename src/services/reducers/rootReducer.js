@@ -4,6 +4,7 @@ import { constructorIngredientsReducer } from './constructorIngredientsReducer.j
 import { orderReducer } from './orderReducer';
 import { currentIngredientReducer } from './currentIngredientReducer.js';
 import { modalReducer } from './modalReducer.js';
+import { priceReducer } from './priceReducer.js';
 
 //тут должен быть rootReducer
 export const rootReducer = combineReducers({
@@ -12,5 +13,5 @@ export const rootReducer = combineReducers({
   currentIngredient: currentIngredientReducer,
   modalReducer,
   orderReducer,
-  
+  price: priceReducer,
 });
