@@ -16,16 +16,15 @@ function BurgerIngredients () {
 
   const data = useSelector (store => store.ingredients.ingredients);
   const dispatch = useDispatch();
+  
   const onClickCard = evt => {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);
     dispatch(setCurrentIngredient(currentItem));
   }
 
-
   const bunRef = useRef(null);
   const souceRef = useRef(null);
   const mainRef = useRef(null);
-
 
   const menu = menuItems.map(item => {
     return (<li key={item.id}>
@@ -39,7 +38,6 @@ function BurgerIngredients () {
         } else if(mainRef.current.id === value) {
           mainRef.current.scrollIntoView({behavior: "smooth"});
         } 
-
       }}>
       {item.name}
       </Tab>
@@ -49,7 +47,7 @@ function BurgerIngredients () {
 
   //ингредиенты
     //булки
-  const bun = data.map((card, index) => {
+  const bun = data.map((card) => {
     if (card.type === 'bun') {
       return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -57,8 +55,6 @@ function BurgerIngredients () {
           price = {card.price}
           name = {card.name}
           item = {card}
-          counter = {card.counter}
-          index = {index}
         /> 
     </li>
       )
@@ -66,7 +62,7 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     // соусы
-  const sauce = data.map((card, index) => {
+  const sauce = data.map((card) => {
     if (card.type === 'sauce') {
       return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
         <IngredientsCard 
@@ -75,7 +71,6 @@ function BurgerIngredients () {
           name = {card.name}
           item = {card}
           counter = {card.counter}
-          index = {index}
         />
       </li>
       )
@@ -83,7 +78,7 @@ function BurgerIngredients () {
   }).filter((element) => element !== undefined);
 
     //котлетосы
-    const main = data.map((card, index) => {
+    const main = data.map((card) => {
       if (card.type === 'main') {
         return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
           <IngredientsCard 
@@ -91,8 +86,6 @@ function BurgerIngredients () {
             price = {card.price}
             name = {card.name}
             item = {card}
-            counter = {card.counter}
-            index = {index}
           />
         </li>
         )

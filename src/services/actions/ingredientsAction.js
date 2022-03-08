@@ -1,6 +1,7 @@
 import {ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, ALL_GET_INGREDIENTS_FAILURE} from '../types';
 import {BASEURL} from '../../utils/constants';
 import { nanoid } from 'nanoid';
+
 export function getIngredients () {
   return function (dispatch) {
     dispatch({
@@ -17,7 +18,7 @@ export function getIngredients () {
           ingredient.index = 0;
           return ingredient;
         })
-        console.log(pushIngredient);
+        
         dispatch({
           type: ALL_GET_INGREDIENTS_SUCCESS,
           ingredients: pushIngredient,
@@ -25,9 +26,9 @@ export function getIngredients () {
       } 
     } 
     catch(error) {
-        // dispatch({
-        //   //дописать!
-        // });
+        dispatch({
+          type: ALL_GET_INGREDIENTS_FAILURE,
+        });
       }
     })();
   }

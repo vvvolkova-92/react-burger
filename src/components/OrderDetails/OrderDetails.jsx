@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
 import styles from './OrderDetails.module.css'
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import imageBackgroung from '../../images/graphics.png';
+import { useSelector } from 'react-redux';
 
-
-  function OrderDetails ({orderNumber}) {
-
+  function OrderDetails () {
+    const order = useSelector(store => store.orderReducer.order);
+    const orderNumber = order.order.number;
     return (<div className={styles.container}>
       <span className={styles.number+ " text text_type_digits-large mb-8"}>{orderNumber}</span>
       <p className={" text text_type_main-medium mb-15"}>идентификатор заказа</p>
@@ -21,9 +21,6 @@ import imageBackgroung from '../../images/graphics.png';
       <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
   </div>
   )}
-  OrderDetails.propTypes = {
-    orderNumber: PropTypes.string.isRequired,
-  };
 
 export default OrderDetails; 
 

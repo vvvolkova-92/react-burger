@@ -1,15 +1,14 @@
-import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_MOVE_INGREDIENT, IN_CONSTRUCTOR_TOTAL} from '../types';
+import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_DELETE_INGREDIENT} from '../types';
 
 
 export const initialState = {
   //список всех ингредиентов в текущем конструкторе бургера
-  bun: [],
+  bun: '',
   main: [],
 }
 
 export const constructorIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    //временный вариант !!!!
     case IN_CONSTRUCTOR_BUNS:
       return { 
         ...state,
@@ -19,17 +18,15 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
       return { 
         ...state,
         main: action.main,
-      }     
-    case IN_CONSTRUCTOR_MOVE_INGREDIENT:
+      }   
+    case IN_CONSTRUCTOR_DELETE_INGREDIENT:
       return { 
         ...state,
         main: action.main,
-      }        
+      }   
     default: return state
   }
 }
-
-
 
 
 
