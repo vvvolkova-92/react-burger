@@ -16,7 +16,6 @@ function BurgerConstructor () {
   const [{ canDrop, isOver }, drop] = useDrop( 
     () => ({
     accept: DROP_INGREDIENT,
-    //написать экшен addIngredientCard!!!
     drop: (item) => {dispatch(addIngredientCard(item, main)) },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -35,7 +34,7 @@ function BurgerConstructor () {
     return totalBun + total;
   }, [main, bun]);
 
-  const bunTop= bun 
+  const bunTop = bun 
   ? (<div className={styles.item+ " mr-4 "}>
   <ConstructorElement
     type="top"
@@ -45,7 +44,7 @@ function BurgerConstructor () {
     thumbnail={bun.image_mobile}
   />
   </div>) 
-  : '';
+  : <p className = {styles.message + " text_type_main-medium text_color_inactive"}>Булка не выбрана, нужно выбрать &#127838;</p>;
 
   const bunBottom = bun 
   ? (<div className={styles.item+ " mr-4 "}>
@@ -62,17 +61,7 @@ function BurgerConstructor () {
   return ( <>
   { <div className={styles.block} ref={drop}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
-      {bunTop 
-      ? (<div className={styles.item+ " mr-4 "}>
-    <ConstructorElement
-      type="top"
-      isLocked={true}
-      text={bun.name + ' (верх)'}
-      price={bun.price}
-      thumbnail={bun.image_mobile}
-    />
-  </div>)
-    : ''}
+      {bunTop}
     <ul className={styles.list} ref={dropCard} >
       { main.length > 0
       ? main.map((item, index) => {
@@ -85,7 +74,7 @@ function BurgerConstructor () {
         />
         )
       }).filter((element) => element !== undefined)
-      : ''
+      : (<p className = {styles.message + " text_type_main-medium text_color_inactive"}>Пустую булку есть никому не понравится, добавьте ингрединты! &#127798; &#129363; &#129408;</p>)
       }
     </ul>
       {bunTop && bunBottom} 

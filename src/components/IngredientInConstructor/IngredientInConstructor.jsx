@@ -1,12 +1,13 @@
-import {useCallback, useRef} from 'react';
+import {useRef} from 'react';
 import { useSelector , useDispatch} from "react-redux";
 import { useDrop, useDrag } from 'react-dnd';
 import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {deleteIngredientCard, moveIngredient} from '../../services/actions/constructorIngredientsAction'
-import {DROP_INGREDIENT, DROP_CARD} from '../../services/types'
+import {DROP_CARD} from '../../services/types'
 import styles from './IngredientInConstructor.module.css'
 
 export function IngredientInConstructor ({item, index, id}) {
+
   const dispatch = useDispatch();
   const {main} = useSelector (store => store.constructorIngredients);
 

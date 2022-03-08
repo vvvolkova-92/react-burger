@@ -26,7 +26,6 @@ function BurgerIngredients () {
   const souceRef = useRef(null);
   const mainRef = useRef(null);
 
-
   const menu = menuItems.map(item => {
     return (<li key={item.id}>
       <Tab value={item.value} active = {current === item.value} onClick={value => {
@@ -39,7 +38,6 @@ function BurgerIngredients () {
         } else if(mainRef.current.id === value) {
           mainRef.current.scrollIntoView({behavior: "smooth"});
         } 
-
       }}>
       {item.name}
       </Tab>
