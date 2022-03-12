@@ -1,4 +1,4 @@
-import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_DELETE_INGREDIENT} from '../types';
+import {IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_DELETE_INGREDIENT, IN_CONSTRUCTOR_MOVE_INGREDIENT} from '../types';
 
 
 export const initialState = {
@@ -23,7 +23,13 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
       return { 
         ...state,
         main: action.main,
-      }   
+      }  
+      
+      case IN_CONSTRUCTOR_MOVE_INGREDIENT:
+        return { 
+          ...state,
+          main: action.main,
+        } 
     default: return state
   }
 }

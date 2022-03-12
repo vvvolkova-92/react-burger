@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styles from './IngredientsCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
-import { useMemo } from 'react';
+import { useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DROP_INGREDIENT } from '../../services/types'
 

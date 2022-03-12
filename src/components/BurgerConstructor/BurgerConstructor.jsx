@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { useDrop} from 'react-dnd';
 import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 import styles from './BurgerConstructor.module.css';
-import { addIngredientCard } from '../../services/actions/constructorIngredientsAction'
+import { addIngredientCard, sortIngredient } from '../../services/actions/constructorIngredientsAction'
 import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx'
 import { DROP_INGREDIENT, DROP_CARD } from '../../services/types'
 
@@ -13,17 +13,34 @@ function BurgerConstructor () {
   const {bun, main} = useSelector (store => store.constructorIngredients);
   const dispatch = useDispatch();
 
-  const [{ canDrop, isOver }, drop] = useDrop( 
+  const [, drop] = useDrop(
     () => ({
-    accept: DROP_INGREDIENT,
-    drop: (item) => {dispatch(addIngredientCard(item, main)) },
-    collect: monitor => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-  }),
-  }), [main, dispatch]);
+      accept: DROP_INGREDIENT,
+      drop(item) {
+        dispatch(addIngredientCard(item, main));
+      },
+    }),
+    [dispatch, main]
+  );
 
-  const [, dropCard] = useDrop(() => ( {accept: DROP_CARD}), [main, dispatch]);
+  const findCard = useCallback(
+    (id) => {
+      const card = main.filter((el) => el.id === id)[0];
+      return {
+        card,
+        index: main.indexOf(card),
+      };
+    },
+    [main]
+  );
+  const moveIngredient = useCallback(
+    (id, atIndex) => {
+      const { card, index } = findCard(id);
+      dispatch(sortIngredient(card, index, atIndex, main));
+    },
+    [findCard, dispatch, main]
+  );
+  const [, drop2] = useDrop(() => ({ accept: DROP_CARD }));
 
   const totalPrice = useMemo(() => {
     let total = 0;
@@ -62,15 +79,18 @@ function BurgerConstructor () {
   { <div className={styles.block} ref={drop}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
-    <ul className={styles.list} ref={dropCard} >
+    <ul className={styles.list} ref={drop2} >
       { main.length > 0
       ? main.map((item, index) => {
         return (
         <IngredientInConstructor 
           key= {item.id}
-          item = {item}
-          index = {index}
+          name = {item.name}
           id = {item.id}
+          image={item.image}
+          price={item.price}
+          moveIngredient = {moveIngredient}
+          findCard = {findCard}
         />
         )
       }).filter((element) => element !== undefined)

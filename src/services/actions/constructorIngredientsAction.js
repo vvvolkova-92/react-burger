@@ -24,19 +24,12 @@ export function deleteIngredientCard (main, id) {
     });
   }
 }
-
-export function moveIngredient (dragIndex, hoverIndex, main ) {
-  // const newMain = [...main];
-  const mainDrag = main[dragIndex];
-  return function (dispatch) {
-    dispatch({
-      type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
-      main: update(main, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, mainDrag],
-        ],
-      }),
-    })
-  }
-}
+export const sortIngredient = (card, index, atIndex, main) => ({
+  type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
+  main: update(main, {
+    $splice: [
+      [index, 1],
+      [atIndex, 0, card],
+    ],
+  }),
+});
