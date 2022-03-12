@@ -22,3 +22,10 @@ export const menuItems = [
   {id: nanoid(10), name: 'Соусы', value: 'two'},
   {id: nanoid(10), name: 'Начинки', value: 'three'},
 ]
+
+export function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+}
+return Promise.reject(`Ошибка ${res.status}`);
+}

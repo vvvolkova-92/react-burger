@@ -9,14 +9,19 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
+import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 const App = () => {
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    dispatch(setCurrentIngredient(null));
+  }
 
   useEffect( () => {
     dispatch(getIngredients())
   }, []);
 
-  const dispatch = useDispatch();
+
   const {ingredientCardModal} = useSelector(state => state.modalReducer);
   const currentIngredient= useSelector(store => store.currentIngredient);
 
@@ -30,7 +35,8 @@ const App = () => {
         </main>
         {ingredientCardModal && (
           <Modal 
-          title={"Детали ингредиента"}>
+          title={"Детали ингредиента"}
+          closeModal={closeModal}>
             <IngredientDetails 
             ingredient = {currentIngredient}/>
           </Modal>

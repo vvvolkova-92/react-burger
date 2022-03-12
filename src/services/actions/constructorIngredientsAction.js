@@ -15,28 +15,21 @@ export function addIngredientCard (item, main) {
         bun: item,
       };
 };
-//возможно ошибка тут?!
+
 export function deleteIngredientCard (main, id) {
-  return function (dispatch) {
-    dispatch({
-      type: IN_CONSTRUCTOR_DELETE_INGREDIENT,
-      main: main.filter( item => item.id !== id)
-    });
+  return {
+    type: IN_CONSTRUCTOR_DELETE_INGREDIENT,
+    main: main.filter( item => item.id !== id)
   }
 }
 
-export function moveIngredient (dragIndex, hoverIndex, main ) {
-  // const newMain = [...main];
-  const mainDrag = main[dragIndex];
-  return function (dispatch) {
-    dispatch({
-      type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
-      main: update(main, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, mainDrag],
-        ],
-      }),
-    })
-  }
-}
+
+export const moveCard = (ingredient, index, overIndex, main) => ({
+  type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
+  main: update(main, {
+    $splice: [
+      [index, 1],
+      [overIndex, 0, ingredient],
+    ],
+  }),
+});
