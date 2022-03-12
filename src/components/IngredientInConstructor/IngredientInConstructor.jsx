@@ -9,7 +9,6 @@ export function IngredientInConstructor ({id, moveIngredient, findIngredient, na
 
   const dispatch = useDispatch();
   const {main} = useSelector (store => store.constructorIngredients);
-
   const itemIndex = findIngredient(id).index;
 
   const [{ isDragging }, drag] = useDrag(
@@ -34,8 +33,8 @@ export function IngredientInConstructor ({id, moveIngredient, findIngredient, na
       accept: DROP_CARD,
       hover({ id: draggedId }) {
         if (draggedId !== id) {
-          const { index: toIndex } = findIngredient(id);
-          moveIngredient(draggedId, toIndex);
+          const { index: overIndex } = findIngredient(id);
+          moveIngredient(draggedId, overIndex);
         }
       },
     }),

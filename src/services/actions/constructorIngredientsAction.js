@@ -15,21 +15,21 @@ export function addIngredientCard (item, main) {
         bun: item,
       };
 };
-//возможно ошибка тут?!
+
 export function deleteIngredientCard (main, id) {
-  return function (dispatch) {
-    dispatch({
-      type: IN_CONSTRUCTOR_DELETE_INGREDIENT,
-      main: main.filter( item => item.id !== id)
-    });
+  return {
+    type: IN_CONSTRUCTOR_DELETE_INGREDIENT,
+    main: main.filter( item => item.id !== id)
   }
 }
-export const sortIngredient = (card, index, atIndex, main) => ({
+
+
+export const moveCard = (ingredient, index, overIndex, main) => ({
   type: IN_CONSTRUCTOR_MOVE_INGREDIENT,
   main: update(main, {
     $splice: [
       [index, 1],
-      [atIndex, 0, card],
+      [overIndex, 0, ingredient],
     ],
   }),
 });

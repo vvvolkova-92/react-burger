@@ -4,7 +4,7 @@ import { useDrop} from 'react-dnd';
 import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 import styles from './BurgerConstructor.module.css';
-import { addIngredientCard, sortIngredient } from '../../services/actions/constructorIngredientsAction'
+import { addIngredientCard, moveCard } from '../../services/actions/constructorIngredientsAction'
 import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx'
 import { DROP_INGREDIENT, DROP_CARD } from '../../services/types'
 
@@ -33,9 +33,9 @@ function BurgerConstructor () {
       };
     };
 
-  const moveIngredient = (id, atIndex) => {
+  const moveIngredient = (id, overIndex) => {
       const { ingredient, index } = findIngredient(id);
-      dispatch(sortIngredient(ingredient, index, atIndex, main));
+      dispatch(moveCard(ingredient, index, overIndex, main));
     };
 
   const [, dropCard] = useDrop(() => ({ accept: DROP_CARD }));
@@ -79,7 +79,7 @@ function BurgerConstructor () {
       {bunTop}
     <ul className={styles.list} ref={dropCard} >
       { main.length > 0
-      ? main.map((item, index) => {
+      ? main.map((item) => {
         return (
         <IngredientInConstructor 
           key= {item.id}
