@@ -13,35 +13,32 @@ function BurgerConstructor () {
   const {bun, main} = useSelector (store => store.constructorIngredients);
   const dispatch = useDispatch();
 
-  const [, drop] = useDrop(
+  //вариант из 11 примера в документации, прошлый вариант нерабочий
+
+  const [, dropIngredient] = useDrop(
     () => ({
       accept: DROP_INGREDIENT,
       drop(item) {
         dispatch(addIngredientCard(item, main));
       },
     }),
-    [dispatch, main]
-  );
-
-  
-  const findIngredient = useCallback(
-    (id) => {
-      const card = main.filter((el) => el.id === id)[0];
-      return {
-        card,
-        index: main.indexOf(card),
-      };
-    },
     [main]
   );
-  const moveIngredient = useCallback(
-    (id, atIndex) => {
-      const { card, index } = findIngredient(id);
-      dispatch(sortIngredient(card, index, atIndex, main));
-    },
-    [findIngredient, dispatch, main]
-  );
-  const [, drop2] = useDrop(() => ({ accept: DROP_CARD }));
+  
+  const findIngredient = (id) => {
+      const ingredient = main.filter(item => item.id === id)[0];
+      return {
+        ingredient,
+        index: main.indexOf(ingredient),
+      };
+    };
+
+  const moveIngredient = (id, atIndex) => {
+      const { ingredient, index } = findIngredient(id);
+      dispatch(sortIngredient(ingredient, index, atIndex, main));
+    };
+
+  const [, dropCard] = useDrop(() => ({ accept: DROP_CARD }));
 
   const totalPrice = useMemo(() => {
     let total = 0;
@@ -77,10 +74,10 @@ function BurgerConstructor () {
   : '';
 
   return ( <>
-  { <div className={styles.block} ref={drop}>
+  { <div className={styles.block} ref={dropIngredient}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
-    <ul className={styles.list} ref={drop2} >
+    <ul className={styles.list} ref={dropCard} >
       { main.length > 0
       ? main.map((item, index) => {
         return (
