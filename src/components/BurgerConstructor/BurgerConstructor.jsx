@@ -23,7 +23,8 @@ function BurgerConstructor () {
     [dispatch, main]
   );
 
-  const findCard = useCallback(
+  
+  const findIngredient = useCallback(
     (id) => {
       const card = main.filter((el) => el.id === id)[0];
       return {
@@ -35,10 +36,10 @@ function BurgerConstructor () {
   );
   const moveIngredient = useCallback(
     (id, atIndex) => {
-      const { card, index } = findCard(id);
+      const { card, index } = findIngredient(id);
       dispatch(sortIngredient(card, index, atIndex, main));
     },
-    [findCard, dispatch, main]
+    [findIngredient, dispatch, main]
   );
   const [, drop2] = useDrop(() => ({ accept: DROP_CARD }));
 
@@ -90,7 +91,7 @@ function BurgerConstructor () {
           image={item.image}
           price={item.price}
           moveIngredient = {moveIngredient}
-          findCard = {findCard}
+          findIngredient = {findIngredient}
         />
         )
       }).filter((element) => element !== undefined)

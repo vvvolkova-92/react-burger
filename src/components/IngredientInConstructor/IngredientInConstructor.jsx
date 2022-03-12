@@ -1,4 +1,3 @@
-import {useRef} from 'react';
 import { useSelector , useDispatch} from "react-redux";
 import { useDrop, useDrag } from 'react-dnd';
 import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,43 +5,44 @@ import {deleteIngredientCard} from '../../services/actions/constructorIngredient
 import {DROP_CARD} from '../../services/types'
 import styles from './IngredientInConstructor.module.css'
 
-export function IngredientInConstructor ({id, moveIngredient, findCard, name, image, price }) {
+export function IngredientInConstructor ({id, moveIngredient, findIngredient, name, image, price }) {
 
   const dispatch = useDispatch();
   const {main} = useSelector (store => store.constructorIngredients);
-  const originalIndex = findCard(id).index;
+  const itemIndex = findIngredient(id).index;
+
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: DROP_CARD,
-      item: { id, originalIndex },
+      item: { id, itemIndex },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {
-        const { id: droppedId, originalIndex } = item;
+        const { id: droppedId, itemIndex } = item;
         const didDrop = monitor.didDrop();
         if (!didDrop) {
-          moveIngredient(droppedId, originalIndex);
+          moveIngredient(droppedId, itemIndex);
         }
       },
     }),
-    [id, originalIndex, moveIngredient]
+    [id]
   );
-  const [, drop3] = useDrop(
+  const [, dropCard] = useDrop(
     () => ({
       accept: DROP_CARD,
       hover({ id: draggedId }) {
         if (draggedId !== id) {
-          const { index: overIndex } = findCard(id);
+          const { index: overIndex } = findIngredient(id);
           moveIngredient(draggedId, overIndex);
         }
       },
     }),
-    [findCard, moveIngredient]
+    [findIngredient, moveIngredient]
   );
   const opacity = isDragging ? 0 : 1;
 
-  return ( <div ref={(node) => drag(drop3(node))} style={{ opacity }}>
+  return ( <div ref={(node) => drag(dropCard(node))} style={{ opacity }}>
     <li className={styles.item + " mr-2 mt-4 mb-4 " + styles.flex} key={id} >
     <div className=""><DragIcon type="primary" /></div>
     <ConstructorElement
