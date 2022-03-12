@@ -27,17 +27,16 @@ function ButtonGetOrderNumber() {
     [bun, main],
   );
 
-  const closeHandler = useCallback(
-    () => dispatch(getOrderNumber(null)),
-    [dispatch],
-  );
+  const closeModal = () => {
+    dispatch(getOrderNumber(null));
+  }
 
   return ( <>
     <Button type="primary" size="large" onClick={clickHandler}>
       Оформить заказ
     </Button>
     {orderModal && (
-      <Modal onClose ={closeHandler}>
+      <Modal closeModal ={closeModal}>
         <OrderDetails />
       </Modal> ) 
     }

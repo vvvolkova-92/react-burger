@@ -1,20 +1,14 @@
 import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODAL_OPEN_ORDER_CARD} from '../types';
 import {BASEURL} from '../../utils/constants';
-
-
-// export function openOrderModal () {
-//   return function (dispatch) {
-//     dispatch( {
-//       type: IN_MODAL_OPEN_ORDER_CARD, 
-//       open: true,
-//     })
-//   }
-// }
+import { closeModal } from './modalAction';
+import { checkResponse } from '../../utils/constants';
 
 export function getOrderNumber (ingredients) {
+  if (ingredients === null) {
+    return closeModal();
+  }
 
-  return function (dispatch) {
-    ( async () => {
+  return async (dispatch) => {
       try {
         const res = await fetch(`${BASEURL}/orders`, {
           method: 'POST',
@@ -24,18 +18,18 @@ export function getOrderNumber (ingredients) {
           body: JSON.stringify({
             'ingredients': ingredients,
         })
-      });
-      if (res.ok) {
-        const result = await res.json();
-        dispatch({
-          type: ORDER_GET_ORDER_NUMBER_SUCCESS,
-          order: result,
-        });
-        dispatch({
-          type: IN_MODAL_OPEN_ORDER_CARD,
-          open: true,
-        });
-      } 
+      })
+        .then (res => checkResponse(res))
+        .then (res => {
+          dispatch({
+            type: ORDER_GET_ORDER_NUMBER_SUCCESS,
+            order: res,
+          });
+          dispatch({
+            type: IN_MODAL_OPEN_ORDER_CARD,
+            open: true,
+          });
+        })
     } 
     catch(error) {
         dispatch({
@@ -43,6 +37,5 @@ export function getOrderNumber (ingredients) {
           order: error,
         });
       }
-    })();
-  }
+    };
 }

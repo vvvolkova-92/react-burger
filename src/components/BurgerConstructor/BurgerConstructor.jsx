@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { useDrop} from 'react-dnd';
 import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 import styles from './BurgerConstructor.module.css';
-import { addIngredientCard } from '../../services/actions/constructorIngredientsAction'
+import { addIngredientCard, moveCard } from '../../services/actions/constructorIngredientsAction'
 import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx'
 import { DROP_INGREDIENT, DROP_CARD } from '../../services/types'
 
@@ -13,17 +13,32 @@ function BurgerConstructor () {
   const {bun, main} = useSelector (store => store.constructorIngredients);
   const dispatch = useDispatch();
 
-  const [{ canDrop, isOver }, drop] = useDrop( 
-    () => ({
-    accept: DROP_INGREDIENT,
-    drop: (item) => {dispatch(addIngredientCard(item, main)) },
-    collect: monitor => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-  }),
-  }), [main, dispatch]);
+  //вариант из 11 примера в документации, прошлый вариант нерабочий
 
-  const [, dropCard] = useDrop(() => ( {accept: DROP_CARD}), [main, dispatch]);
+  const [, dropIngredient] = useDrop(
+    () => ({
+      accept: DROP_INGREDIENT,
+      drop(item) {
+        dispatch(addIngredientCard(item, main));
+      },
+    }),
+    [main]
+  );
+  
+  const findIngredient = (id) => {
+      const ingredient = main.filter(item => item.id === id)[0];
+      return {
+        ingredient,
+        index: main.indexOf(ingredient),
+      };
+    };
+
+  const moveIngredient = (id, overIndex) => {
+      const { ingredient, index } = findIngredient(id);
+      dispatch(moveCard(ingredient, index, overIndex, main));
+    };
+
+  const [, dropCard] = useDrop(() => ({ accept: DROP_CARD }));
 
   const totalPrice = useMemo(() => {
     let total = 0;
@@ -59,18 +74,21 @@ function BurgerConstructor () {
   : '';
 
   return ( <>
-  { <div className={styles.block} ref={drop}>
+  { <div className={styles.block} ref={dropIngredient}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
     <ul className={styles.list} ref={dropCard} >
       { main.length > 0
-      ? main.map((item, index) => {
+      ? main.map((item) => {
         return (
         <IngredientInConstructor 
           key= {item.id}
-          item = {item}
-          index = {index}
+          name = {item.name}
           id = {item.id}
+          image={item.image}
+          price={item.price}
+          moveIngredient = {moveIngredient}
+          findIngredient = {findIngredient}
         />
         )
       }).filter((element) => element !== undefined)
