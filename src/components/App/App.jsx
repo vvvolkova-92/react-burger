@@ -1,58 +1,48 @@
-import {useEffect, useState} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
-import {BASEURL} from '../../utils/constants';
-import {BurgerContext} from '../../utils/context'
+import {getIngredients } from '../../services/actions/ingredientsAction';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
+const App = () => {
+  const dispatch = useDispatch();
 
-function App() {
-  // <========= Подключитесь к API
-  const getData = async (url) => {
-    const res = await fetch(`${url}/ingredients`);
-    if (res.ok) return res.json();
-    return Promise.reject(`Ошибка: ${res.status + " - " + res.statusText}`);
+  const closeModal = () => {
+    dispatch(setCurrentIngredient(null));
   }
 
   useEffect( () => {
-    getData(BASEURL)
-      .then(( {data}) => setData(data))
-      .catch((err) => console.log(err))
+    dispatch(getIngredients())
   }, []);
-  // Подключитесь к API =============>
 
-  const [data, setData] = useState([]);
-  const [ingredient, setIngredient] = useState('');
 
-  return (
-    <BurgerContext.Provider value={{data, setData}}>     
+  const {ingredientCardModal} = useSelector(state => state.modalReducer);
+  const currentIngredient= useSelector(store => store.currentIngredient);
+
+  return ( 
     <div className={styles.App}>
       <AppHeader />
-      <main className={styles.main}>
-        <BurgerIngredients 
-          onClickCard = {(evt) => {
-            //  уже есть функция онКликКард - она возвращает айди ингредиента при клике на ингредиент
-            //ранее в селектедингридиент находила по этому айди остальные данные ингредиента
-            //т.е. айди ингредиента находится при клике, а при передаче ingredient по этому айди находятся данные в дате
-            setIngredient(evt.currentTarget.id);
-            }
-          }/>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <BurgerIngredients />
           <BurgerConstructor/>
-      </main>
-      {ingredient && (
-        <Modal 
-        title={"Детали ингредиента"} 
-        onClose = {() => setIngredient('')}>
-          <IngredientDetails 
-          //перенесла сюда
-          ingredient = {data.find((element) => element._id === ingredient)}
-          />
-        </Modal>
-      )}
+        </main>
+        {ingredientCardModal && (
+          <Modal 
+          title={"Детали ингредиента"}
+          closeModal={closeModal}>
+            <IngredientDetails 
+            ingredient = {currentIngredient}/>
+          </Modal>
+        )}
+      </DndProvider>
     </div>
-    </BurgerContext.Provider>
   );
 }
 

@@ -1,0 +1,19 @@
+.list {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+  height: 568px;
+  max-height: 568px;
+  overflow: scroll;
+  min-width: 584px;
+}
+
+.item {
+  max-height: 80px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

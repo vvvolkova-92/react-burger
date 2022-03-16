@@ -1,63 +1,47 @@
-import {useState, useCallback} from 'react';
-import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {BASEURL}  from '../../utils/constants';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {propTypesForIngridients} from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderNumber } from '../../services/actions/orderAction';
 
-async function getOrderNumber (url, postIngredients) {
-  const res = await fetch(`${url}/orders`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+function ButtonGetOrderNumber() {
+
+  const dispatch = useDispatch();
+  const { main, bun} = useSelector( store => ({
+    main: store.constructorIngredients.main,
+    bun: store.constructorIngredients.bun,
+  })
+  );
+  const {orderModal} = useSelector(state => state.modalReducer);
+  
+  const clickHandler = useCallback (
+    () => {
+      if(bun && main) {
+        const postIngredients = main.concat(bun).map(item => {
+          return item._id;
+        })
+        dispatch(getOrderNumber(postIngredients));
+      }
     },
-    body: JSON.stringify({
-      'ingredients': postIngredients,
-    })
-  });
-if (res.ok) return res.json();
-return Promise.reject(res.status);
-}
+    [bun, main],
+  );
 
+  const closeModal = () => {
+    dispatch(getOrderNumber(null));
+  }
 
-function ButtonGetOrderNumber({ingredients}) {
-
-  const [order, setOrder] = useState(false);
-  const [number, setNumber] = useState('');
-
-    const postIngredients = ingredients.map (item => {
-      return item._id;
-    });
-
-    const a = useCallback (
-      () => {
-        getOrderNumber(BASEURL, postIngredients)
-          .then( number  => setNumber(number.order.number))
-          .catch((err) => console.log(err))
-        setOrder(true);
-      },
-      [ingredients],
-    );
   return ( <>
-    <Button type="primary" size="large" onClick={a}>
+    <Button type="primary" size="large" onClick={clickHandler}>
       Оформить заказ
     </Button>
-    {order && (
-      <Modal onClose = {() => {setOrder(false);
-        setNumber('');
-      }
-      }>
-        <OrderDetails orderNumber={String(number)}/>
+    {orderModal && (
+      <Modal closeModal ={closeModal}>
+        <OrderDetails />
       </Modal> ) 
     }
   </>
   )
 }
-
-ButtonGetOrderNumber.propTypes = {
-  ingredients: PropTypes.arrayOf(propTypesForIngridients),
-};
-
 
 export default ButtonGetOrderNumber 

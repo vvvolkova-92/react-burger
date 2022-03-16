@@ -4,10 +4,10 @@ export const BASEURL = 'https://norma.nomoreparties.space/api';
 export const MODAL = document.getElementById('modal');
 
 export const propTypesForIngridients = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  _id: PropTypes.string,
+  type: PropTypes.string,
   name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
+  price: PropTypes.number,
   image: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
   image_mobile: PropTypes.string.isRequired,
@@ -22,3 +22,10 @@ export const menuItems = [
   {id: nanoid(10), name: 'Соусы', value: 'two'},
   {id: nanoid(10), name: 'Начинки', value: 'three'},
 ]
+
+export function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+}
+return Promise.reject(`Ошибка ${res.status}`);
+}
