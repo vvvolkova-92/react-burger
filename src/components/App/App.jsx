@@ -2,11 +2,17 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import SignIn from '../../pages/signIn/signIn';
+import Registration from '../../pages/registration/Registration';
+import ForgotPassword from '../../pages/ForgotPassword/ForgotPassword';
+import ResetPassword from '../../pages/ResetPassword/ResetPassword';
+import Error404 from '../../pages/404/404';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
-import {getIngredients } from '../../services/actions/ingredientsAction';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { getIngredients } from '../../services/actions/ingredientsAction';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
@@ -27,21 +33,42 @@ const App = () => {
 
   return ( 
     <div className={styles.App}>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients />
-          <BurgerConstructor/>
-        </main>
-        {ingredientCardModal && (
-          <Modal 
-          title={"Детали ингредиента"}
-          closeModal={closeModal}>
-            <IngredientDetails 
-            ingredient = {currentIngredient}/>
-          </Modal>
-        )}
-      </DndProvider>
+      <Router>
+        <AppHeader />
+        <Switch>
+          <Route path="/login" exact={true}>
+            <SignIn />
+          </Route>
+          <Route path="/register" exact={true}>
+            <Registration />
+          </Route>
+          <Route path="/forgot-password" exact={true}>
+            <ForgotPassword />
+          </Route>
+          <Route path="/reset-password" exact={true}>
+            <ResetPassword />
+          </Route>
+          <Route path="/" exact={true}>
+            <DndProvider backend={HTML5Backend}>
+            <main className={styles.main}>
+              <BurgerIngredients />
+              <BurgerConstructor/>
+            </main>
+            {ingredientCardModal && (
+              <Modal 
+              title={"Детали ингредиента"}
+              closeModal={closeModal}>
+                <IngredientDetails 
+                ingredient = {currentIngredient}/>
+              </Modal>
+            )}
+            </DndProvider>
+          </Route>
+          <Route>
+            <Error404 />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
