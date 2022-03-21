@@ -7,6 +7,7 @@ import Registration from '../../pages/registration/Registration';
 import ForgotPassword from '../../pages/ForgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/ResetPassword/ResetPassword';
 import Error404 from '../../pages/404/404';
+import Profile from '../../pages/Profile/Profile';
 import Modal from '../Modal/Modal';
 import styles from './App.module.css';
 import { getIngredients } from '../../services/actions/ingredientsAction';
@@ -47,6 +48,9 @@ const App = () => {
           </Route>
           <Route path="/reset-password" exact={true}>
             <ResetPassword />
+          </Route>
+          <Route path="/profile" exact={true}>
+            <Profile />
           </Route>
           <Route path="/" exact={true}>
             <DndProvider backend={HTML5Backend}>
