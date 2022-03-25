@@ -2,7 +2,7 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
 import { checkResponse } from '../../utils/constants';
 import {BASEURL} from '../../utils/constants';
 
-export function userRegistration(data, history) {
+export function userRegistration(data) {
   const { userName, userEmail, userPassword } = data;
   return function (dispatch) {
     (async () => {
@@ -25,9 +25,9 @@ export function userRegistration(data, history) {
         .then( res => {
           dispatch({
             type: SIGN_UP_SUCCESS,
-            userData: res,
+            data: res,
           });
-          history.replace({ pathname: "/login" });
+          // history.replace({ pathname: "/login" });
         })
       } catch (error) {
         dispatch({

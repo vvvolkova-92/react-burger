@@ -18,25 +18,25 @@ export const inputReduser = (state = inputState, action) => {
     case INPUT_USER_NAME: {
       return {
         ...state,
-        userName: action.value,
+        userName: action.userName,
       };
     }
     case INPUT_USER_EMAIL: {
       return {
         ...state,
-        userEmail: action.value,
+        userEmail: action.userEmail,
       };
     }
     case INPUT_USER_PASSWORD: {
       return {
         ...state,
-        userPassword: action.value,
+        userPassword: action.userPassword,
       };
     }
     case INPUT_VERIFICATION_CODE: {
       return {
         ...state,
-        verificationCode: action.value,
+        verificationCode: action.data,
       };
     }
     case INPUT_CLEAN_DATA: {
@@ -66,7 +66,7 @@ export const userRegistrationInfo = (state = userRegState, action) => {
     case SIGN_UP_SUCCESS: {
       return {
         ...state,
-        userData: action.value,
+        userData: action.data,
         isLoading: false,
         hasError: false,
       };
