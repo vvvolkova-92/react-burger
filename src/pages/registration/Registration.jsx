@@ -1,15 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useMemo, useCallback, useState, useRef, useEffect} from "react";
+import { useMemo, useCallback, useState, useRef, useEffect } from "react";
 import styles from './Registration.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { userRegistration } from '../../services/actions/authentication'
 
 const Registration = () => {
   const [icon, setIcon] = useState('ShowIcon');
+  const { hasError, userData } = useSelector(
+    (state) => state.userData
+  );
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const inputData = useSelector((state) => state.inputData);
+  const onSubmit = () => {
+    dispatch(userRegistration(inputData, history));
+  };
+
   const inputRef = useRef(null);
 
   const onIconClick = useCallback( () => {
@@ -59,7 +67,7 @@ const Registration = () => {
               size={'default'}
             />
         </form>
-        <Button type="primary" size="medium">Войти</Button>
+        <Button type="primary" size="medium" onClick={onSubmit}>Войти</Button>
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>

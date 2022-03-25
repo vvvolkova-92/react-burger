@@ -2,8 +2,6 @@ import { IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_DELETE_INGREDI
 import { nanoid } from 'nanoid';
 import update from 'immutability-helper';
 
-//addIngredientCard написать!!!
-
 export function addIngredientCard (item, main) {
   return item.type !== "bun"
     ? {
@@ -22,7 +20,6 @@ export function deleteIngredientCard (main, id) {
     main: main.filter( item => item.id !== id)
   }
 }
-
 
 export const moveCard = (ingredient, index, overIndex, main) => ({
   type: IN_CONSTRUCTOR_MOVE_INGREDIENT,

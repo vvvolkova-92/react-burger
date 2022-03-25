@@ -10,8 +10,8 @@ function UserInfo() {
   const [email, setEmail] = useState('saiviolet@gmail.com');
   const [name, setName] = useState('Vilo4ka');
   const [password, setPassword] = useState('fdsfsdfsdf');
-  const pass = password.replace(/[\s\S]/g, "*");
   const inputRef = useRef(null)
+  
   //ТУДУ ф-ия изменения данных
   const onIconClick = () => {
     alert('Временно')
@@ -34,7 +34,7 @@ function UserInfo() {
           disabled={true}
         />
         <Input
-          type={'text'}
+          type={'email'}
           placeholder={'Логин/Почта'}
           onChange={e => setEmail(e.target.value)}
           value={email}
@@ -48,10 +48,10 @@ function UserInfo() {
           disabled={true}
         />
         <Input
-          type={'text'}
+          type={'password'}
           placeholder={'Пароль'}
           onChange={e => setPassword(e.target.value)}
-          value={pass}
+          value={password}
           name={'password'}
           error={false}
           ref={inputRef}
