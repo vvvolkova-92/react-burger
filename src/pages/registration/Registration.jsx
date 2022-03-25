@@ -8,19 +8,15 @@ import InputName from "../../components/Inputs/InputName";
 import InputPassword from "../../components/Inputs/InputPassword";
 import InputEmail from "../../components/Inputs/InputEmail";
 
-function Registration () {
+ const Registration = () => {
   const { hasError, userData } = useSelector( state => state.userData);
   const dispatch = useDispatch();
   const inputData = useSelector((state) => state.inputData);
-  console.log('inputData');
-  console.log(inputData);
-  // const history = useHistory();
-  const onSubmit = () => {
-    
-    dispatch(userRegistration(inputData));
-  };
+  let history = useHistory();
 
-  const inputRef = useRef(null);
+  function onSubmit () {
+    dispatch(userRegistration(inputData, history));
+  };
 
   return (
 
