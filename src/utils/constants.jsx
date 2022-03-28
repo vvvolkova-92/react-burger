@@ -27,5 +27,13 @@ export function checkResponse(res) {
   if (res.ok) {
     return res.json();
 }
-return Promise.reject(`Ошибка ${res.status}`);
+return Promise.reject(res.json());
+}
+
+export function getErrorMessage (error) {
+  switch (error) {
+    case 'User already exists': return 'Пользователь уже зарегистрирован 🙀'
+    default: return error
+  }
+
 }

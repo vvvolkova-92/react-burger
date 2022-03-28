@@ -3,7 +3,7 @@ import { PasswordInput } from '@ya.praktikum/react-developer-burger-ui-component
 
 import { INPUT_USER_PASSWORD } from '../../services/types'
 
-function InputPassword({ icon }) {
+function InputPassword() {
   const userPassword = useSelector((state) => state.inputData.userPassword);
   const dispatch = useDispatch();
   const onChangeHandler = evt => {
@@ -14,7 +14,7 @@ function InputPassword({ icon }) {
     });
   };
   return (
-    <PasswordInput onChange={onChangeHandler} value={userPassword} name={"password"} />
+    <PasswordInput onChange={onChangeHandler} value={userPassword} name={"password"}/>
   );
 }
 export default InputPassword

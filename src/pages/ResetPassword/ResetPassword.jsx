@@ -1,53 +1,68 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useCallback, useState, useRef, useEffect} from "react";
 import styles from './ResetPassword.module.css';
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, useHistory} from 'react-router-dom';
+import { INPUT_USER_PASSWORD, INPUT_VERIFICATION_CODE } from '../../services/types';
+import InputPassword from "../../components/Inputs/InputPassword";
+import { changePassword}  from '../../services/actions/authentication'
 
 const ResetPassword = () => {
-  const [icon, setIcon] = useState('ShowIcon');
-
-  const [password, setPassword] = useState('');
-  const [code, setCode] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { hasError, error } = useSelector((state) => state.ForgotPassword);
+  const { userPassword, verificationCode } = useSelector((state) => state.inputData);
   const inputRef = useRef(null);
+  
+  // const onChangePasswordHandler = evt => {
+  //   dispatch({
+  //     type: INPUT_USER_PASSWORD,
+  //     userPassword: evt.target.value,
+  //   });
+  // };
 
-  const onIconClick = useCallback( () => {
-        icon === 'ShowIcon' ? setIcon('HideIcon'): setIcon('ShowIcon');
-  },[icon] )
+  const onChangeCodeHandler = evt => {
+    dispatch({
+      type: INPUT_VERIFICATION_CODE,
+      verificationCode: evt.target.value,
+    });
+  };
+
+  const changePass = () => {
+    dispatch(changePassword(userPassword, verificationCode, history));
+  }
 
   return ( 
     <div className={styles.container}>
       <div className={styles.login}>
         <h1 className={styles.title + " text text_type_main-medium mb-6"}>Восстановление пароля</h1>
         <form className={styles.form}>
-            <Input
-              type={'text'}
+            {/* <Input
+              type={'password'}
               placeholder={'Введите новый пароль'}
-              onChange={e => setPassword(e.target.value)}
-              icon={icon}
-              value={password}
+              onChange={onChangePasswordHandler}
+              icon={'ShowIcon'}
+              value={userPassword}
               name={'password'}
               error={false}
-              ref={inputRef}
-              onIconClick={onIconClick}
+              // onIconClick={onIconClick}
               errorText={'Ошибка'}
               size={'default'}
-            />
+            /> */}
+            <InputPassword />
             <Input
               type={'text'}
               placeholder={'Введите код из письма'}
-              onChange={e => setCode(e.target.value)}
-              value={code}
+              onChange={onChangeCodeHandler}
+              value={verificationCode}
               name={'email'}
               error={false}
-              ref={inputRef}
-              onIconClick={onIconClick}
+              // onIconClick={onIconClick}
               errorText={'Ошибка'}
               size={'default'}
             />
-
         </form>
-        <Button type="primary" size="medium">Сохранить</Button>
+        <Button type="primary" size="medium" onClick={changePass}>Сохранить</Button>
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>

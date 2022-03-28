@@ -1,13 +1,9 @@
 
 .container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-height: 478px;
+  transform: translateY(40%);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -48,4 +44,8 @@
   margin-left: 8px;
   text-decoration: none;
   color: #4C4CFF;
+}
+
+.error {
+  color:#cea6e2;
 }

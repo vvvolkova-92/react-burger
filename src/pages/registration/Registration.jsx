@@ -2,14 +2,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useCallback, useState, useRef, useEffect } from "react";
 import styles from './Registration.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, BrowserRouter as Router } from 'react-router-dom';
 import { userRegistration } from '../../services/actions/authentication';
 import InputName from "../../components/Inputs/InputName";
 import InputPassword from "../../components/Inputs/InputPassword";
 import InputEmail from "../../components/Inputs/InputEmail";
+import { getErrorMessage } from '../../utils/constants';
 
- const Registration = () => {
-  const { hasError, userData } = useSelector( state => state.userData);
+ export const Registration = () => {
+  const { hasError, userData, error} = useSelector( state => state.userData);
+  const errorText = getErrorMessage(error);
   const dispatch = useDispatch();
   const inputData = useSelector((state) => state.inputData);
   let history = useHistory();
@@ -29,10 +31,12 @@ import InputEmail from "../../components/Inputs/InputEmail";
             <InputPassword />
         </form>
         <Button type="primary" size="medium" onClick={onSubmit}>Зарегистрироваться</Button>
+        {hasError && <span className={styles.error}>{errorText}</span>}
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>
           <span>Уже зарегестрированы?</span>
+          <Router>
           <Link
           to = '/login'
           className={styles.link}
@@ -40,10 +44,10 @@ import InputEmail from "../../components/Inputs/InputEmail";
           { ' ' }
           Войти
           </Link>
+          </Router>
         </div>
       </div>
     </div>
   )
 }
-
 export default Registration
