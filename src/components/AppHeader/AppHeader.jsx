@@ -3,8 +3,9 @@ import styles from './AppHeader.module.css';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import MenuItem from '../MenuItem/MenuItem';
-
+import {useDispatch, useSelector} from 'react-redux';
 function AppHeader () {
+    const title = useSelector(state => state.title.title);
     return (
     <header className={styles.menuContainer}>
       <div className={styles.menu}>
@@ -37,7 +38,7 @@ function AppHeader () {
           link={"#"}
           stylesComp={"pl-5 pt-4 pr-5 pb-4 " + styles.flex}
           stylesText={"ml-2 text text_type_main-default text_color_inactive " + styles.text}
-          title={"Личный кабинет"}
+          title={title}
           />
       </div>
     </header>

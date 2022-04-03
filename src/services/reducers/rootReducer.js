@@ -4,7 +4,7 @@ import { constructorIngredientsReducer } from './constructorIngredientsReducer.j
 import { orderReducer } from './orderReducer';
 import { currentIngredientReducer } from './currentIngredientReducer.js';
 import { modalReducer } from './modalReducer.js';
-import { inputReduser, userRegistrationInfo, ForgotPasswordReducer } from './authentication.js'
+import { inputReduser, userRegistrationInfo, ForgotPasswordReducer, userDataReducer, title } from './authentication.js'
 
 //тут должен быть rootReducer
 export const rootReducer = combineReducers({
@@ -14,6 +14,8 @@ export const rootReducer = combineReducers({
   modalReducer,
   orderReducer,
   inputData: inputReduser,
-  userData: userRegistrationInfo,
+  userRegData: userRegistrationInfo,
   ForgotPassword : ForgotPasswordReducer,
+  userData: userDataReducer,
+  title: title,
 });

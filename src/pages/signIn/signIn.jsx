@@ -1,48 +1,33 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useMemo, useCallback, useState, useRef} from "react";
 import styles from './signIn.module.css';
-import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
-
+import { Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, useHistory } from 'react-router-dom';
+import InputEmail from '../../components/Inputs/InputEmail';
+import InputPassword from '../../components/Inputs/InputPassword';
+import { userLogin } from '../../services/actions/authentication';
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const inputRef = useRef(null)
+  const dispatch = useDispatch();
+  const { error, hasError } = useSelector(state => state.userData);
+  const inputData = useSelector(state => state.inputData);
+  const history = useHistory();
+
   const onIconClick = () => {
     alert('Временно')
   }
+  //TODO : сделать обработку ошибок и их вывод! 
+  const onClickButtonHandler = () => {
+    dispatch(userLogin(inputData, history));
+  }
+  
   return ( 
     <div className={styles.container}>
       <div className={styles.login}>
         <h1 className={styles.title + " text text_type_main-medium mb-6"}>Вход</h1>
         <form className={styles.form}>
-            <Input
-              type={'text'}
-              placeholder={'Email'}
-              onChange={e => setEmail(e.target.value)}
-              value={email}
-              name={'email'}
-              error={false}
-              ref={inputRef}
-              onIconClick={onIconClick}
-              errorText={'Ошибка'}
-              size={'default'}
-            />
-            <Input
-              type={'text'}
-              placeholder={'Пароль'}
-              onChange={e => setPassword(e.target.value)}
-              icon={'ShowIcon'}
-              value={password}
-              name={'password'}
-              error={false}
-              ref={inputRef}
-              onIconClick={onIconClick}
-              errorText={'Ошибка'}
-              size={'default'}
-            />
+          <InputEmail placeholder = { 'Email' }/>
+          <InputPassword />
         </form>
-        <Button type="primary" size="medium">Войти</Button>
+        <Button type="primary" size="medium" onClick ={onClickButtonHandler}>Войти</Button>
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>

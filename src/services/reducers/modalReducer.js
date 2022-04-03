@@ -7,7 +7,6 @@ export const initialState = {
 }
 
 export const modalReducer = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case IN_MODAL_OPEN_INGREDIENT_CARD:
       return { 

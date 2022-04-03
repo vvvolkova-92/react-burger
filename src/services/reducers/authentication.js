@@ -2,7 +2,14 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
 SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
 FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
 RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE,
+LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
+LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
+HEADER_TITLE,
 } from '../types'
+
+export const headerState = {
+  title: 'Личный кабинет',
+}
 
 export const inputState = {
   userName: "",
@@ -12,7 +19,7 @@ export const inputState = {
 }
 
 export const userRegState = {
-  userData: null,
+  userRegData: null,
   hasError: false,
   isLoading: false,
   error: null, 
@@ -25,6 +32,26 @@ export const ForgotPasswordState = {
   isLoading: false,
   error: null, 
 }
+
+export const userState = {
+  userData: null,
+  hasError: false,
+  isLoading: false,
+  error: null,
+  isLogin: false,
+  // needToRefresh: false,
+  // refreshedTokens: null,
+  // failedToRefresh: false,
+  // profileReady: false,
+  // loadingUser: false,
+  // loadingRefresh: false,
+  // refreshed: false,
+  // changeIsLoading: false,
+  // errorMessage: null,
+  // failedToChange: false,
+};
+
+
 
 export const inputReduser = (state = inputState, action) => {
   switch (action.type) {
@@ -79,7 +106,7 @@ export const userRegistrationInfo = (state = userRegState, action) => {
     case SIGN_UP_SUCCESS: {
       return {
         ...state,
-        userData: action.data,
+        userRegData: action.data,
         isLoading: false,
         hasError: false,
       };
@@ -152,6 +179,45 @@ export const ForgotPasswordReducer = (state = ForgotPasswordState, action) => {
     }
   }
 };
+
+export const userDataReducer = (state = userState, action) => {
+  switch (action.type) {
+    case LOG_IN_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case LOG_IN_SUCCESS: {
+      return {
+        ...state,
+        userData: action.data,
+        hasError: false,
+        isLogin: true,
+        isLoading: false,
+      };
+    }
+    case LOG_IN_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        hasError: true,
+        error: action.error,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const title = (state = headerState, action) => {
+  if (action.type === HEADER_TITLE) return {
+    ...state,
+    title: action.title,
+  }
+  return state;
+}
 
 
 

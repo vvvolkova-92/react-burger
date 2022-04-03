@@ -10,7 +10,7 @@ import InputEmail from "../../components/Inputs/InputEmail";
 import { getErrorMessage } from '../../utils/constants';
 
  export const Registration = () => {
-  const { hasError, userData, error} = useSelector( state => state.userData);
+  const { hasError, userRegData, error} = useSelector( state => state.userRegData);
   const errorText = getErrorMessage(error);
   const dispatch = useDispatch();
   const inputData = useSelector((state) => state.inputData);
