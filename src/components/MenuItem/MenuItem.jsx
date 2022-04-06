@@ -1,10 +1,20 @@
 import PropTypes from 'prop-types';
+import { NavLink } from "react-router-dom";
+import styles from './MenuItem.module.css';
+
 function MenuItem ({icon, link, stylesComp, stylesText, title}) {
 
     return (
       <li className={stylesComp}>
-        {icon}
-        <a href={link} className={stylesText}>{title}</a>
+        <NavLink
+          exact
+          activeClassName={styles.activeLink}
+          to={{ pathname: link }} 
+          className={stylesComp}
+          >
+            {icon}
+            <p className={stylesText}>{title}</p>
+        </NavLink>
       </li>
     );
   }
@@ -17,6 +27,5 @@ function MenuItem ({icon, link, stylesComp, stylesText, title}) {
     stylesComp: PropTypes.string,
     stylesText: PropTypes.string,
   };
-
 
 export default MenuItem 

@@ -1,0 +1,11 @@
+a {
+  text-decoration: none;
+}
+
+.activeLink p{
+  color: #F2F2F3;
+}
+
+.activeLink svg{
+  fill: #F2F2F3;
+}

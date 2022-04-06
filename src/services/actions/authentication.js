@@ -145,6 +145,15 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 } 
 
+export function getCookie(name) {
+  const matches = document.cookie.match(
+    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+} 
+
+// окончание
+
 export function userLogin(data, history) {
   const { userEmail, userPassword } = data;
   return function (dispatch) {
@@ -167,6 +176,7 @@ export function userLogin(data, history) {
         .then( res => {
           const token = res.accessToken.split('Bearer ')[1];
           setCookie('accessToken', token);
+          document.cookie = `refreshToken=${res.refreshToken}`;
           dispatch({
             type: SIGN_UP_SUCCESS,
             data: res,
@@ -180,6 +190,54 @@ export function userLogin(data, history) {
             title: res.user.name,
           });
           history.replace({ pathname: "/" });
+        })
+      } 
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: SIGN_UP_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+}
+
+export function userLogOut(history) {
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: SIGN_UP_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            // Для выхода из системы или обновления токена используется 
+            //именно refreshToken, который можно получить после успешной 
+            //регистрации или авторизации.
+            token: getCookie('refreshToken'),
+        })
+        })
+        .then( res => checkResponse(res))
+        .then( res => {
+          let at = getCookie('accessToken');
+          let rt = getCookie('refreshToken');
+          // Передавайте accessToken в заголовке authorization. 
+          //Срок жизни токена — 20 минут.
+          document.cookie = `${at}; max-age=1200; path=/;`;
+          document.cookie = `${rt}; path=/;`;
+          dispatch({
+            type: SIGN_UP_SUCCESS,
+            data: res,
+          });
+          dispatch({
+            type: INPUT_CLEAN_DATA,
+          });
+          history.replace({ pathname: "/login" });
         })
       } 
       catch (error) {

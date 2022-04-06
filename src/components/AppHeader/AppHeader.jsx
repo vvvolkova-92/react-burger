@@ -12,16 +12,16 @@ function AppHeader () {
         <ul className={styles.menuItems + " " + styles.flex}>
           <MenuItem 
           id={nanoid(10)}
-          icon={<BurgerIcon type="primary" />}
-          link={"#"}
+          icon={<BurgerIcon type="secondary" />}
+          link={"/"}
           stylesComp={"mr-2 pl-5 pt-4 pr-5 pb-4 " + styles.flex}
-          stylesText={"ml-2 text text_type_main-default text_color_primary " + styles.text}
+          stylesText={"ml-2 text text_type_main-default text_color_inactive " + styles.text}
           title={"Конструктор"}
           />
           <MenuItem 
           id={nanoid(10)}
           icon={<ListIcon type="secondary" />}
-          link={"#"}
+          link={"/order-feed"}
           stylesComp={"pl-5 pt-4 pr-5 pb-4 " + styles.flex}
           stylesText={"ml-2 text text_type_main-default text_color_inactive " + styles.text}
           title={"Лента заказов"}
@@ -35,7 +35,7 @@ function AppHeader () {
         <MenuItem 
           id={nanoid(10)}
           icon={<ProfileIcon type="secondary" />}
-          link={"#"}
+          link={"/profile"}
           stylesComp={"pl-5 pt-4 pr-5 pb-4 " + styles.flex}
           stylesText={"ml-2 text text_type_main-default text_color_inactive " + styles.text}
           title={title}

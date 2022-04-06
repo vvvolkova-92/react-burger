@@ -17,6 +17,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
+import PrivateRouteLoginUser from '../ProtectedRoute/PrivateRouteLoginUser';
+import PrivateRouteUnloggedUser from '../ProtectedRoute/PrivateRouteUnloggedUser';
 const App = () => {
   const dispatch = useDispatch();
 
@@ -37,21 +39,21 @@ const App = () => {
       <Router>
         <AppHeader />
         <Switch>
-          <Route path="/login" exact={true}>
+          <PrivateRouteLoginUser path="/login" exact={true}>
             <SignIn />
-          </Route>
-          <Route path="/register" exact={true}>
+          </PrivateRouteLoginUser>
+          <PrivateRouteLoginUser path="/register" exact={true}>
             <Registration />
-          </Route>
-          <Route path="/forgot-password" exact={true}>
+          </PrivateRouteLoginUser>
+          <PrivateRouteLoginUser path="/forgot-password" exact={true}>
             <ForgotPassword />
-          </Route>
+          </PrivateRouteLoginUser>
           <Route path="/reset-password" exact={true}>
             <ResetPassword />
           </Route>
-          <Route path="/profile" exact={true}>
+          <PrivateRouteUnloggedUser path="/profile" exact={true}>
             <Profile />
-          </Route>
+          </PrivateRouteUnloggedUser>
           <Route path="/" exact={true}>
             <DndProvider backend={HTML5Backend}>
             <main className={styles.main}>

@@ -2,7 +2,7 @@ import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-function PrivateRouteLogin({ children, ...rest }) {
+function PrivateRouteLoginUser({ children, ...rest }) {
   const isLogin = useSelector((state) => state.userData.isLogin);
   const location = useLocation();
  
@@ -16,4 +16,4 @@ function PrivateRouteLogin({ children, ...rest }) {
   );
 }
 
-export default PrivateRouteLogin;
+export default PrivateRouteLoginUser;
