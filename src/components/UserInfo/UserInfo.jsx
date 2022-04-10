@@ -4,13 +4,13 @@ import styles from './UserInfo.module.css';
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import InputName from "../Inputs/InputName";
+import InputEmail from "../Inputs/InputEmail";
+import InputPassword from "../Inputs/InputPassword";
 
 function UserInfo() {
-  // временные костыли
-  const [email, setEmail] = useState('saiviolet@gmail.com');
-  const [name, setName] = useState('Vilo4ka');
-  const [password, setPassword] = useState('fdsfsdfsdf');
-  const inputRef = useRef(null)
+  const { userName, userEmail, userPassword } = useSelector((state) => state.inputData);
+  const { error, hasError, userData } = useSelector((state) => state.userData);
   
   //ТУДУ ф-ия изменения данных
   const onIconClick = () => {
@@ -19,48 +19,9 @@ function UserInfo() {
   return (
     <div className={styles.block__user_info + " mt-30"}>
       <form className={styles.form}>
-        <Input
-          type={'text'}
-          placeholder={'Имя'}
-          onChange={e => setName(e.target.value)}
-          value={name}
-          name={'name'}
-          error={false}
-          ref={inputRef}
-          onIconClick={onIconClick}
-          errorText={'Ошибка'}
-          size={'default'}
-          icon={'EditIcon'}
-          disabled={true}
-        />
-        <Input
-          type={'email'}
-          placeholder={'Логин/Почта'}
-          onChange={e => setEmail(e.target.value)}
-          value={email}
-          name={'email'}
-          error={false}
-          ref={inputRef}
-          onIconClick={onIconClick}
-          errorText={'Ошибка'}
-          size={'default'}
-          icon={'EditIcon'}
-          disabled={true}
-        />
-        <Input
-          type={'password'}
-          placeholder={'Пароль'}
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-          name={'password'}
-          error={false}
-          ref={inputRef}
-          onIconClick={onIconClick}
-          errorText={'Ошибка'}
-          size={'default'}
-          icon={'EditIcon'}
-          disabled={true}
-        />
+        <InputName icon={'EditIcon'}/>
+        <InputEmail placeholder={'Логин/Почта'} icon={'EditIcon'}/>
+        <InputPassword />
         </form>
     </div>
   )

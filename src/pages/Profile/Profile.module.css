@@ -30,6 +30,6 @@
   text-decoration: none;
 }
 
-.block__details {
-  
+.linkActive span{
+  color: #F2F2F3;
 }

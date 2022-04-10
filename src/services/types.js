@@ -47,5 +47,11 @@ export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
 export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
+//получить данные пользователя
+export const GET_USERDATA_REQUEST = 'GET_USERDATA_REQUEST';
+export const GET_USERDATA_SUCCESS = 'GET_USERDATA_SUCCESS';
+export const GET_USERDATA_FAILURE = 'GET_USERDATA_FAILURE';
+
+
 
 export const HEADER_TITLE = 'HEADER_TITLE';

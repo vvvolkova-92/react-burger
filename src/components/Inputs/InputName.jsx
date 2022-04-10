@@ -4,14 +4,12 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { INPUT_USER_NAME } from '../../services/types'
 
-function InputName () {
+function InputName ({icon}) {
 
   const userName = useSelector((state) => state.inputData.userName);
   const dispatch = useDispatch();
 
   const onChangeHandler = evt => {
-    console.log('userName');
-    console.log(userName);
     dispatch({
       //как работает? никак. как вариант описать в экшене логина?
       type: INPUT_USER_NAME,
@@ -20,7 +18,7 @@ function InputName () {
   };
   return (
     <Input
-      // icon={icon}
+      icon={icon}
       type={"text"}
       placeholder={"Имя"}
       onChange={onChangeHandler}
@@ -35,7 +33,7 @@ function InputName () {
 
 export default InputName
 
-// InputName.propTypes = {
-//   icon: PropTypes.string,
-// };
+InputName.propTypes = {
+  icon: PropTypes.string,
+};
 

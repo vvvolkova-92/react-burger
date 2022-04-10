@@ -51,9 +51,9 @@ const App = () => {
           <Route path="/reset-password" exact={true}>
             <ResetPassword />
           </Route>
-          <PrivateRouteUnloggedUser path="/profile" exact={true}>
+          <Route path="/profile" exact={true}>
             <Profile />
-          </PrivateRouteUnloggedUser>
+          </Route>
           <Route path="/" exact={true}>
             <DndProvider backend={HTML5Backend}>
             <main className={styles.main}>

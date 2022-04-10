@@ -4,8 +4,8 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
   RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE,
   LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
   LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
+  GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, GET_USERDATA_FAILURE,
   HEADER_TITLE,
-  
   } from '../types';
 import { checkResponse } from '../../utils/constants';
 import {BASEURL} from '../../utils/constants';
@@ -183,7 +183,7 @@ export function userLogin(data, history) {
           });
           dispatch({
             type: INPUT_USER_NAME,
-            value: res.user.name,
+            userName: res.user.name,
           });
           dispatch({
             type: HEADER_TITLE,
@@ -203,6 +203,7 @@ export function userLogin(data, history) {
   }
 }
 
+//ДОПИСАТЬ ВЫХОД!
 export function userLogOut(history) {
   return function (dispatch) {
     (async () => {
@@ -244,6 +245,39 @@ export function userLogOut(history) {
         let err = await error;
         dispatch({
           type: SIGN_UP_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+}
+
+export function getUserData () {
+  return function (dispatch) {
+    dispatch({
+      type: GET_USERDATA_REQUEST,
+    });
+    (async () => {
+      try{
+      const res = await fetch(`${BASEURL}/auth/user`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + getCookie('accessToken'),
+      },
+      })
+        .then( res => checkResponse(res))
+        .then( res => {
+          dispatch({
+            type: GET_USERDATA_SUCCESS,
+            data: res,
+          });
+        })    
+  } 
+    catch(error) {
+      let err = await error;
+        dispatch({
+          type: GET_USERDATA_FAILURE,
           error: err.message,
         });
       }

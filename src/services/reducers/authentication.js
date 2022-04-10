@@ -4,6 +4,7 @@ FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE,
 RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE,
 LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
 LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
+GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, GET_USERDATA_FAILURE,
 HEADER_TITLE,
 } from '../types'
 
@@ -39,16 +40,7 @@ export const userState = {
   isLoading: false,
   error: null,
   isLogin: false,
-  // needToRefresh: false,
-  // refreshedTokens: null,
-  // failedToRefresh: false,
-  // profileReady: false,
-  // loadingUser: false,
-  // loadingRefresh: false,
-  // refreshed: false,
-  // changeIsLoading: false,
-  // errorMessage: null,
-  // failedToChange: false,
+  //дописать если будут нужны доп значения
 };
 
 
@@ -179,7 +171,7 @@ export const ForgotPasswordReducer = (state = ForgotPasswordState, action) => {
     }
   }
 };
-
+//дописать выход!!!!!
 export const userDataReducer = (state = userState, action) => {
   switch (action.type) {
     case LOG_IN_REQUEST: {
@@ -205,6 +197,32 @@ export const userDataReducer = (state = userState, action) => {
         error: action.error,
       };
     }
+    case GET_USERDATA_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case GET_USERDATA_SUCCESS: {
+      return {
+        ...state,
+        userData: action.data,
+        hasError: false,
+        isLogin: true,
+        isLoading: false,
+      };
+    }
+
+    case GET_USERDATA_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        hasError: true,
+        error: action.error,
+      };
+    }
+
     default: {
       return state;
     }
