@@ -160,7 +160,7 @@ export function userLogin(data, history) {
     (async () => {
       try {
         dispatch({
-          type: SIGN_UP_REQUEST,
+          type: LOG_IN_REQUEST,
         });
         const res = await fetch(`${BASEURL}/auth/login`, {
           method: 'POST',
@@ -178,7 +178,7 @@ export function userLogin(data, history) {
           setCookie('accessToken', token);
           document.cookie = `refreshToken=${res.refreshToken}`;
           dispatch({
-            type: SIGN_UP_SUCCESS,
+            type: LOG_IN_SUCCESS,
             data: res,
           });
           dispatch({
@@ -195,11 +195,33 @@ export function userLogin(data, history) {
       catch (error) {
         let err = await error;
         dispatch({
-          type: SIGN_UP_FAILURE,
+          type: LOG_IN_FAILURE,
           error: err.message,
         });
       }
     })();
+  }
+}
+
+export function dontEditProfile(userData) {
+  return function (dispatch) {
+    dispatch({
+      type: INPUT_USER_EMAIL,
+      userEmail: userData.user.email,
+    });
+    dispatch({
+      type: INPUT_USER_NAME,
+      userName: userData.user.name,
+    });
+    dispatch({
+      type: INPUT_USER_PASSWORD,
+      userPassword: "",
+    })
+  }
+}
+
+export function editProfile() {
+  return function (dispatch) {
   }
 }
 

@@ -5,7 +5,7 @@ import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components
 import { NavLink } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import UserInfo from "../../components/UserInfo/UserInfo";
-import { getUserData } from '../../services/actions//authentication';
+import { getUserData } from '../../services/actions/authentication';
 const Profile = () => {
   getUserData();
   return ( 
