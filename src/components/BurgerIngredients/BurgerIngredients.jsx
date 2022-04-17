@@ -8,9 +8,11 @@ import {BurgerContext} from '../../utils/context';
 import { useSelector, useDispatch } from "react-redux";
 import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
-
-
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 function BurgerIngredients () {
+
+  const location = useLocation();
+  const { url } = useRouteMatch();
 
   const [current, setCurrent] = useState('one');
 
@@ -49,14 +51,22 @@ function BurgerIngredients () {
     //булки
   const bun = data.map((card) => {
     if (card.type === 'bun') {
-      return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
-        <IngredientsCard 
-          imglink = {card.image}
-          price = {card.price}
-          name = {card.name}
-          item = {card}
-        /> 
-    </li>
+      return (
+        <Link 
+          to={{
+            pathname: `/ingredients/${card._id}`,
+            state: { background: location },
+          }}
+          key={card._id}>
+          <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
+            <IngredientsCard 
+              imglink = {card.image}
+              price = {card.price}
+              name = {card.name}
+              item = {card}
+            /> 
+          </li>
+        </Link>
       )
     }
   }).filter((element) => element !== undefined);
@@ -64,15 +74,22 @@ function BurgerIngredients () {
     // соусы
   const sauce = data.map((card) => {
     if (card.type === 'sauce') {
-      return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
-        <IngredientsCard 
-          imglink = {card.image}
-          price = {card.price}
-          name = {card.name}
-          item = {card}
-          counter = {card.counter}
-        />
-      </li>
+      return ( 
+        <Link 
+        to={{
+          pathname: `/ingredients/${card._id}`,
+          state: { background: location },
+        }}
+        key={card._id}>
+        <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
+          <IngredientsCard 
+            imglink = {card.image}
+            price = {card.price}
+            name = {card.name}
+            item = {card}
+          /> 
+        </li>
+      </Link>
       )
     }
   }).filter((element) => element !== undefined);
@@ -80,14 +97,22 @@ function BurgerIngredients () {
     //котлетосы
     const main = data.map((card) => {
       if (card.type === 'main') {
-        return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
-          <IngredientsCard 
-            imglink = {card.image}
-            price = {card.price}
-            name = {card.name}
-            item = {card}
-          />
-        </li>
+        return (
+                  <Link 
+          to={{
+            pathname: `/ingredients/${card._id}`,
+            state: { background: location },
+          }}
+          key={card._id}>
+          <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
+            <IngredientsCard 
+              imglink = {card.image}
+              price = {card.price}
+              name = {card.name}
+              item = {card}
+            /> 
+          </li>
+        </Link>
         )
       }
     }).filter((element) => element !== undefined);

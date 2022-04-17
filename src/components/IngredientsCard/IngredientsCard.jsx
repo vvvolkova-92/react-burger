@@ -5,8 +5,12 @@ import { useDrag } from "react-dnd";
 import { useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DROP_INGREDIENT } from '../../services/types'
-
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
   function IngredientsCard ({imglink, price, name, item}) {
+    // const history = useHistory();
+    // const { url } = useRouteMatch();
+    const dispatch = useDispatch();
 
     const { main, bun } = useSelector(store => ({
     bun: store.constructorIngredients.bun,
@@ -30,7 +34,7 @@ import { DROP_INGREDIENT } from '../../services/types'
     }));
 
     return (<>
-    <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag}/>
+    <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag} />
     <div className={styles.price + " mt-2 mb-2"}>
       <span className="pr-2 text text_type_digits-default">{price}</span>
       <CurrencyIcon type="primary"/>

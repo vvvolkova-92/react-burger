@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 function PrivateRouteUnloggedUser({ children, ...rest }) {
   const isLogin = useSelector((state) => state.userData.isLogin);
-  console.log(isLogin);
   return (
     <Route
       {...rest}

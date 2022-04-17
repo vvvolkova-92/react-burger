@@ -13,7 +13,7 @@ import styles from './App.module.css';
 import { getIngredients } from '../../services/actions/ingredientsAction';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { BrowserRouter as Router, Route, Switch, useHistory, useLocation} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, useHistory, useLocation, useRouteMatch} from 'react-router-dom'
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
@@ -24,9 +24,11 @@ const App = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const location = useLocation();
   const { ingredients } = useSelector(store => store.ingredients);
-  
+  const { path} = useRouteMatch();
+  console.log('path');
+  console.log(path);
   const closeModal = () => {
     dispatch(setCurrentIngredient(null));
     history.replace({ pathname: "/" });
@@ -35,32 +37,23 @@ const App = () => {
   useEffect( () => {
     dispatch(getIngredients());
     const refreshToken = getCookie('refreshToken');
-    if (getCookie('accessToken')) dispatch(refreshUser(refreshToken));
+    // if (getCookie('accessToken')) dispatch(refreshUser(refreshToken));
   }, []);
 
   const {ingredientCardModal} = useSelector(state => state.modalReducer);
   const currentIngredient= useSelector(store => store.currentIngredient);
-  const location = useLocation();
+
   const background = location.state && location.state.background;
   // {ingredientCardModal && (
   //   <Route path={`/ingredients/:id`}>
   //     <IngredientDetails title = {'Детали ингредиента'}/>
   //   </Route>
   // )}
+  console.log(location.state);
   return ( 
-    <>
-    {ingredients && (
           <div className={styles.App}>
             <AppHeader />
             <Switch location={background || location}>
-            <Route path="/">
-                <DndProvider backend={HTML5Backend}>
-                <main className={styles.main}>
-                  <BurgerIngredients />
-                  <BurgerConstructor/>
-                </main>
-                </DndProvider>
-              </Route>
               <PrivateRouteLoginUser path="/login" exact={true}>
                 <SignIn />
               </PrivateRouteLoginUser>
@@ -81,6 +74,14 @@ const App = () => {
                   path={`/ingredients/:id`}
                   component={IngredientDetails}
                 />
+                            <Route path="/" >
+                <DndProvider backend={HTML5Backend}>
+                <main className={styles.main}>
+                  <BurgerIngredients />
+                  <BurgerConstructor/>
+                </main>
+                </DndProvider>
+              </Route>
               <Route>
                 <Error404 />
               </Route>
@@ -90,16 +91,15 @@ const App = () => {
                   path={`/ingredients/:id`}
                   children={
                     <Modal
-                      children={<IngredientDetails />}
                       header={"Детали ингредиента"}
                       closeModal={closeModal}
-                    />
+                    >
+                      <IngredientDetails />
+                  </Modal>
                   }
                 ></Route>
               )}
         </div>
-    )}
-    </>
   );
 }
 
