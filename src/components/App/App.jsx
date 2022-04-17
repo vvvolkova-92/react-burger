@@ -13,7 +13,7 @@ import styles from './App.module.css';
 import { getIngredients } from '../../services/actions/ingredientsAction';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, useHistory, useLocation} from 'react-router-dom'
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
@@ -21,10 +21,15 @@ import PrivateRouteLoginUser from '../ProtectedRoute/PrivateRouteLoginUser';
 import PrivateRouteUnloggedUser from '../ProtectedRoute/PrivateRouteUnloggedUser';
 import { getCookie, refreshUser } from '../../services/actions/authentication';
 const App = () => {
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { ingredients } = useSelector(store => store.ingredients);
+  
   const closeModal = () => {
     dispatch(setCurrentIngredient(null));
+    history.replace({ pathname: "/" });
   }
 
   useEffect( () => {
@@ -33,49 +38,68 @@ const App = () => {
     if (getCookie('accessToken')) dispatch(refreshUser(refreshToken));
   }, []);
 
-
   const {ingredientCardModal} = useSelector(state => state.modalReducer);
   const currentIngredient= useSelector(store => store.currentIngredient);
-
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  // {ingredientCardModal && (
+  //   <Route path={`/ingredients/:id`}>
+  //     <IngredientDetails title = {'Детали ингредиента'}/>
+  //   </Route>
+  // )}
   return ( 
-    <div className={styles.App}>
-      <Router>
-        <AppHeader />
-        <Switch>
-          <PrivateRouteLoginUser path="/login" exact={true}>
-            <SignIn />
-          </PrivateRouteLoginUser>
-          <PrivateRouteLoginUser path="/register" exact={true}>
-            <Registration />
-          </PrivateRouteLoginUser>
-          <PrivateRouteLoginUser path="/forgot-password" exact={true}>
-            <ForgotPassword />
-          </PrivateRouteLoginUser>
-          <Route path="/reset-password" exact={true}>
-            <ResetPassword />
-          </Route>
-          <PrivateRouteUnloggedUser path="/profile" exact={true}>
-            <Profile />
-          </PrivateRouteUnloggedUser>
-          <Route path="/" exact={!ingredientCardModal}>
-            <DndProvider backend={HTML5Backend}>
-            <main className={styles.main}>
-              <BurgerIngredients />
-              <BurgerConstructor/>
-            </main>
-            {!ingredientCardModal && (
-              <Route path={`/ingredients/:id`}>
-                <IngredientDetails title = {'Детали ингредиента'}/>
+    <>
+    {ingredients && (
+          <div className={styles.App}>
+            <AppHeader />
+            <Switch location={background || location}>
+            <Route path="/">
+                <DndProvider backend={HTML5Backend}>
+                <main className={styles.main}>
+                  <BurgerIngredients />
+                  <BurgerConstructor/>
+                </main>
+                </DndProvider>
               </Route>
-            )}
-            </DndProvider>
-          </Route>
-          <Route>
-            <Error404 />
-          </Route>
-        </Switch>
-      </Router>
-    </div>
+              <PrivateRouteLoginUser path="/login" exact={true}>
+                <SignIn />
+              </PrivateRouteLoginUser>
+              <PrivateRouteLoginUser path="/register" exact={true}>
+                <Registration />
+              </PrivateRouteLoginUser>
+              <PrivateRouteLoginUser path="/forgot-password" exact={true}>
+                <ForgotPassword />
+              </PrivateRouteLoginUser>
+              <Route path="/reset-password" exact={true}>
+                <ResetPassword />
+              </Route>
+              <PrivateRouteUnloggedUser path="/profile" exact={true}>
+                <Profile />
+              </PrivateRouteUnloggedUser>
+              <Route
+                  exact
+                  path={`/ingredients/:id`}
+                  component={IngredientDetails}
+                />
+              <Route>
+                <Error404 />
+              </Route>
+            </Switch>
+            {background && (
+                <Route
+                  path={`/ingredients/:id`}
+                  children={
+                    <Modal
+                      children={<IngredientDetails />}
+                      header={"Детали ингредиента"}
+                      closeModal={closeModal}
+                    />
+                  }
+                ></Route>
+              )}
+        </div>
+    )}
+    </>
   );
 }
 

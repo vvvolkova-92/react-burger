@@ -5,7 +5,8 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import {MODAL} from '../../utils/constants';
-
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
 
 function Modal ({ closeModal, title, children }) {
 
