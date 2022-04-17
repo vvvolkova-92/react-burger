@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 import PrivateRouteLoginUser from '../ProtectedRoute/PrivateRouteLoginUser';
 import PrivateRouteUnloggedUser from '../ProtectedRoute/PrivateRouteUnloggedUser';
+import { getCookie, refreshUser } from '../../services/actions/authentication';
 const App = () => {
   const dispatch = useDispatch();
 
@@ -27,7 +28,9 @@ const App = () => {
   }
 
   useEffect( () => {
-    dispatch(getIngredients())
+    dispatch(getIngredients());
+    const refreshToken = getCookie('refreshToken');
+    if (getCookie('accessToken')) dispatch(refreshUser(refreshToken));
   }, []);
 
 
@@ -51,22 +54,19 @@ const App = () => {
           <Route path="/reset-password" exact={true}>
             <ResetPassword />
           </Route>
-          <Route path="/profile" exact={true}>
+          <PrivateRouteUnloggedUser path="/profile" exact={true}>
             <Profile />
-          </Route>
-          <Route path="/" exact={true}>
+          </PrivateRouteUnloggedUser>
+          <Route path="/" exact={!ingredientCardModal}>
             <DndProvider backend={HTML5Backend}>
             <main className={styles.main}>
               <BurgerIngredients />
               <BurgerConstructor/>
             </main>
-            {ingredientCardModal && (
-              <Modal 
-              title={"Детали ингредиента"}
-              closeModal={closeModal}>
-                <IngredientDetails 
-                ingredient = {currentIngredient}/>
-              </Modal>
+            {!ingredientCardModal && (
+              <Route path={`/ingredients/:id`}>
+                <IngredientDetails title = {'Детали ингредиента'}/>
+              </Route>
             )}
             </DndProvider>
           </Route>

@@ -5,6 +5,8 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
   LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
   LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
   GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, GET_USERDATA_FAILURE,
+  CHANGE_USERDATA_REQUEST, CHANGE_USERDATA_SUCCESS, CHANGE_USERDATA_FAILURE,
+  REFRESH_USERDATA_REQUEST, REFRESH_USERDATA_SUCCESS, REFRESH_USERDATA_FAILURE,
   HEADER_TITLE,
   } from '../types';
 import { checkResponse } from '../../utils/constants';
@@ -220,8 +222,76 @@ export function dontEditProfile(userData) {
   }
 }
 
-export function editProfile() {
+export function editProfile(userName, userEmail, userPassword) {
   return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: CHANGE_USERDATA_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/user`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: "Bearer " + getCookie('accessToken'),
+          },
+          body: JSON.stringify({
+            email: userEmail,
+            password: userPassword,
+            name: userName,
+        })
+        })
+        .then( res => checkResponse(res))
+        .then( res => {
+          dispatch({
+            type: CHANGE_USERDATA_SUCCESS,
+            data: res,
+          });
+        })
+      } 
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: CHANGE_USERDATA_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+}
+
+export function refreshUser(token) {
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: REFRESH_USERDATA_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        })
+        .then( res => checkResponse(res))
+        .then( res => {
+          dispatch({
+            type: REFRESH_USERDATA_SUCCESS,
+            data: res,
+          });
+          document.cookie = `accessToken=${res.accessToken.split("Bearer ")[1]}; path=/`;
+          document.cookie = `refreshToken=${res.refreshToken}; path=/`;
+        })
+      } 
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: REFRESH_USERDATA_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
   }
 }
 
@@ -282,9 +352,9 @@ export function getUserData () {
     (async () => {
       try{
       const res = await fetch(`${BASEURL}/auth/user`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           authorization: "Bearer " + getCookie('accessToken'),
       },
       })

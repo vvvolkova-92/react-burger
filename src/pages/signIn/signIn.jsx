@@ -5,12 +5,14 @@ import { Link, useHistory } from 'react-router-dom';
 import InputEmail from '../../components/Inputs/InputEmail';
 import InputPassword from '../../components/Inputs/InputPassword';
 import { userLogin } from '../../services/actions/authentication';
+import { getErrorMessage } from '../../utils/constants';
+
 const SignIn = () => {
   const dispatch = useDispatch();
   const { error, hasError } = useSelector(state => state.userData);
   const inputData = useSelector(state => state.inputData);
   const history = useHistory();
-
+  const errorText = getErrorMessage(error);
   const onIconClick = () => {
     alert('Временно')
   }
@@ -28,6 +30,7 @@ const SignIn = () => {
           <InputPassword />
         </form>
         <Button type="primary" size="medium" onClick ={onClickButtonHandler}>Войти</Button>
+        {hasError && <span className={styles.error}>{errorText}</span>}
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>

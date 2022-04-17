@@ -32,8 +32,10 @@ return Promise.reject(res.json());
 
 export function getErrorMessage (error) {
   switch (error) {
-    case 'User already exists': return 'Пользователь уже зарегистрирован 🙀'
+    case 'User already exists': return 'Пользователь уже зарегистрирован 🙀';
+    case 'email or password are incorrect': return 'Почта или пароль не верны, попробуйте еще раз'
     default: return error
   }
 
 }
+
