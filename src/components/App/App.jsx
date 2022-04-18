@@ -19,16 +19,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 import PrivateRouteLoginUser from '../ProtectedRoute/PrivateRouteLoginUser';
 import PrivateRouteUnloggedUser from '../ProtectedRoute/PrivateRouteUnloggedUser';
-import { getCookie, refreshUser } from '../../services/actions/authentication';
+import { getCookie, requestUser } from '../../services/actions/authentication';
 const App = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const { ingredients } = useSelector(store => store.ingredients);
-  const { path} = useRouteMatch();
-  console.log('path');
-  console.log(path);
+  const { isFetching } = useSelector(store => store.ingredients);
   const closeModal = () => {
     dispatch(setCurrentIngredient(null));
     history.replace({ pathname: "/" });
@@ -36,8 +33,8 @@ const App = () => {
 
   useEffect( () => {
     dispatch(getIngredients());
-    const refreshToken = getCookie('refreshToken');
-    // if (getCookie('accessToken')) dispatch(refreshUser(refreshToken));
+    // const refreshToken = getCookie('refreshToken');
+    if (getCookie('accessToken')) dispatch(requestUser());
   }, []);
 
   const {ingredientCardModal} = useSelector(state => state.modalReducer);
@@ -49,9 +46,9 @@ const App = () => {
   //     <IngredientDetails title = {'Детали ингредиента'}/>
   //   </Route>
   // )}
-  console.log(location.state);
   return ( 
-          <div className={styles.App}>
+    <>
+    {!isFetching && (          <div className={styles.App}>
             <AppHeader />
             <Switch location={background || location}>
               <PrivateRouteLoginUser path="/login" exact={true}>
@@ -74,7 +71,7 @@ const App = () => {
                   path={`/ingredients/:id`}
                   component={IngredientDetails}
                 />
-                            <Route path="/" >
+              <Route path="/">
                 <DndProvider backend={HTML5Backend}>
                 <main className={styles.main}>
                   <BurgerIngredients />
@@ -91,7 +88,7 @@ const App = () => {
                   path={`/ingredients/:id`}
                   children={
                     <Modal
-                      header={"Детали ингредиента"}
+                      title={"Детали ингредиента"}
                       closeModal={closeModal}
                     >
                       <IngredientDetails />
@@ -99,7 +96,8 @@ const App = () => {
                   }
                 ></Route>
               )}
-        </div>
+        </div>)}
+      </>
   );
 }
 

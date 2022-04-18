@@ -260,7 +260,52 @@ export function editProfile(userName, userEmail, userPassword) {
   }
 }
 
-export function refreshUser(token) {
+export function requestUser() {
+  console.log('accessToken');
+  console.log(getCookie('accessToken'));
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: GET_USERDATA_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/user`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: "Bearer " + getCookie('accessToken'),
+          },
+        })
+        .then( res => {
+          if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(res.json());
+        })
+        .then( res => {
+          if (!res.ok) {
+            if (res.message === 'jwt expired') {            
+              const token = getCookie('refreshToken');
+              dispatch(refreshUser(token,requestUser()));}
+          } else 
+          dispatch({
+            type: GET_USERDATA_SUCCESS,
+            data: res,
+          });
+        })
+      } 
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: GET_USERDATA_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+}
+
+export function refreshUser(token, requestUser) {
   return function (dispatch) {
     (async () => {
       try {
@@ -282,6 +327,7 @@ export function refreshUser(token) {
           });
           document.cookie = `accessToken=${res.accessToken.split("Bearer ")[1]}; path=/`;
           document.cookie = `refreshToken=${res.refreshToken}; path=/`;
+          if (requestUser) dispatch(requestUser());
         })
       } 
       catch (error) {
