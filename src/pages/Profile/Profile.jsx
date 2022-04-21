@@ -5,9 +5,11 @@ import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components
 import { NavLink } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import UserInfo from "../../components/UserInfo/UserInfo";
-import { getUserData } from '../../services/actions/authentication';
 const Profile = () => {
-  getUserData();
+  
+  const clickHandler = () => {
+    console.log('test');
+  }
   return ( 
   <Router>
     <div className={styles.block}>
@@ -15,7 +17,7 @@ const Profile = () => {
         <ul className={styles.menu}>
           <li className={styles.block__link}>
             <NavLink
-            onClick={() => {getUserData()}}
+            onClick={() => clickHandler}
               to = '/profile'
               className={styles.link + ' text text_type_main-medium text_color_inactive'}
               activeClassName={'text text_type_main-medium ' + styles.linkActive}

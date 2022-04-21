@@ -233,7 +233,7 @@ export function editProfile(userName, userEmail, userPassword) {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
-            authorization: "Bearer " + getCookie('accessToken'),
+            Authorization: "Bearer " + getCookie('accessToken'),
           },
           body: JSON.stringify({
             email: userEmail,
@@ -261,8 +261,8 @@ export function editProfile(userName, userEmail, userPassword) {
 }
 
 export function requestUser() {
-  console.log('accessToken');
-  console.log(getCookie('accessToken'));
+
+  console.log('requestUser');
   return function (dispatch) {
     (async () => {
       try {
@@ -273,21 +273,19 @@ export function requestUser() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            authorization: "Bearer " + getCookie('accessToken'),
+            Authorization: "Bearer " + getCookie('accessToken'),
           },
         })
         .then( res => {
           if (res.ok) {
             return res.json();
         }
+        if (res.message === 'jwt expired') {            
+          const token = getCookie('refreshToken');
+          dispatch(refreshUser(token,requestUser()));}
         return Promise.reject(res.json());
         })
         .then( res => {
-          if (!res.ok) {
-            if (res.message === 'jwt expired') {            
-              const token = getCookie('refreshToken');
-              dispatch(refreshUser(token,requestUser()));}
-          } else 
           dispatch({
             type: GET_USERDATA_SUCCESS,
             data: res,
@@ -306,6 +304,8 @@ export function requestUser() {
 }
 
 export function refreshUser(token, requestUser) {
+  console.log('refreshUser');
+  console.log(token);
   return function (dispatch) {
     (async () => {
       try {
@@ -390,35 +390,4 @@ export function userLogOut(history) {
   }
 }
 
-export function getUserData () {
-  return function (dispatch) {
-    dispatch({
-      type: GET_USERDATA_REQUEST,
-    });
-    (async () => {
-      try{
-      const res = await fetch(`${BASEURL}/auth/user`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: "Bearer " + getCookie('accessToken'),
-      },
-      })
-        .then( res => checkResponse(res))
-        .then( res => {
-          dispatch({
-            type: GET_USERDATA_SUCCESS,
-            data: res,
-          });
-        })    
-  } 
-    catch(error) {
-      let err = await error;
-        dispatch({
-          type: GET_USERDATA_FAILURE,
-          error: err.message,
-        });
-      }
-    })();
-  }
-}
+

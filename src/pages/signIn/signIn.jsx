@@ -15,14 +15,15 @@ const SignIn = () => {
   const errorText = getErrorMessage(error);
 
   //TODO : сделать обработку ошибок и их вывод! 
-  const submitHandler = () => {
+  const submitHandler = (evt) => {
+    evt.preventDefault();
     dispatch(userLogin(inputData, history));
   }
   
   return ( 
     <div className={styles.container}>
         <h1 className={styles.title + " text text_type_main-medium mb-6"}>Вход</h1>
-        <form className={styles.form} onSubmit={submitHandler}>
+        <form className={styles.form} onSubmit={(evt) => submitHandler(evt)}>
           <InputEmail placeholder = { 'Email' }/>
           <InputPassword />
           <Button type="primary" size="medium">Войти</Button>

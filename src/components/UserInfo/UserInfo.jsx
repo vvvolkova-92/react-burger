@@ -15,7 +15,7 @@ function UserInfo() {
   const { userName, userEmail, userPassword } = useSelector((state) => state.inputData);
   const { error, hasError, userData } = useSelector((state) => state.userData);
   const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
-  
+  console.log(userName, userEmail,userPassword );
   const onClickCancel = () => {
     dispatch(dontEditProfile(userData));
   }
