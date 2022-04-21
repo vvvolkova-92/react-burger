@@ -33,7 +33,6 @@ const App = () => {
 
   useEffect( () => {
     dispatch(getIngredients());
-    // const refreshToken = getCookie('refreshToken');
     if (getCookie('accessToken')) dispatch(requestUser());
   }, []);
 

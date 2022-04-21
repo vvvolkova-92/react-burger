@@ -6,7 +6,12 @@ function PrivateRouteUnloggedUser({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render = { ({location}) => (isLogin ? children : <Redirect to={{pathname: '/login', state: {from: location}}} />)
+      render={({ location }) =>
+        isLogin ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        )
       }
     />
   );

@@ -6,7 +6,6 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import {MODAL} from '../../utils/constants';
 import { useHistory, useRouteMatch, useLocation} from "react-router";
-import { useDispatch } from "react-redux";
 
 function Modal ({ closeModal, title, children }) {
 
@@ -47,6 +46,7 @@ function Modal ({ closeModal, title, children }) {
 
 Modal.propTypes = {
   title: PropTypes.string,
+  closeModal: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 }
 

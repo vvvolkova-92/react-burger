@@ -9,29 +9,25 @@ import { getErrorMessage } from '../../utils/constants';
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const { error, hasError } = useSelector(state => state.userData);
+  const { error, hasError, isLogin } = useSelector(state => state.userData);
   const inputData = useSelector(state => state.inputData);
   const history = useHistory();
   const errorText = getErrorMessage(error);
-  const onIconClick = () => {
-    alert('Временно')
-  }
+
   //TODO : сделать обработку ошибок и их вывод! 
-  const onClickButtonHandler = () => {
+  const submitHandler = () => {
     dispatch(userLogin(inputData, history));
   }
   
   return ( 
     <div className={styles.container}>
-      <div className={styles.login}>
         <h1 className={styles.title + " text text_type_main-medium mb-6"}>Вход</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={submitHandler}>
           <InputEmail placeholder = { 'Email' }/>
           <InputPassword />
+          <Button type="primary" size="medium">Войти</Button>
         </form>
-        <Button type="primary" size="medium" onClick ={onClickButtonHandler}>Войти</Button>
         {hasError && <span className={styles.error}>{errorText}</span>}
-      </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>
           <span>Вы новый пользователь?</span>

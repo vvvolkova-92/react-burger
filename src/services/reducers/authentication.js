@@ -5,6 +5,8 @@ RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE,
 LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
 LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
 GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, GET_USERDATA_FAILURE,
+REFRESH_USERDATA_REQUEST, REFRESH_USERDATA_SUCCESS, REFRESH_USERDATA_FAILURE,
+CHANGE_USERDATA_REQUEST, CHANGE_USERDATA_SUCCESS, CHANGE_USERDATA_FAILURE,
 HEADER_TITLE, 
 } from '../types'
 
@@ -40,7 +42,10 @@ export const userState = {
   isLoading: false,
   error: null,
   isLogin: false,
-  //дописать если будут нужны доп значения
+  isLoadingUser: false,
+  tokenRefresh: null,
+  refresh: false,
+  refreshFail: false,
 };
 
 
@@ -201,6 +206,7 @@ export const userDataReducer = (state = userState, action) => {
       return {
         ...state,
         isLoading: true,
+        isLoadingUser: true,
       };
     }
 
@@ -211,10 +217,66 @@ export const userDataReducer = (state = userState, action) => {
         hasError: false,
         isLogin: true,
         isLoading: false,
+        isLoadingUser: false,
       };
     }
 
     case GET_USERDATA_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        isLoadingUser: false,
+        hasError: true,
+        error: action.error,
+      };
+    }
+
+    case REFRESH_USERDATA_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+        refresh: false,
+      };
+    }
+
+    case REFRESH_USERDATA_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        refresh: true,
+        tokenRefresh: action.data,
+        hasError: false,
+      };
+    }
+
+    case REFRESH_USERDATA_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        refresh: false,
+        refreshFail: true,
+        hasError: true,
+        error: action.error
+      };
+    }
+
+    case CHANGE_USERDATA_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case CHANGE_USERDATA_SUCCESS: {
+      return {
+        ...state,
+        userData: action.data,
+        isLoading: false,
+        hasError: false,
+      };
+    }
+
+    case CHANGE_USERDATA_FAILURE: {
       return {
         ...state,
         isLoading: false,
