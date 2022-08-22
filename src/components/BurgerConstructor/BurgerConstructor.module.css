@@ -44,6 +44,11 @@ box-sizing: border-box;
 }
 
 .message {
-  display: flex;
-  align-items: center;
+  box-sizing: border-box;
+  max-width: 550px;
+  padding: 15px;
+  align-self: start;
+  border-radius: 88px;
+  background-color: #2f2f37;
+  font-size: 20px;
 }
