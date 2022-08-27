@@ -16,5 +16,5 @@ export const rootReducer = combineReducers({
   inputReducer,
   registrationUserReducer,
   ForgotPasswordReducer,
-  userReducer
+  userReducer,
 });

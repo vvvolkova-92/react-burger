@@ -2,7 +2,7 @@ import { useMemo, useCallback, useState, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
 
-// import UserInfo from "../../components/UserInfo/UserInfo";
+import UserInfo from "../../components/UserInfo/UserInfo";
 // стили
 import styles from './Profile.module.css';
 
@@ -54,7 +54,7 @@ const Profile = () => {
         <div className={styles.block__details + " ml-15"}>
           <Switch>
             <Route path={`/profile`}>
-              {/*<UserInfo />*/}
+              <UserInfo />
             </Route>
             <Route path={`/profile/orders`}>
               {/* <UserOrders /> */}

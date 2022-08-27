@@ -25,6 +25,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   min-height: 232px;
 }
@@ -49,4 +50,8 @@
 .error {
   color:#cea6e2;
   margin-top: 5px;
+}
+
+.button_container {
+  max-width: 128px;
 }

@@ -20,7 +20,7 @@ export const Registration = () => {
   const inputData = useSelector(store => store.inputReducer);
   let history = useHistory();
 
-  function onSubmit () {
+  function onSubmitHandler () {
 
     dispatch(userRegistration(inputData, history));
     console.log(errorText);
@@ -31,12 +31,14 @@ export const Registration = () => {
     <div className={styles.container}>
       <div className={styles.login}>
         <h1 className={styles.title + " text text_type_main-medium mb-6"}>Регистрация</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={onSubmitHandler}>
           <InputName />
           <InputEmail placeholder={'Email'}/>
           <InputPassword />
+          <div className={styles.button_container}>
+            <Button type="primary" size="medium">Зарегистрироваться</Button>
+          </div>
         </form>
-        <Button type="primary" size="medium" onClick={onSubmit}>Зарегистрироваться</Button>
         {hasError && <span className={styles.error}>{errorText}</span>}
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>

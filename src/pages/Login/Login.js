@@ -8,13 +8,14 @@ import InputEmail from '../../components/Inputs/InputEmail';
 import InputPassword from '../../components/Inputs/InputPassword';
 //вспомогательные функции
 import {getMessage} from "../../utils/constants";
+import {userLogin} from "../../services/actions/authenticationAction";
 //стили
 import styles from "./Login.module.css";
 
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { error, hasError, isLogin } = useSelector(state => state.userData);
+  const { error, hasError, isLogin } = useSelector(state => state.userReducer);
   const inputData = useSelector(state => state.inputReducer);
   const history = useHistory();
   const errorText = getMessage(error);
@@ -22,16 +23,18 @@ const Login = () => {
   //TODO : сделать обработку ошибок и их вывод!
   const submitHandler = (evt) => {
     evt.preventDefault();
-    // dispatch(userLogin(inputData, history));
+    dispatch(userLogin(inputData, history));
   }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title + " text text_type_main-medium mb-6"}>Вход</h1>
-      <form className={styles.form} onSubmit={(evt) => submitHandler(evt)}>
+      <form className={styles.form} onSubmit={submitHandler}>
         <InputEmail placeholder={'Email'}/>
         <InputPassword/>
-        <Button type="primary" size="medium">Войти</Button>
+        <div className={styles.button_container}>
+          <Button type="primary" size="medium">Войти</Button>
+        </div>
       </form>
       {hasError && <span className={styles.error}>{errorText}</span>}
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>

@@ -30,8 +30,8 @@ export function checkResponse(res) {
   return Promise.reject(res.json());
 };
 
-export function getMessage(error) {
-  switch (error) {
+export function getMessage(message) {
+  switch (message) {
     case 'User already exists':
       return 'Пользователь уже зарегистрирован 🙀';
     case 'email or password are incorrect':
@@ -42,37 +42,47 @@ export function getMessage(error) {
       return 'Ссылка для сброса пароля отправлена на вашу почту';
     case 'Invalid credentials provided':
       return 'Данные не корректны, проверьте правильность ввода данных';
+    case 'Password successfully reset':
+      return 'Пароль успешно сброшен';
     default:
-      return error
+      return message
   }
 };
 
 export function getCookie(name) {
-  const matches = document.cookie.match(new RegExp(
+  let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export function setCookie(name, value, props) {
-  props = props || {};
-  let exp = props.expires;
-  if (typeof exp == 'number' && exp) {
-    const d = new Date();
-    d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
+
+export function setCookie(name, value, options = {}) {
+
+  options = {
+    path: '/',
+    ...options
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
   }
-  if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
-  }
-  value = encodeURIComponent(value);
-  let updatedCookie = name + '=' + value;
-  for (const propName in props) {
-    updatedCookie += '; ' + propName;
-    const propValue = props[propName];
-    if (propValue !== true) {
-      updatedCookie += '=' + propValue;
+
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
     }
   }
+
   document.cookie = updatedCookie;
-}
+};
+
+export function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1,
+  })
+};

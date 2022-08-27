@@ -9,7 +9,7 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
   REFRESH_USERDATA_REQUEST, REFRESH_USERDATA_SUCCESS, REFRESH_USERDATA_FAILURE,
   HEADER_TITLE,
 } from '../types';
-import { checkResponse } from '../../utils/constants';
+import { checkResponse, setCookie, getCookie, deleteCookie } from '../../utils/constants';
 import {BASEURL} from '../../utils/constants';
 
 // AC регистрации пользователя
@@ -75,7 +75,7 @@ export function remindPassword(email, history) {
               type: FORGOT_PASSWORD_SUCCESS,
               data: res,
             });
-            // history.replace({ pathname: "/reset-password" });
+            history.replace({ pathname: "/reset-password" });
           })
       }
       catch (error) {
@@ -133,3 +133,49 @@ export function changePassword(newUserPassword, verificationCode, history) {
     })();
   }
 };
+//авторизация юзера
+export function userLogin(data, history) {
+  const { userEmail, userPassword } = data;
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: LOGIN_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: userEmail,
+            password: userPassword,
+          })
+        })
+          .then( res => checkResponse(res))
+          .then( res => {
+            const token = res.accessToken.split('Bearer ')[1];
+            //время жизни куки 20 минут
+            setCookie('accessToken', token, {secure: true, 'max-age': 1200});
+            document.cookie = `refreshToken=${res.refreshToken}`;
+            dispatch({
+              type: LOGIN_SUCCESS,
+              data: res,
+            });
+            dispatch({
+              type: INPUT_USER_NAME,
+              userName: res.user.name,
+            });
+            history.replace({ pathname: "/" });
+          })
+      }
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: LOGIN_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+}

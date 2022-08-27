@@ -1,10 +1,25 @@
 import PropTypes from 'prop-types';
-function MenuItem ({icon, link, stylesComp, stylesText, title}) {
+import {NavLink, useHistory, useLocation} from "react-router-dom";
+import style from './MenuItem.module.css';
+import {useState} from "react";
 
+function MenuItem ({icon, link, stylesComp, stylesText, title}) {
+  // const [active, setActive] = useState();
+  // const onClick = () => {
+  //   setActive(state => !state);
+  // }
     return (
       <li className={stylesComp}>
-        {icon}
-        <a href={link} className={stylesText}>{title}</a>
+        <NavLink
+          className={stylesText}
+          activeClassName={style.linkActive}
+          to={link}
+          exact={true}
+        >
+          {icon}
+          {' '}
+          <span className="ml-2">{title}</span>
+        </NavLink>
       </li>
     );
   }

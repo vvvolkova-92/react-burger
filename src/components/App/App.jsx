@@ -21,10 +21,6 @@ import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 //стили
 import styles from './App.module.css';
 
-
-
-
-
 const App = () => {
   const dispatch = useDispatch();
 
@@ -42,8 +38,9 @@ const App = () => {
 
   return (
     <div className={styles.App}>
-      <AppHeader/>
+
       <BrowserRouter>
+        <AppHeader/>
         <Switch>
           <Route path="/login" exact={true}>
             <Login/>

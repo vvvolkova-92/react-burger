@@ -23,6 +23,12 @@
   padding-left: 0;
 }
 
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .text {
   text-decoration: none;
 }
@@ -30,4 +36,6 @@
 .logo {
   margin-left: -172px;
 }
+
+
 

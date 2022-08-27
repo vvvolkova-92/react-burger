@@ -15,10 +15,11 @@ import {getMessage} from "../../utils/constants";
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { hasError, error } = useSelector((state) => state.ForgotPasswordReducer);
+  const { hasError, error, result } = useSelector((state) => state.ForgotPasswordReducer);
   const { userPassword, verificationCode } = useSelector((state) => state.inputReducer);
   const inputRef = useRef(null);
   const errorText = getMessage(error);
+  const successText = getMessage(result.message);
 
   const onChangeCodeHandler = evt => {
     dispatch(verifity(evt));
@@ -46,9 +47,10 @@ const ResetPassword = () => {
             errorText={'Ошибка'}
             size={'default'}
           />
-          <Button type="primary" size="medium">Сохранить</Button>
+          <Button type="primary" size="medium">Изменить</Button>
         </form>
         {hasError && <span className={styles.error}>{errorText}</span>}
+        {result && <span className={styles.error}>{successText}</span>}
       </div>
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>
         <div className={styles.action}>
