@@ -6,7 +6,7 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
   LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE,
   GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, GET_USERDATA_FAILURE,
   CHANGE_USERDATA_REQUEST, CHANGE_USERDATA_SUCCESS, CHANGE_USERDATA_FAILURE,
-  REFRESH_USERDATA_REQUEST, REFRESH_USERDATA_SUCCESS, REFRESH_USERDATA_FAILURE,
+  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE,
   HEADER_TITLE,
 } from '../types';
 import { checkResponse, setCookie, getCookie, deleteCookie } from '../../utils/constants';
@@ -133,7 +133,7 @@ export function changePassword(newUserPassword, verificationCode, history) {
     })();
   }
 };
-//авторизация юзера
+//АС авторизация юзера
 export function userLogin(data, history) {
   const { userEmail, userPassword } = data;
   return function (dispatch) {
@@ -157,15 +157,16 @@ export function userLogin(data, history) {
             const token = res.accessToken.split('Bearer ')[1];
             //время жизни куки 20 минут
             setCookie('accessToken', token, {secure: true, 'max-age': 1200});
-            document.cookie = `refreshToken=${res.refreshToken}`;
+            // document.cookie = `refreshToken=${res.refreshToken}`;
+            setCookie('refreshToken', res.refreshToken);
             dispatch({
               type: LOGIN_SUCCESS,
               data: res,
             });
-            dispatch({
-              type: INPUT_USER_NAME,
-              userName: res.user.name,
-            });
+            // dispatch({
+            //   type: INPUT_USER_NAME,
+            //   userName: res.user.name,
+            // });
             history.replace({ pathname: "/" });
           })
       }
@@ -178,4 +179,217 @@ export function userLogin(data, history) {
       }
     })();
   }
+};
+// //АС авторизация юзера 2
+// export function getUserData() {
+//   return function (dispatch) {
+//     refreshToken();
+//     (async () => {
+//       try {
+//         dispatch({
+//           type: GET_USERDATA_REQUEST,
+//         });
+//         const res = await fetch(`${BASEURL}/auth/user`, {
+//           method: 'GET',
+//           headers: {
+//             'Content-Type': 'application/json',
+//             Authorization: "Bearer " + getCookie('accessToken'),
+//           },
+//         })
+//       .then( res => {
+//             if (res.ok) {
+//               return res.json();
+//             }
+//           })
+//           .then( res => {
+//             dispatch({
+//               type: GET_USERDATA_SUCCESS,
+//               data: res,
+//             });
+//           })
+//       }
+//       catch (error) {
+//         let err = await error;
+//         dispatch({
+//           type: GET_USERDATA_FAILURE,
+//           error: err.message,
+//         });
+//       }
+//     })();
+//   }
+// };
+//
+// //рефреш токена
+// export const refreshToken = () => {
+//   console.log('вызван ревреш токен к дет юзер');
+//   return function (dispatch) {
+//     (async () => {
+//       try {
+//         dispatch({
+//           type: REFRESH_TOKEN_REQUEST,
+//         });
+//         const token = getCookie('refreshToken');
+//         console.log(token);
+//         const res = await fetch(`${BASEURL}/auth/token`, {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json',
+//             token,
+//           },
+//         })
+//           .then(res => checkResponse(res))
+//           .then(res => {
+//             console.log(res);
+//             dispatch({
+//               type: REFRESH_TOKEN_SUCCESS,
+//               data: res,
+//             });
+//             const token = res.accessToken.split('Bearer ')[1];
+//             setCookie('accessToken', token, {secure: true, 'max-age': 1200});
+//             setCookie('refreshToken', res.refreshToken);
+//           })
+//       } catch (error) {
+//         let err = await error;
+//         dispatch({
+//           type: REFRESH_TOKEN_FAILURE,
+//           error: err.message,
+//         });
+//       }
+//     })();
+//   }
+// };
+//AC получения данных юзера
+export function getUserData() {
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: GET_USERDATA_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/user`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + getCookie('accessToken'),
+          },
+        })
+          .then( res => {
+            if (res.ok) {
+              return res.json();
+            }
+            if (res.message === 'jwt expired') {
+              const token = getCookie('refreshToken');
+              dispatch(refreshToken(token,getUserData()));}
+            return Promise.reject(res.json());
+          })
+          .then( res => {
+            dispatch({
+              type: GET_USERDATA_SUCCESS,
+              data: res,
+            });
+          })
+      }
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: GET_USERDATA_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+};
+//рефреш токен
+export function refreshToken(token, getUserData) {
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: REFRESH_TOKEN_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+        })
+          .then( res => checkResponse(res))
+          .then( res => {
+            dispatch({
+              type: REFRESH_TOKEN_SUCCESS,
+              data: res,
+            });
+            document.cookie = `accessToken=${res.accessToken.split("Bearer ")[1]}; path=/`;
+            document.cookie = `refreshToken=${res.refreshToken}; path=/`;
+            if (getUserData) dispatch(getUserData());
+          })
+      }
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: REFRESH_TOKEN_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
 }
+// АС если передумали изменить данные в профиле
+export function dontEditProfile(userData) {
+  return function (dispatch) {
+    dispatch({
+      type: INPUT_USER_EMAIL,
+      userEmail: userData.user.email,
+    });
+    dispatch({
+      type: INPUT_USER_NAME,
+      userName: userData.user.name,
+    });
+    dispatch({
+      type: INPUT_USER_PASSWORD,
+      userPassword: "",
+    });
+  }
+};
+//АС изменить данные в профиле
+export function editProfile(userName, userEmail, userPassword) {
+  refreshToken();
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: CHANGE_USERDATA_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/user`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + getCookie('accessToken'),
+          },
+          body: JSON.stringify({
+            email: userEmail,
+            password: userPassword,
+            name: userName,
+          })
+        })
+          .then( res => checkResponse(res))
+          .then( res => {
+            dispatch({
+              type: CHANGE_USERDATA_SUCCESS,
+              data: res,
+            });
+          })
+      }
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: CHANGE_USERDATA_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+};
+
+

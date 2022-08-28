@@ -9,7 +9,6 @@ import styles from './Profile.module.css';
 const Profile = () => {
 
   const clickHandler = () => {
-    console.log('test');
   }
   return (
     <BrowserRouter>

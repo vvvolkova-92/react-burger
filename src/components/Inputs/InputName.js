@@ -6,7 +6,7 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 // todo: по возможности убрать это
 import { INPUT_USER_NAME } from '../../services/types'
 
-function InputName ({ icon, type }) {
+function InputName ({ icon, type, value }) {
   const [disabled, setDisabled] = useState(true);
   const userName = useSelector((state) => state.inputReducer.userName);
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function InputName ({ icon, type }) {
         type={"text"}
         placeholder={"Имя"}
         onChange={onChangeHandler}
-        value={userName}
+        value={value ? value : userName}
         name={"name"}
         error={false}
         errorText={"Ошибка"}
@@ -50,7 +50,7 @@ function InputName ({ icon, type }) {
         type={"text"}
         placeholder={"Имя"}
         onChange={onChangeHandler}
-        value={userName}
+        value={value ? value : userName}
         name={"name"}
         error={false}
         errorText={"Ошибка"}
@@ -64,4 +64,5 @@ export default InputName
 InputName.propTypes = {
   icon: PropTypes.string,
   type: PropTypes.string,
+  value: PropTypes.string,
 };

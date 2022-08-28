@@ -1,32 +1,43 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useCallback, useState, useRef, useEffect} from "react";
-import styles from './UserInfo.module.css';
-import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useSelector, useDispatch } from "react-redux";
+import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom'
+//сторонние компоненты
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+//мои компоненты
 import InputName from "../Inputs/InputName";
 import InputEmail from "../Inputs/InputEmail";
 import InputPassword from "../Inputs/InputPassword";
-// import { dontEditProfile } from "../../services/actions/authentication";
-// import { editProfile } from "../../services/actions/authentication";
+//вспомогательные функции
+import {dontEditProfile, editProfile } from "../../services/actions/authenticationAction";
+
+//стили
+import styles from './UserInfo.module.css';
+
 
 function UserInfo() {
-  // const dispatch = useDispatch();
-  // const { userName, userEmail, userPassword } = useSelector((state) => state.inputData);
-  // const { error, hasError, userData } = useSelector((state) => state.userData);
-  // const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
-  // console.log(userName, userEmail,userPassword );
+  const dispatch = useDispatch();
+  const userReducer = useSelector((state) => state.userReducer);
+  const { userName, userEmail, userPassword } = useSelector((state) => state.inputReducer);
+  const { error, hasError, userData } = useSelector((state) => state.userReducer);
+  const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
+
   const onClickCancel = () => {
-    // dispatch(dontEditProfile(userData));
-  }
+    dispatch(dontEditProfile(userData));
+  };
 
   const onClickSubmit = () => {
-    // dispatch(editProfile(userName, userEmail, userPassword));
-  }
-  // const buttons = isEditInfo && (<><div className="mt-6"><Button type="primary" size="medium" onClick={onClickSubmit}>Сохранить</Button></div>
-  //   <div className="mt-6"><Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button></div> </>)
-  const buttons = (<><div className="mt-6"><Button type="primary" size="medium" onClick={onClickSubmit}>Сохранить</Button></div>
-    <div className="mt-6"><Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button></div> </>)
+    dispatch(editProfile(userName, userEmail, userPassword));
+  };
+  const buttons = isEditInfo && (
+    <>
+      <div className="mt-6">
+        <Button type="primary" size="medium" onClick={onClickSubmit}>Сохранить</Button>
+      </div>
+    <div className="mt-6">
+      <Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button>
+    </div>
+    </>
+  );
   return (
     <div className={styles.block__user_info + " mt-30"}>
       <form className={styles.form}>

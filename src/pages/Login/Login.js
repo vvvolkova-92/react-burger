@@ -1,4 +1,3 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
 // сторонние компоненты
@@ -11,7 +10,6 @@ import {getMessage} from "../../utils/constants";
 import {userLogin} from "../../services/actions/authenticationAction";
 //стили
 import styles from "./Login.module.css";
-
 
 const Login = () => {
   const dispatch = useDispatch();

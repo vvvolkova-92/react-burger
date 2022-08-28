@@ -6,7 +6,7 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 // todo: по возможности убрать это!
 import { INPUT_USER_EMAIL } from '../../services/types'
 
-export function InputEmail({ icon, placeholder, type}) {
+export function InputEmail({ icon, placeholder, type, value}) {
   const userEmail = useSelector((state) => state.inputReducer.userEmail);
   // const userData = useSelector((state) => state.userData);
   const [disabled, setDisabled] = useState(true);
@@ -32,7 +32,7 @@ export function InputEmail({ icon, placeholder, type}) {
         icon={icon}
         placeholder={placeholder}
         onChange={onChange}
-        value={userEmail}
+        value={value ? value : userEmail}
         name={"name"}
         error={false}
         errorText={"Ошибка"}
@@ -48,7 +48,7 @@ export function InputEmail({ icon, placeholder, type}) {
         icon={icon}
         placeholder={placeholder}
         onChange={onChange}
-        value={userEmail}
+        value={value ? value : userEmail}
         name={"name"}
         error={false}
         errorText={"Ошибка"}
@@ -62,6 +62,7 @@ InputEmail.propTypes = {
   icon: PropTypes.string,
   placeholder: PropTypes.string,
   type: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default InputEmail;

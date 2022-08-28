@@ -11,6 +11,8 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import {getIngredients } from '../../services/actions/ingredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
+import {getUserData} from "../../services/actions/authenticationAction";
+import {getCookie} from "../../utils/constants";
 // страницы
 import Login from "../../pages/Login/Login";
 import Registration from "../../pages/Registration/Registration";
@@ -21,6 +23,7 @@ import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 //стили
 import styles from './App.module.css';
 
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -29,7 +32,8 @@ const App = () => {
   }
 
   useEffect( () => {
-    dispatch(getIngredients())
+    dispatch(getIngredients());
+    if (getCookie('accessToken')) dispatch(getUserData());
   }, []);
 
 
