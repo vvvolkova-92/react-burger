@@ -158,7 +158,7 @@ export function userLogin(data, history) {
             //время жизни куки 20 минут
             setCookie('accessToken', token, {secure: true, 'max-age': 1200});
             // document.cookie = `refreshToken=${res.refreshToken}`;
-            setCookie('refreshToken', res.refreshToken);
+            document.cookie = `refreshToken=${res.refreshToken}; path=/`;
             dispatch({
               type: LOGIN_SUCCESS,
               data: res,
@@ -260,47 +260,56 @@ export function userLogin(data, history) {
 // };
 //AC получения данных юзера
 export function getUserData() {
-  return function (dispatch) {
-    (async () => {
-      try {
-        dispatch({
-          type: GET_USERDATA_REQUEST,
-        });
-        const res = await fetch(`${BASEURL}/auth/user`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: "Bearer " + getCookie('accessToken'),
-          },
-        })
-          .then( res => {
-            if (res.ok) {
-              return res.json();
-            }
-            if (res.message === 'jwt expired') {
-              const token = getCookie('refreshToken');
-              dispatch(refreshToken(token,getUserData()));}
-            return Promise.reject(res.json());
-          })
-          .then( res => {
+  const at = getCookie('accessToken');
+  const rt = getCookie('refreshToken');
+    return function (dispatch) {
+      (async () => {
+        if (at === undefined) dispatch(refreshToken(rt, getUserData))
+        else {
+          try {
             dispatch({
-              type: GET_USERDATA_SUCCESS,
-              data: res,
+              type: GET_USERDATA_REQUEST,
             });
-          })
-      }
-      catch (error) {
-        let err = await error;
-        dispatch({
-          type: GET_USERDATA_FAILURE,
-          error: err.message,
-        });
-      }
-    })();
+            const res = await fetch(`${BASEURL}/auth/user`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + getCookie('accessToken'),
+              },
+            })
+              .then( res => {
+                if (res.ok) {
+                  return res.json();
+                }
+                if (res.message === 'jwt expired') {
+                  const token = getCookie('refreshToken');
+                  dispatch(refreshToken(token,getUserData));}
+                return Promise.reject(res.json());
+              })
+              .then( res => {
+                dispatch({
+                  type: GET_USERDATA_SUCCESS,
+                  data: res,
+                });
+              })
+          }
+          catch (error) {
+            let err = await error;
+            dispatch({
+              type: GET_USERDATA_FAILURE,
+              error: err.message,
+            });
+          }
+        }
+
+      })();
   }
+
+
 };
 //рефреш токен
 export function refreshToken(token, getUserData) {
+  console.log(token)
   return function (dispatch) {
     (async () => {
       try {
@@ -311,8 +320,11 @@ export function refreshToken(token, getUserData) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            token: token,
           },
+          //не в хедере, сука, передавать!!!!!!!!!!!!!
+          body: JSON.stringify( {
+            token,
+          }),
         })
           .then( res => checkResponse(res))
           .then( res => {

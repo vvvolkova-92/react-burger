@@ -20,7 +20,7 @@ function UserInfo() {
   const { userName, userEmail, userPassword } = useSelector((state) => state.inputReducer);
   const { error, hasError, userData } = useSelector((state) => state.userReducer);
   const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
-
+  console.log(userData.user);
   const onClickCancel = () => {
     dispatch(dontEditProfile(userData));
   };
@@ -43,7 +43,7 @@ function UserInfo() {
       <form className={styles.form}>
         <InputName icon={'EditIcon'} type={'profile'}/>
         <InputEmail placeholder={'Логин/Почта'} icon={'EditIcon'} type={'profile'}/>
-        <InputPassword/>
+        <InputPassword type={'profile'}/>
       </form>
       {buttons}
     </div>

@@ -4,7 +4,7 @@ import { PasswordInput } from '@ya.praktikum/react-developer-burger-ui-component
 import { INPUT_USER_PASSWORD } from '../../services/types'
 
 
-function InputPassword() {
+function InputPassword({type}) {
 
   const userPassword = useSelector((state) => state.inputReducer.userPassword);
   const dispatch = useDispatch();

@@ -11,7 +11,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import {getIngredients } from '../../services/actions/ingredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
-import {getUserData} from "../../services/actions/authenticationAction";
+import {getUserData, refreshToken} from "../../services/actions/authenticationAction";
 import {getCookie} from "../../utils/constants";
 // страницы
 import Login from "../../pages/Login/Login";
@@ -33,7 +33,12 @@ const App = () => {
 
   useEffect( () => {
     dispatch(getIngredients());
-    if (getCookie('accessToken')) dispatch(getUserData());
+    // if(getCookie('refreshToken')) {
+    //   const token = getCookie('refreshToken');
+    //   dispatch(refreshToken(token));
+    // }
+
+      dispatch(getUserData());
   }, []);
 
 
