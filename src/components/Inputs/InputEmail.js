@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 // сторонние компоненты
@@ -7,6 +7,8 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { INPUT_USER_EMAIL } from '../../services/types'
 
 export function InputEmail({ icon, placeholder, type, value}) {
+  const inputRef = useRef();
+  const input = inputRef.current;
   const userEmail = useSelector((state) => state.inputReducer.userEmail);
   // const userData = useSelector((state) => state.userData);
   const [disabled, setDisabled] = useState(true);
@@ -19,10 +21,13 @@ export function InputEmail({ icon, placeholder, type, value}) {
     });
   };
   const onClick = () => {
-    setDisabled(prev => !prev);
+    input.disabled = false;
+    setDisabled((prev) => !prev);
+    input.focus();
   }
   const onBlur = () => {
     setDisabled(true);
+    input.blur();
   }
 
   return type === 'profile'
@@ -40,6 +45,7 @@ export function InputEmail({ icon, placeholder, type, value}) {
         disabled = {disabled}
         onIconClick ={onClick}
         onBlur={onBlur}
+        ref={inputRef}
       />
     )
     : (

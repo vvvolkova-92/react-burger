@@ -281,9 +281,6 @@ export function getUserData() {
                 if (res.ok) {
                   return res.json();
                 }
-                if (res.message === 'jwt expired') {
-                  const token = getCookie('refreshToken');
-                  dispatch(refreshToken(token,getUserData));}
                 return Promise.reject(res.json());
               })
               .then( res => {
@@ -295,6 +292,10 @@ export function getUserData() {
           }
           catch (error) {
             let err = await error;
+            if (err.message === 'jwt expired') {
+
+              const token = getCookie('refreshToken');
+              dispatch(refreshToken(token,getUserData));}
             dispatch({
               type: GET_USERDATA_FAILURE,
               error: err.message,
@@ -309,7 +310,6 @@ export function getUserData() {
 };
 //рефреш токен
 export function refreshToken(token, getUserData) {
-  console.log(token)
   return function (dispatch) {
     (async () => {
       try {
@@ -321,7 +321,6 @@ export function refreshToken(token, getUserData) {
           headers: {
             'Content-Type': 'application/json',
           },
-          //не в хедере, сука, передавать!!!!!!!!!!!!!
           body: JSON.stringify( {
             token,
           }),
@@ -366,7 +365,6 @@ export function dontEditProfile(userData) {
 };
 //АС изменить данные в профиле
 export function editProfile(userName, userEmail, userPassword) {
-  refreshToken();
   return function (dispatch) {
     (async () => {
       try {

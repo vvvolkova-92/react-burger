@@ -8,44 +8,48 @@ import InputName from "../Inputs/InputName";
 import InputEmail from "../Inputs/InputEmail";
 import InputPassword from "../Inputs/InputPassword";
 //вспомогательные функции
-import {dontEditProfile, editProfile } from "../../services/actions/authenticationAction";
+import {dontEditProfile, editProfile, getUserData} from "../../services/actions/authenticationAction";
 
 //стили
 import styles from './UserInfo.module.css';
+import {getIngredients} from "../../services/actions/ingredientsAction";
 
 
 function UserInfo() {
+
   const dispatch = useDispatch();
-  const userReducer = useSelector((state) => state.userReducer);
+  const { userData, isLogin } = useSelector((state) => state.userReducer);
   const { userName, userEmail, userPassword } = useSelector((state) => state.inputReducer);
-  const { error, hasError, userData } = useSelector((state) => state.userReducer);
-  const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
-  console.log(userData.user);
+  // const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
+
+  useEffect( () => {
+    dispatch(getUserData());
+  }, []);
+
   const onClickCancel = () => {
     dispatch(dontEditProfile(userData));
   };
 
-  const onClickSubmit = () => {
+  const onSubmit = () => {
+    if(userData.user.email !== userEmail)
     dispatch(editProfile(userName, userEmail, userPassword));
   };
-  const buttons = isEditInfo && (
-    <>
-      <div className="mt-6">
-        <Button type="primary" size="medium" onClick={onClickSubmit}>Сохранить</Button>
-      </div>
-    <div className="mt-6">
-      <Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button>
-    </div>
-    </>
-  );
+
   return (
     <div className={styles.block__user_info + " mt-30"}>
-      <form className={styles.form}>
-        <InputName icon={'EditIcon'} type={'profile'}/>
-        <InputEmail placeholder={'Логин/Почта'} icon={'EditIcon'} type={'profile'}/>
-        <InputPassword type={'profile'}/>
-      </form>
-      {buttons}
+      {isLogin && (<>
+        <form className={styles.form} onSubmit={onSubmit} id='profile'>
+          <InputName icon={'EditIcon'} type={'profile'} value={userData.user.name}/>
+          <InputEmail placeholder={'Логин/Почта'} icon={'EditIcon'} type={'profile'} value={userData.user.email}/>
+          <InputPassword type={'profile'}/>
+        </form>
+        <div className="mt-6">
+        <Button type="primary" size="medium" form='profile'>Сохранить</Button>
+          {/*<Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button>*/}
+        </div>
+        </>
+        )
+      }
     </div>
   )
 }

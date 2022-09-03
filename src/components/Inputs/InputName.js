@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useRef, useState} from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 // сторонние компоненты
@@ -7,6 +7,8 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { INPUT_USER_NAME } from '../../services/types'
 
 function InputName ({ icon, type, value }) {
+  const inputRef = useRef();
+  const input = inputRef.current;
   const [disabled, setDisabled] = useState(true);
   const userName = useSelector((state) => state.inputReducer.userName);
   const dispatch = useDispatch();
@@ -20,11 +22,14 @@ function InputName ({ icon, type, value }) {
   };
 
   const onClick = () => {
-    setDisabled(prev => !prev);
+    input.disabled = false;
+    setDisabled((prev) => !prev);
+    input.focus();
   }
 
   const onBlur = () => {
     setDisabled(true);
+    input.blur();
   }
 
   return type === 'profile'
@@ -39,9 +44,10 @@ function InputName ({ icon, type, value }) {
         error={false}
         errorText={"Ошибка"}
         size={"default"}
-        disabled = {disabled}
+        disabled={disabled}
         onIconClick ={onClick}
         onBlur ={onBlur}
+        ref={inputRef}
       />
     )
     : (
@@ -55,6 +61,7 @@ function InputName ({ icon, type, value }) {
         error={false}
         errorText={"Ошибка"}
         size={"default"}
+        ref={inputRef}
       />
     )
 }
