@@ -16,12 +16,9 @@ import {getIngredients} from "../../services/actions/ingredientsAction";
 
 
 function UserInfo() {
-
   const dispatch = useDispatch();
   const { userData, isLogin } = useSelector((state) => state.userReducer);
   const { userName, userEmail, userPassword } = useSelector((state) => state.inputReducer);
-  // const isEditInfo = (userData.user.email !== userEmail) || (userData.user.name !== userName);
-
   useEffect( () => {
     dispatch(getUserData());
   }, []);
@@ -30,23 +27,25 @@ function UserInfo() {
     dispatch(dontEditProfile(userData));
   };
 
-  const onSubmit = () => {
-    if(userData.user.email !== userEmail)
+  const onSubmit = (evt) => {
+    evt.preventDefault();
     dispatch(editProfile(userName, userEmail, userPassword));
   };
 
   return (
-    <div className={styles.block__user_info + " mt-30"}>
+    <div className={"mt-30"}>
       {isLogin && (<>
         <form className={styles.form} onSubmit={onSubmit} id='profile'>
-          <InputName icon={'EditIcon'} type={'profile'} value={userData.user.name}/>
-          <InputEmail placeholder={'Логин/Почта'} icon={'EditIcon'} type={'profile'} value={userData.user.email}/>
+          <InputName icon={'EditIcon'} type={'profile'} />
+          <InputEmail placeholder={'Логин/Почта'} icon={'EditIcon'} type={'profile'}/>
           <InputPassword type={'profile'}/>
+          <div className={styles.buttons}>
+            <Button type="primary" size="medium" form='profile'>Сохранить</Button>
+            {(userData.user.email !== userEmail) || (userData.user.name !== userName) &&  (
+              <Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button>
+            )}
+          </div>
         </form>
-        <div className="mt-6">
-        <Button type="primary" size="medium" form='profile'>Сохранить</Button>
-          {/*<Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button>*/}
-        </div>
         </>
         )
       }

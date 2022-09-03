@@ -163,10 +163,6 @@ export function userLogin(data, history) {
               type: LOGIN_SUCCESS,
               data: res,
             });
-            // dispatch({
-            //   type: INPUT_USER_NAME,
-            //   userName: res.user.name,
-            // });
             history.replace({ pathname: "/" });
           })
       }
@@ -180,84 +176,7 @@ export function userLogin(data, history) {
     })();
   }
 };
-// //АС авторизация юзера 2
-// export function getUserData() {
-//   return function (dispatch) {
-//     refreshToken();
-//     (async () => {
-//       try {
-//         dispatch({
-//           type: GET_USERDATA_REQUEST,
-//         });
-//         const res = await fetch(`${BASEURL}/auth/user`, {
-//           method: 'GET',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             Authorization: "Bearer " + getCookie('accessToken'),
-//           },
-//         })
-//       .then( res => {
-//             if (res.ok) {
-//               return res.json();
-//             }
-//           })
-//           .then( res => {
-//             dispatch({
-//               type: GET_USERDATA_SUCCESS,
-//               data: res,
-//             });
-//           })
-//       }
-//       catch (error) {
-//         let err = await error;
-//         dispatch({
-//           type: GET_USERDATA_FAILURE,
-//           error: err.message,
-//         });
-//       }
-//     })();
-//   }
-// };
-//
-// //рефреш токена
-// export const refreshToken = () => {
-//   console.log('вызван ревреш токен к дет юзер');
-//   return function (dispatch) {
-//     (async () => {
-//       try {
-//         dispatch({
-//           type: REFRESH_TOKEN_REQUEST,
-//         });
-//         const token = getCookie('refreshToken');
-//         console.log(token);
-//         const res = await fetch(`${BASEURL}/auth/token`, {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             token,
-//           },
-//         })
-//           .then(res => checkResponse(res))
-//           .then(res => {
-//             console.log(res);
-//             dispatch({
-//               type: REFRESH_TOKEN_SUCCESS,
-//               data: res,
-//             });
-//             const token = res.accessToken.split('Bearer ')[1];
-//             setCookie('accessToken', token, {secure: true, 'max-age': 1200});
-//             setCookie('refreshToken', res.refreshToken);
-//           })
-//       } catch (error) {
-//         let err = await error;
-//         dispatch({
-//           type: REFRESH_TOKEN_FAILURE,
-//           error: err.message,
-//         });
-//       }
-//     })();
-//   }
-// };
+
 //AC получения данных юзера
 export function getUserData() {
   const at = getCookie('accessToken');
@@ -287,6 +206,18 @@ export function getUserData() {
                 dispatch({
                   type: GET_USERDATA_SUCCESS,
                   data: res,
+                });
+                dispatch({
+                  type: INPUT_USER_EMAIL,
+                  userEmail: res.user.email,
+                });
+                dispatch({
+                  type: INPUT_USER_NAME,
+                  userName: res.user.name,
+                });
+                dispatch({
+                  type: INPUT_USER_PASSWORD,
+                  userPassword: "",
                 });
               })
           }
@@ -395,6 +326,47 @@ export function editProfile(userName, userEmail, userPassword) {
         let err = await error;
         dispatch({
           type: CHANGE_USERDATA_FAILURE,
+          error: err.message,
+        });
+      }
+    })();
+  }
+};
+
+//АС логаут
+export function userLogout(history) {
+  const rt = getCookie('refreshToken');
+  const at = getCookie('accessToken');
+  return function (dispatch) {
+    (async () => {
+      try {
+        dispatch({
+          type: LOGOUT_REQUEST,
+        });
+        const res = await fetch(`${BASEURL}/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify( {
+            token: rt,
+          }),
+        })
+          .then( res => checkResponse(res))
+          .then ( res => {
+            deleteCookie('accessToken', at);
+            deleteCookie('refreshToken', rt);
+            dispatch({
+              type: LOGOUT_SUCCESS,
+              data: res,
+            });
+          })
+            history.replace({ pathname: "/" });
+      }
+      catch (error) {
+        let err = await error;
+        dispatch({
+          type: LOGOUT_FAILURE,
           error: err.message,
         });
       }

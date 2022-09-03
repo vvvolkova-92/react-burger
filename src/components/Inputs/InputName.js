@@ -39,7 +39,7 @@ function InputName ({ icon, type, value }) {
         type={"text"}
         placeholder={"Имя"}
         onChange={onChangeHandler}
-        value={value ? value : userName}
+        value={userName}
         name={"name"}
         error={false}
         errorText={"Ошибка"}
@@ -56,7 +56,7 @@ function InputName ({ icon, type, value }) {
         type={"text"}
         placeholder={"Имя"}
         onChange={onChangeHandler}
-        value={value ? value : userName}
+        value={userName}
         name={"name"}
         error={false}
         errorText={"Ошибка"}

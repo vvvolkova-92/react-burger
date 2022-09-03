@@ -37,7 +37,7 @@ export function InputEmail({ icon, placeholder, type, value}) {
         icon={icon}
         placeholder={placeholder}
         onChange={onChange}
-        value={value ? value : userEmail}
+        value={userEmail}
         name={"name"}
         error={false}
         errorText={"Ошибка"}
@@ -54,7 +54,7 @@ export function InputEmail({ icon, placeholder, type, value}) {
         icon={icon}
         placeholder={placeholder}
         onChange={onChange}
-        value={value ? value : userEmail}
+        value={userEmail}
         name={"name"}
         error={false}
         errorText={"Ошибка"}

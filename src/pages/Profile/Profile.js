@@ -1,15 +1,15 @@
 import { useMemo, useCallback, useState, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
+import {BrowserRouter, Route, Switch, NavLink, useHistory} from 'react-router-dom';
 
 import UserInfo from "../../components/UserInfo/UserInfo";
 // стили
 import styles from './Profile.module.css';
+import {userLogout} from "../../services/actions/authenticationAction";
 
 const Profile = () => {
-
-  const clickHandler = () => {
-  }
+  const dispatch = useDispatch();
+  const history = useHistory();
   return (
     <BrowserRouter>
       <div className={styles.block}>
@@ -17,7 +17,6 @@ const Profile = () => {
           <ul className={styles.menu}>
             <li className={styles.block__link}>
               <NavLink
-                onClick={() => clickHandler}
                 to = '/profile'
                 className={styles.link + ' text text_type_main-medium text_color_inactive'}
                 activeClassName={'text text_type_main-medium ' + styles.linkActive}
@@ -41,6 +40,7 @@ const Profile = () => {
                 to = '/profile-exit'
                 className={styles.link + ' text text_type_main-medium text_color_inactive'}
                 activeClassName={'text text_type_main-medium ' + styles.linkActive}
+                onClick={() => dispatch(userLogout(history))}
               >
                 { ' ' }
                 <span>Выход</span>

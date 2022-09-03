@@ -282,6 +282,29 @@ export const userReducer = (state = userState, action) => {
       };
     }
 
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case LOGOUT_SUCCESS: {
+      return {
+        ...state,
+        hasError: false,
+        isLogin: false,
+        isLoading: false,
+      };
+    }
+    case LOGOUT_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        hasError: true,
+        error: action.error,
+      };
+    }
+
     default: {
       return state;
     }
