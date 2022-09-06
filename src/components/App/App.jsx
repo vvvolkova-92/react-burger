@@ -37,11 +37,8 @@ const App = () => {
 
   const closeModal = useCallback (() => {
     dispatch(setCurrentIngredient(null));
-    // history.replace({ pathname: "/" });
-    history.goBack();
+    history.replace({ pathname: "/" });
   }, [history]);
-
-  console.log(location);
 
   useEffect( () => {
     dispatch(getIngredients());
@@ -49,8 +46,6 @@ const App = () => {
       const token = getCookie('refreshToken');
       dispatch(refreshToken(token));
     }
-      //
-      // dispatch(getUserData());
   }, []);
 
   return (

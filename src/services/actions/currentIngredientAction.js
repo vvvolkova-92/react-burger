@@ -1,4 +1,4 @@
-import { SET_CURRENT_INGREDIENT, IN_MODAL_OPEN_INGREDIENT_CARD } from '../types';
+import {SET_CURRENT_INGREDIENT, IN_MODAL_OPEN_INGREDIENT_CARD, IN_MODAL_ACTIVE} from '../types';
 import { closeModal } from './modalAction';
 export function setCurrentIngredient (item) {
   if (item === null) {

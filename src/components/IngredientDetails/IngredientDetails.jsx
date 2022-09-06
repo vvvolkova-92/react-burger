@@ -1,5 +1,5 @@
 import styles from './IngredientDetails.module.css';
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useHistory, useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredientsAction";
@@ -9,14 +9,13 @@ import {refreshToken} from "../../services/actions/authenticationAction";
 function IngredientDetails () {
   const { id } = useParams();
   const location = useLocation();
+  const title = 'Детали ингредиента';
   const {ingredients, ingredientsReady} = useSelector(store => store.ingredients);
   const ingredient = ingredients.find(ingredient => ingredient._id === id);
-  const modal = useSelector(store => store.modalReducer.ingredientCardModal);
-  const title = 'Детали ингредиента';
   return (
     <div className={styles.container}>
-      {!modal && (<h1 className={styles.title + " text text_type_main-large"}>{title}</h1>) }
-      {ingredientsReady ? ( <>
+      { location.state === undefined && (<h1 className={styles.title + " text text_type_main-large"}>{title}</h1>)}
+      { ingredientsReady ? ( <>
         <img src = {ingredient.image_large} alt ={ingredient.name} className={styles.image}/>
         <h3 className={styles.subtitle + " text text_type_main-medium mt-4 mb-8"}>{ingredient.name}</h3>
         <ul className={styles.values}>

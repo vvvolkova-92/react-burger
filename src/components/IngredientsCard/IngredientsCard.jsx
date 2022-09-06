@@ -6,24 +6,16 @@ import {useCallback, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DROP_INGREDIENT } from '../../services/types'
 import {Link, useHistory, useLocation, useParams} from "react-router-dom";
+import {activeModal} from "../../services/actions/modalAction";
 
   function IngredientsCard ({imglink, price, name, item}) {
   const dispatch = useDispatch();
-    const location = useLocation();
-    const history = useHistory();
+  const location = useLocation();
+  const history = useHistory();
   const { main, bun } = useSelector(store => ({
     bun: store.constructorIngredients.bun,
     main: store.constructorIngredients.main,
   }));
-
-    const onClickHandler = useCallback(
-      () => {
-        console.log('клик по инго');
-      },
-      [],
-    );
-
-
 
     const count = useMemo(() => {
       if (item.type === 'bun' && item._id === bun._id) return 2
@@ -41,13 +33,17 @@ import {Link, useHistory, useLocation, useParams} from "react-router-dom";
       item: item,
     }));
 
+    const onClickHandler = () => {
+      history.push(`/ingredients/${item._id}`);
+    };
+
     return (
       <Link
         to={{
           pathname: `/ingredients/${item._id}`,
           state: { background: location },
-        }} onClick={() => { history.push(`/ingredients/${item._id}`);}}>
-    <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag} onClick={onClickHandler}/>
+        }} onClick={onClickHandler}>
+    <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag}/>
     <div className={styles.price + " mt-2 mb-2"}>
       <span className="pr-2 text text_type_digits-default">{price}</span>
       <CurrencyIcon type="primary"/>
