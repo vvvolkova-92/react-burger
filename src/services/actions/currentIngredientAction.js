@@ -21,4 +21,4 @@ export function setCurrentIngredient (item) {
       open: true,
     });
   }
-}
+};

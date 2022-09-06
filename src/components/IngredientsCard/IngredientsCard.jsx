@@ -2,16 +2,28 @@ import PropTypes from 'prop-types';
 import styles from './IngredientsCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
-import { useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DROP_INGREDIENT } from '../../services/types'
+import {Link, useHistory, useLocation, useParams} from "react-router-dom";
 
   function IngredientsCard ({imglink, price, name, item}) {
-
-    const { main, bun } = useSelector(store => ({
+  const dispatch = useDispatch();
+    const location = useLocation();
+    const history = useHistory();
+  const { main, bun } = useSelector(store => ({
     bun: store.constructorIngredients.bun,
     main: store.constructorIngredients.main,
   }));
+
+    const onClickHandler = useCallback(
+      () => {
+        console.log('клик по инго');
+      },
+      [],
+    );
+
+
 
     const count = useMemo(() => {
       if (item.type === 'bun' && item._id === bun._id) return 2
@@ -29,15 +41,20 @@ import { DROP_INGREDIENT } from '../../services/types'
       item: item,
     }));
 
-    return (<>
-    <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag}/>
+    return (
+      <Link
+        to={{
+          pathname: `/ingredients/${item._id}`,
+          state: { background: location },
+        }} onClick={() => { history.push(`/ingredients/${item._id}`);}}>
+    <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag} onClick={onClickHandler}/>
     <div className={styles.price + " mt-2 mb-2"}>
       <span className="pr-2 text text_type_digits-default">{price}</span>
       <CurrencyIcon type="primary"/>
     </div>
     <p className={styles.title}>{name}</p>
     {count > 0 && <Counter count={count} size="default"/>}
-  </>
+      </Link>
   )}
 
   IngredientsCard.propTypes = {

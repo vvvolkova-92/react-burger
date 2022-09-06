@@ -1,9 +1,11 @@
-import {useEffect} from 'react';
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import {useCallback, useEffect} from 'react';
+import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {useDispatch, useSelector} from 'react-redux';
 // мои компоненты
+import PrivateRouteLoginUser from "../ProtectedRoute/PrivateRouteLoginUser";
+import PrivateRouteUnloggedUser from "../ProtectedRoute/PrivateRouteUnloggedUser";
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
@@ -23,72 +25,75 @@ import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 //стили
 import styles from './App.module.css';
 
-
 const App = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
-  const closeModal = () => {
-    dispatch(setCurrentIngredient(null));
-  }
-
-  useEffect( () => {
-    dispatch(getIngredients());
-    // if(getCookie('refreshToken')) {
-    //   const token = getCookie('refreshToken');
-    //   dispatch(refreshToken(token));
-    // }
-
-      dispatch(getUserData());
-  }, []);
-
-
+  const { isFetching } = useSelector(store => store.ingredients);
   const {ingredientCardModal} = useSelector(state => state.modalReducer);
   const currentIngredient= useSelector(store => store.currentIngredient);
 
+  const closeModal = useCallback (() => {
+    dispatch(setCurrentIngredient(null));
+    // history.replace({ pathname: "/" });
+    history.goBack();
+  }, [history]);
+
+  console.log(location);
+
+  useEffect( () => {
+    dispatch(getIngredients());
+    if(getCookie('refreshToken')) {
+      const token = getCookie('refreshToken');
+      dispatch(refreshToken(token));
+    }
+      //
+      // dispatch(getUserData());
+  }, []);
+
   return (
-    <div className={styles.App}>
+    <>
+      {!isFetching && (
+        <div className={styles.App}>
+          {/*<BrowserRouter>*/}
+            <AppHeader/>
+            <Switch location={background || location}>
+              <Route exact path={`/ingredients/:id`} children={<IngredientDetails/>}/>
+              <Route path="/" exact={true}>
+                <DndProvider backend={HTML5Backend}>
+                  <main className={styles.main}>
+                    <BurgerIngredients/>
+                    <BurgerConstructor/>
+                  </main>
+                </DndProvider>
+              </Route>
+              <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
+              <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
+              <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
+              <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
+              <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
 
-      <BrowserRouter>
-        <AppHeader/>
-        <Switch>
-          <Route path="/login" exact={true}>
-            <Login/>
-          </Route>
-          <Route path="/register" exact={true}>
-            <Registration/>
-          </Route>
-          <Route path="/profile" exact={true}>
-            <Profile/>
-          </Route>
-          <Route path="/reset-password" exact={true}>
-            <ResetPassword/>
-          </Route>
-          <Route path="/forgot-password" exact={true}>
-            <ForgotPassword/>
-          </Route>
-          <Route path="/profile" exact={true}>
-            <PageNotFound/>
-          </Route>
-          <Route path="/">
-            <DndProvider backend={HTML5Backend}>
-              <main className={styles.main}>
-                <BurgerIngredients/>
-                <BurgerConstructor/>
-              </main>
-              {ingredientCardModal && (
-                <Modal
-                  title={"Детали ингредиента"}
-                  closeModal={closeModal}>
-                  <IngredientDetails
-                    ingredient={currentIngredient}/>
-                </Modal>
-              )}
-            </DndProvider>
-          </Route>
-        </Switch>
-      </BrowserRouter>
-
-    </div>
+              <Route exact={true} children={<PageNotFound/>}/>
+            </Switch>
+            {background && (
+              <Route
+                path={`/ingredients/:id`}
+                children={
+                  <Modal
+                    title={"Детали ингредиента"}
+                    closeModal={closeModal}>
+                    <IngredientDetails/>
+                  </Modal>
+                }
+              >
+              </Route>
+            )}
+          {/*</BrowserRouter>*/}
+        </div>
+      )}
+    </>
   );
 }
 

@@ -5,14 +5,19 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import {MODAL} from '../../utils/constants';
+import {useHistory, useLocation, useRouteMatch} from "react-router-dom";
 
 
 function Modal ({ closeModal, title, children }) {
+  const location = useLocation();
+  const history = useHistory();
+  const { url } = useRouteMatch();
 
   useEffect( () => {
     function closeByEscape (evt) {
       if (evt.key === "Escape" ) {
         closeModal();
+        // history.replace({ pathname: location.state ? `${location.state.background.pathname}` :`${url}` });
       }
     }
     document.addEventListener("keyup", closeByEscape);
@@ -42,6 +47,7 @@ function Modal ({ closeModal, title, children }) {
 Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
+  closeModal: PropTypes.func.isRequired,
 }
 
 export default Modal 
