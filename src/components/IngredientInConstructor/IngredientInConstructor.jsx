@@ -4,6 +4,7 @@ import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burge
 import {deleteIngredientCard} from '../../services/actions/constructorIngredientsAction'
 import {DROP_CARD} from '../../services/types'
 import styles from './IngredientInConstructor.module.css'
+import PropTypes from 'prop-types';
 
 export function IngredientInConstructor ({id, moveIngredient, findIngredient, name, image, price }) {
 
@@ -55,3 +56,12 @@ export function IngredientInConstructor ({id, moveIngredient, findIngredient, na
   </div>
   )
 } 
+
+IngredientInConstructor.propTypes = {
+  id: PropTypes.string.isRequired,
+  moveIngredient: PropTypes.func.isRequired,
+  findIngredient: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+}

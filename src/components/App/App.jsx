@@ -46,7 +46,7 @@ const App = () => {
     //   const token = getCookie('refreshToken');
     //   dispatch(refreshToken(token));
     // }
-      dispatch(getUserData());
+    dispatch(getUserData());
   }, []);
 
   return (
@@ -54,38 +54,38 @@ const App = () => {
       {!isFetching && (
         <div className={styles.App}>
           {/*<BrowserRouter>*/}
-            <AppHeader/>
-            <Switch location={background || location}>
-              <Route exact path={`/ingredients/:id`} children={<IngredientDetails/>}/>
-              <Route path="/" exact={true}>
-                <DndProvider backend={HTML5Backend}>
-                  <main className={styles.main}>
-                    <BurgerIngredients/>
-                    <BurgerConstructor/>
-                  </main>
-                </DndProvider>
-              </Route>
-              <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
-              <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
-              <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
-              <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
-              <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
+          <AppHeader/>
+          <Switch location={background || location}>
+            <Route exact path={`/ingredients/:id`} children={<IngredientDetails/>}/>
+            <Route path="/" exact={true}>
+              <DndProvider backend={HTML5Backend}>
+                <main className={styles.main}>
+                  <BurgerIngredients/>
+                  <BurgerConstructor/>
+                </main>
+              </DndProvider>
+            </Route>
+            <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
+            <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
+            <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
+            <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
+            <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
 
-              <Route exact={true} children={<PageNotFound/>}/>
-            </Switch>
-            {background && (
-              <Route
-                path={`/ingredients/:id`}
-                children={
-                  <Modal
-                    title={"Детали ингредиента"}
-                    closeModal={closeModal}>
-                    <IngredientDetails/>
-                  </Modal>
-                }
-              >
-              </Route>
-            )}
+            <Route exact={true} children={<PageNotFound/>}/>
+          </Switch>
+          {background && (
+            <Route
+              path={`/ingredients/:id`}
+              children={
+                <Modal
+                  title={"Детали ингредиента"}
+                  closeModal={closeModal}>
+                  <IngredientDetails/>
+                </Modal>
+              }
+            >
+            </Route>
+          )}
           {/*</BrowserRouter>*/}
         </div>
       )}

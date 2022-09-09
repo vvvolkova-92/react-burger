@@ -8,30 +8,30 @@ function MenuItem ({icon, link, stylesComp, stylesText, title}) {
   // const onClick = () => {
   //   setActive(state => !state);
   // }
-    return (
-      <li className={stylesComp}>
-        <NavLink
-          className={stylesText}
-          activeClassName={style.linkActive}
-          to={link}
-          exact={true}
-        >
-          {icon}
-          {' '}
-          <span className="ml-2">{title}</span>
-        </NavLink>
-      </li>
-    );
-  }
-  
-  MenuItem.propTypes = {
-    id: PropTypes.string,
-    icon: PropTypes.element,
-    link: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    stylesComp: PropTypes.string,
-    stylesText: PropTypes.string,
-  };
+  return (
+    <li className={stylesComp}>
+      <NavLink
+        className={stylesText}
+        activeClassName={style.linkActive}
+        to={link}
+        exact={true}
+      >
+        {icon}
+        {' '}
+        <span className="ml-2">{title}</span>
+      </NavLink>
+    </li>
+  );
+}
+
+MenuItem.propTypes = {
+  id: PropTypes.string,
+  icon: PropTypes.element,
+  link: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  stylesComp: PropTypes.string,
+  stylesText: PropTypes.string,
+};
 
 
-export default MenuItem 
+export default MenuItem

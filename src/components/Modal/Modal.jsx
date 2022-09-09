@@ -14,34 +14,34 @@ function Modal ({ closeModal, title, children }) {
   const { url } = useRouteMatch();
 
   useEffect( () => {
-    function closeByEscape (evt) {
-      if (evt.key === "Escape" ) {
-        closeModal();
-        // history.replace({ pathname: location.state ? `${location.state.background.pathname}` :`${url}` });
+      function closeByEscape (evt) {
+        if (evt.key === "Escape" ) {
+          closeModal();
+          // history.replace({ pathname: location.state ? `${location.state.background.pathname}` :`${url}` });
+        }
       }
-    }
-    document.addEventListener("keyup", closeByEscape);
-    return  () => document.removeEventListener("keyup", closeByEscape);
-    }, 
+      document.addEventListener("keyup", closeByEscape);
+      return  () => document.removeEventListener("keyup", closeByEscape);
+    },
     []);
-  
+
   return createPortal (
     (
       <>
-      <ModalOverlay onClose={closeModal}/>
-      <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
-        <div className={styles.titleBlock}>
-          <h2 className={styles.title + " text text_type_main-large"}>{title}</h2>
-          <div className={styles.btnClose}>
-          <CloseIcon type="primary" onClick={closeModal} />
+        <ModalOverlay onClose={closeModal}/>
+        <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
+          <div className={styles.titleBlock}>
+            <h2 className={styles.title + " text text_type_main-large"}>{title}</h2>
+            <div className={styles.btnClose}>
+              <CloseIcon type="primary" onClick={closeModal} />
+            </div>
           </div>
+          {children}
         </div>
-        {children}
-      </div>
       </>
     )
     , MODAL);
-    
+
 }
 
 Modal.propTypes = {
@@ -50,4 +50,4 @@ Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
 }
 
-export default Modal 
+export default Modal

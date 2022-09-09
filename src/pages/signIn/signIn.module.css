@@ -1,0 +1,47 @@
+.container {
+  min-height: 480px;
+  transform: translateY(40%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 286px;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+}
+
+.form {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 232px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action {
+  display: flex
+}
+
+.link {
+  margin-left: 8px;
+  text-decoration: none;
+  color: #4C4CFF;
+}
