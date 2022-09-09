@@ -8,20 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
 }
+
 
 .title {
   margin: 0;
   max-width: 270px;
   min-height: 48px;
   text-align: center;
-}
-
-.link {
-  color: #F2F2F3;
-  text-decoration: none;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
 }

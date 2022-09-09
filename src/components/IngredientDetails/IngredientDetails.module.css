@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 374px;
+  height: 100%;
 }
 
 .image {
