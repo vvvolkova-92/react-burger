@@ -1,11 +1,7 @@
-a {
-  text-decoration: none;
-}
-
-.activeLink p{
+.linkActive span{
   color: #F2F2F3;
 }
 
-.activeLink svg{
+.linkActive svg{
   fill: #F2F2F3;
 }

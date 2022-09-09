@@ -1,5 +1,5 @@
 .container {
-  transform: translateY(50%);
+  transform: translateY(40%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 198px;
+  min-height: 374px;
+  max-height: 410px;
   align-items: center;
 }
 
@@ -24,8 +25,9 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  /* min-height: 240px; */
+  min-height: 330px;
 }
 
 .actions {
@@ -45,7 +47,11 @@
   color: #4C4CFF;
 }
 
-.result {
+.error {
   color:#cea6e2;
-  margin-top: 15px;
+  margin-top: 5px;
+}
+
+.button_container {
+  min-width: 128px;
 }

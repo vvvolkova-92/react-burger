@@ -1,19 +1,20 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useMemo, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useDrop} from 'react-dnd';
+//сторонние компоненты
 import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
+//стили
 import styles from './BurgerConstructor.module.css';
-import { addIngredientCard, moveCard } from '../../services/actions/constructorIngredientsAction'
-import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx'
-import { DROP_INGREDIENT, DROP_CARD } from '../../services/types'
+//мои компоненты
+import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
+// функции
+import { addIngredientCard, moveCard } from '../../services/actions/constructorIngredientsAction';
+import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx';
+import { DROP_INGREDIENT, DROP_CARD } from '../../services/types';
 
 function BurgerConstructor () {
-
   const {bun, main} = useSelector (store => store.constructorIngredients);
   const dispatch = useDispatch();
-
-  //вариант из 11 примера в документации, прошлый вариант нерабочий
 
   const [, dropIngredient] = useDrop(
     () => ({
@@ -59,7 +60,7 @@ function BurgerConstructor () {
     thumbnail={bun.image_mobile}
   />
   </div>) 
-  : <p className = {styles.message + " text_type_main-medium text_color_inactive"}>Булка не выбрана, нужно выбрать &#127838;</p>;
+  : <p className = {"text_type_main-medium text_color_inactive " + styles.message}>Булка не выбрана, нужно выбрать &#127838;</p>;
 
   const bunBottom = bun 
   ? (<div className={styles.item+ " mr-4 "}>
@@ -92,7 +93,7 @@ function BurgerConstructor () {
         />
         )
       }).filter((element) => element !== undefined)
-      : (<p className = {styles.message + " text_type_main-medium text_color_inactive"}>Пустую булку есть никому не понравится, добавьте ингрединты! &#127798; &#129363; &#129408;</p>)
+      : (<p className = {"text_type_main-medium text_color_inactive " + styles.message}>Как на счёт &#127798; &#129363; &#129408;? Добавьте ингредиенты</p>)
       }
     </ul>
       {bunTop && bunBottom} 

@@ -4,13 +4,14 @@ import App from './components/App/App';
 import {Provider} from 'react-redux';
 import { BrowserRouter as Router} from "react-router-dom";
 import {store} from './services/store';
+import {BrowserRouter} from "react-router-dom";
 
 //точка входа 
   const app = (
     <Provider store={store}>
-      <Router>
+      <BrowserRouter>
         <App />
-      </Router>
+      </BrowserRouter>
     </Provider>
   )
 

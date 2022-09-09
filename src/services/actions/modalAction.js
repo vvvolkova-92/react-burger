@@ -1,4 +1,4 @@
-import {IN_MODAL_CLOSE_CARD, IN_CONSTRUCTOR_CLEAN} from '../types';
+import {IN_MODAL_CLOSE_CARD, IN_CONSTRUCTOR_CLEAN, IN_MODAL_ACTIVE} from '../types';
 
 export function closeModal () {
   return function (dispatch) {
@@ -11,4 +11,4 @@ export function closeModal () {
       bun: '',
     });
   }
-}
+};
