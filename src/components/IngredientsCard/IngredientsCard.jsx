@@ -42,7 +42,7 @@ import {activeModal} from "../../services/actions/modalAction";
         to={{
           pathname: `/ingredients/${item._id}`,
           state: { background: location },
-        }} onClick={onClickHandler}>
+        }} onClick={onClickHandler} className={styles.link}>
     <img src={imglink} alt={name} className={styles.image + " pl-4"} ref={drag}/>
     <div className={styles.price + " mt-2 mb-2"}>
       <span className="pr-2 text text_type_digits-default">{price}</span>

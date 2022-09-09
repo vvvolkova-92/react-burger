@@ -4,9 +4,12 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderNumber } from '../../services/actions/orderAction';
+import {useHistory} from "react-router-dom";
 
 function ButtonGetOrderNumber() {
 
+  const { isLogin } = useSelector(store => store.userReducer);
+  const history = useHistory();
   const dispatch = useDispatch();
   const { main, bun} = useSelector( store => ({
     main: store.constructorIngredients.main,
@@ -21,7 +24,9 @@ function ButtonGetOrderNumber() {
         const postIngredients = main.concat(bun).map(item => {
           return item._id;
         })
-        dispatch(getOrderNumber(postIngredients));
+
+        isLogin ? dispatch(getOrderNumber(postIngredients)) : history.replace({ pathname: "/login" });
+
       }
     },
     [bun, main],

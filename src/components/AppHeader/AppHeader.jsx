@@ -9,8 +9,11 @@ import MenuItem from '../MenuItem/MenuItem';
 import styles from './AppHeader.module.css';
 import UserInfo from "../UserInfo/UserInfo";
 import Profile from "../../pages/Profile/Profile";
+import {useSelector} from "react-redux";
 
 function AppHeader () {
+  const { isLogin, userData } = useSelector(store => store.userReducer);
+  console.log(userData);
     return (
     <header className={styles.menuContainer}>
       <div className={styles.menu}>
@@ -43,7 +46,7 @@ function AppHeader () {
           link={"/profile"}
           stylesComp={`pl-5 pt-4 pr-5 pb-4 ${styles.flex}`}
           stylesText={`text text_type_main-default text_color_inactive ${styles.text} ${styles.menuItem}`}
-          title={"Личный кабинет"}
+          title={isLogin ? userData.user.name : "Личный кабинет"}
           />
       </div>
     </header>

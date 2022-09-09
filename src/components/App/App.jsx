@@ -42,10 +42,11 @@ const App = () => {
 
   useEffect( () => {
     dispatch(getIngredients());
-    if(getCookie('refreshToken')) {
-      const token = getCookie('refreshToken');
-      dispatch(refreshToken(token));
-    }
+    // if(getCookie('refreshToken')) {
+    //   const token = getCookie('refreshToken');
+    //   dispatch(refreshToken(token));
+    // }
+      dispatch(getUserData());
   }, []);
 
   return (
