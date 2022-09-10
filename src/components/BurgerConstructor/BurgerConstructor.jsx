@@ -75,14 +75,14 @@ function BurgerConstructor () {
   : '';
 
   return ( <>
-  { <div className={styles.block} ref={dropIngredient}>
+    <div className={styles.block} ref={dropIngredient}>
     <div className={styles.ingr + " pt-25 mr-4 "}>
       {bunTop}
     <ul className={styles.list} ref={dropCard} >
       { main.length > 0
       ? main.map((item) => {
         return (
-        <IngredientInConstructor 
+        <IngredientInConstructor
           key= {item.id}
           name = {item.name}
           id = {item.id}
@@ -106,8 +106,6 @@ function BurgerConstructor () {
       </div>
   </div>
 </div>
-}
-
 </>
 )}
 

@@ -1,7 +1,7 @@
 import styles from './IngredientDetails.module.css';
 import {Link, useHistory, useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useMemo} from "react";
 import {getIngredients} from "../../services/actions/ingredientsAction";
 import {getCookie} from "../../utils/constants";
 import {refreshToken} from "../../services/actions/authenticationAction";
@@ -11,7 +11,9 @@ function IngredientDetails () {
   const location = useLocation();
   const title = 'Детали ингредиента';
   const {ingredients, ingredientsReady} = useSelector(store => store.ingredients);
-  const ingredient = ingredients.find(ingredient => ingredient._id === id);
+  const ingredient = useMemo(() => {
+    return ingredients.find(ingredient => ingredient._id === id);
+  }, [ingredients]);
   return (
     <div className={styles.container}>
       { location.state === undefined && (<h1 className={styles.title + " text text_type_main-large"}>{title}</h1>)}
@@ -41,4 +43,4 @@ function IngredientDetails () {
     </div>
   )
 };
-export default IngredientDetails
+export default IngredientDetails;

@@ -1,6 +1,6 @@
 import { useMemo, useCallback, useState, useRef, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory} from 'react-router-dom';
+import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 // сторонние компоненты
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 //мои компоненты
@@ -15,6 +15,7 @@ import {getMessage} from "../../utils/constants";
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const { hasError, error, result } = useSelector((state) => state.ForgotPasswordReducer);
   const { userPassword, verificationCode } = useSelector((state) => state.inputReducer);
   const inputRef = useRef(null);
@@ -30,6 +31,8 @@ const ResetPassword = () => {
     dispatch(changePassword(userPassword, verificationCode, history));
   };
 
+  if (history.action === "POP") return <Redirect to={{ pathname: "/" }} />;
+
   return (
     <div className={styles.container}>
       <div className={styles.login}>
@@ -43,7 +46,6 @@ const ResetPassword = () => {
             value={verificationCode}
             name={'email'}
             error={false}
-            // onIconClick={onIconClick}
             errorText={'Ошибка'}
             size={'default'}
           />
@@ -66,6 +68,6 @@ const ResetPassword = () => {
       </div>
     </div>
   )
-}
+};
 
-export default ResetPassword
+export default ResetPassword;

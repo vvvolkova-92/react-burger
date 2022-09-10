@@ -11,6 +11,7 @@ import {getMessage} from "../../utils/constants";
 import styles from './ForgotPassword.module.css';
 
 const ForgotPassword = () => {
+
   const dispatch = useDispatch();
   const history = useHistory();
   const email = useSelector(state => state.inputReducer.userEmail);
@@ -19,7 +20,8 @@ const ForgotPassword = () => {
 
   const clickHandler = () => {
     dispatch(remindPassword(email, history));
-  }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.login}>

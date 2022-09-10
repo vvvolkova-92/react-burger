@@ -157,13 +157,12 @@ export function userLogin(data, history) {
             const token = res.accessToken.split('Bearer ')[1];
             //время жизни куки 20 минут
             setCookie('accessToken', token, {secure: true, 'max-age': 1200});
-            // document.cookie = `refreshToken=${res.refreshToken}`;
             document.cookie = `refreshToken=${res.refreshToken}; path=/`;
             dispatch({
               type: LOGIN_SUCCESS,
               data: res,
             });
-            history.replace({ pathname: "/" });
+            // history.replace({ pathname: "/" });
           })
       }
       catch (error) {
