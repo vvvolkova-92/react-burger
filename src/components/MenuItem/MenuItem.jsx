@@ -4,10 +4,6 @@ import style from './MenuItem.module.css';
 import {useState} from "react";
 
 function MenuItem ({icon, link, stylesComp, stylesText, title}) {
-  // const [active, setActive] = useState();
-  // const onClick = () => {
-  //   setActive(state => !state);
-  // }
   return (
     <li className={stylesComp}>
       <NavLink

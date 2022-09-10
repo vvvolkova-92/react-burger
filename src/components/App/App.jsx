@@ -42,10 +42,6 @@ const App = () => {
 
   useEffect( () => {
     dispatch(getIngredients());
-    // if(getCookie('refreshToken')) {
-    //   const token = getCookie('refreshToken');
-    //   dispatch(refreshToken(token));
-    // }
     dispatch(getUserData());
   }, []);
 
@@ -53,7 +49,6 @@ const App = () => {
     <>
       {!isFetching && (
         <div className={styles.App}>
-          {/*<BrowserRouter>*/}
           <AppHeader/>
           <Switch location={background || location}>
             <Route exact path={`/ingredients/:id`} children={<IngredientDetails/>}/>
@@ -86,7 +81,6 @@ const App = () => {
             >
             </Route>
           )}
-          {/*</BrowserRouter>*/}
         </div>
       )}
     </>

@@ -1,19 +1,18 @@
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link} from 'react-router-dom';
+import {useSelector} from "react-redux";
 //сторонние компоненты
 import {BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 //сторонние библиотеки
 import { nanoid } from 'nanoid';
 //мои компоненты
 import MenuItem from '../MenuItem/MenuItem';
-//стили
-import styles from './AppHeader.module.css';
 import UserInfo from "../UserInfo/UserInfo";
 import Profile from "../../pages/Profile/Profile";
-import {useSelector} from "react-redux";
+//стили
+import styles from './AppHeader.module.css';
 
 function AppHeader () {
   const { isLogin, userData } = useSelector(store => store.userReducer);
-  console.log(userData);
   return (
     <header className={styles.menuContainer}>
       <div className={styles.menu}>
@@ -35,11 +34,11 @@ function AppHeader () {
             title={"Лента заказов"}
           />
         </ul>
-
-        <div className={styles.logo}>
+        <Link
+          to={'/'}
+          className={styles.logo}>
           <Logo />
-        </div>
-
+        </Link>
         <MenuItem
           id={nanoid(10)}
           icon={<ProfileIcon type="secondary" />}

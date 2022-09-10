@@ -17,7 +17,7 @@ function Modal ({ closeModal, title, children }) {
       function closeByEscape (evt) {
         if (evt.key === "Escape" ) {
           closeModal();
-          // history.replace({ pathname: location.state ? `${location.state.background.pathname}` :`${url}` });
+          history.replace({ pathname: location.state ? `${location.state.background.pathname}` :`${url}` });
         }
       }
       document.addEventListener("keyup", closeByEscape);
