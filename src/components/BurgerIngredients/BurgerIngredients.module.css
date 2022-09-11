@@ -35,8 +35,19 @@
   max-width: 256px;
   box-sizing: border-box;
   cursor: pointer;
+  text-decoration: none;
+  color: #fff;
 }
 
 .card:nth-child(2n) {
   margin-right: 0;
+}
+
+.link {
+  color: #F2F2F3;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
 }

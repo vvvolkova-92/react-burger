@@ -8,18 +8,22 @@ import {BurgerContext} from '../../utils/context';
 import { useSelector, useDispatch } from "react-redux";
 import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
-
+import { Link, useLocation, useRouteMatch, useHistory } from "react-router-dom";
 
 function BurgerIngredients () {
+  const history = useHistory();
+  const location = useLocation();
+  const { url } = useRouteMatch();
 
   const [current, setCurrent] = useState('one');
 
   const data = useSelector (store => store.ingredients.ingredients);
   const dispatch = useDispatch();
-  
+
   const onClickCard = evt => {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);
     dispatch(setCurrentIngredient(currentItem));
+    history.push(`/ingredients/${currentItem._id}`);
   }
 
   const bunRef = useRef(null);
@@ -28,94 +32,120 @@ function BurgerIngredients () {
 
   const menu = menuItems.map(item => {
     return (<li key={item.id}>
-      <Tab value={item.value} active = {current === item.value} onClick={value => {
-        setCurrent(value);
-        if(bunRef.current.id === value) {
-          bunRef.current.scrollIntoView({behavior: "smooth"});
-        } 
-        if(souceRef.current.id === value) {
-          souceRef.current.scrollIntoView({behavior: "smooth"});
-        } else if(mainRef.current.id === value) {
-          mainRef.current.scrollIntoView({behavior: "smooth"});
-        } 
-      }}>
-      {item.name}
-      </Tab>
-    </li>
+        <Tab value={item.value} active = {current === item.value} onClick={value => {
+          setCurrent(value);
+          if(bunRef.current.id === value) {
+            bunRef.current.scrollIntoView({behavior: "smooth"});
+          }
+          if(souceRef.current.id === value) {
+            souceRef.current.scrollIntoView({behavior: "smooth"});
+          } else if(mainRef.current.id === value) {
+            mainRef.current.scrollIntoView({behavior: "smooth"});
+          }
+        }}>
+          {item.name}
+        </Tab>
+      </li>
     )
   })
 
   //ингредиенты
-    //булки
+  //булки
   const bun = data.map((card) => {
     if (card.type === 'bun') {
-      return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
-        <IngredientsCard 
-          imglink = {card.image}
-          price = {card.price}
-          name = {card.name}
-          item = {card}
-        /> 
-    </li>
+      return (
+        <Link
+          to={{
+            pathname: `/ingredients/${card._id}`,
+            state: { background: location },
+          }}
+          key={card._id}
+          className={styles.link}
+        >
+          <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
+            <IngredientsCard
+              imglink = {card.image}
+              price = {card.price}
+              name = {card.name}
+              item = {card}
+            />
+          </li>
+        </Link>
       )
     }
   }).filter((element) => element !== undefined);
 
-    // соусы
+  // соусы
   const sauce = data.map((card) => {
     if (card.type === 'sauce') {
-      return ( <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
-        <IngredientsCard 
-          imglink = {card.image}
-          price = {card.price}
-          name = {card.name}
-          item = {card}
-          counter = {card.counter}
-        />
-      </li>
+      return (
+        <Link
+          to={{
+            pathname: `/ingredients/${card._id}`,
+            state: { background: location },
+          }}
+          key={card._id}
+          className={styles.link}
+        >
+          <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
+            <IngredientsCard
+              imglink = {card.image}
+              price = {card.price}
+              name = {card.name}
+              item = {card}
+            />
+          </li>
+        </Link>
       )
     }
   }).filter((element) => element !== undefined);
 
-    //котлетосы
-    const main = data.map((card) => {
-      if (card.type === 'main') {
-        return (<li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
-          <IngredientsCard 
-            imglink = {card.image}
-            price = {card.price}
-            name = {card.name}
-            item = {card}
-          />
-        </li>
-        )
-      }
-    }).filter((element) => element !== undefined);
-    return ( 
+  //котлетосы
+  const main = data.map((card) => {
+    if (card.type === 'main') {
+      return (
+        <Link
+          to={{
+            pathname: `/ingredients/${card._id}`,
+            state: { background: location },
+          }}
+          key={card._id}
+          className={styles.link}
+        >
+          <li className={"ml-4 mr-6 " + styles.card} id={card._id} key={card._id} onClick={onClickCard}>
+            <IngredientsCard
+              imglink = {card.image}
+              price = {card.price}
+              name = {card.name}
+              item = {card}
+            />
+          </li>
+        </Link>
+      )
+    }
+  }).filter((element) => element !== undefined);
+  return (
     <div className={styles.block + " ml-5"}>
       <h1 className="mt-10 mb-5 text text_type_main-large" >Соберите бургер</h1>
       <ul className={styles.menu + ' ' + styles.list}>
         {menu}
-    </ul>
-    <div className={styles.ingr}>
-      <h2 className="text text_type_main-medium mt-10 mb-6" id="one" ref={bunRef}>Пол булки - плати дважды!</h2>
-      <ul className={styles.flex}>
-        {bun}
       </ul>
-      <h2 className="text text_type_main-medium mt-10 mb-6" id="two" ref={souceRef}>Соусы</h2>
-      <ul className={styles.flex}>
-        {sauce}
-      </ul>
-      <h2 className="text text_type_main-medium mt-10 mb-6" id="three" ref={mainRef}>Начинки</h2>
-      <ul className={styles.flex}>
-        {main}
-      </ul>
+      <div className={styles.ingr}>
+        <h2 className="text text_type_main-medium mt-10 mb-6" id="one" ref={bunRef}>Пол булки - плати дважды!</h2>
+        <ul className={styles.flex}>
+          {bun}
+        </ul>
+        <h2 className="text text_type_main-medium mt-10 mb-6" id="two" ref={souceRef}>Соусы</h2>
+        <ul className={styles.flex}>
+          {sauce}
+        </ul>
+        <h2 className="text text_type_main-medium mt-10 mb-6" id="three" ref={mainRef}>Начинки</h2>
+        <ul className={styles.flex}>
+          {main}
+        </ul>
+      </div>
     </div>
-    </div>
-    );
-  }
+  );
+}
 
-export default BurgerIngredients 
-
-
-  
+export default BurgerIngredients
