@@ -5,7 +5,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import style from './OrderInFeed.module.css';
 
 
-export default function OrderInFeed({status}) {
+export default function OrderInFeed({status, location}) {
   //хардкод
   const orderNumber = '123439';
   const orderDate = 'Сегодня, 16:20 i-GMT+3';
@@ -51,7 +51,7 @@ export default function OrderInFeed({status}) {
   });
   ingredients.push(noActiveCard);
   return (
-    <li className={`${style.orderContainer} mt-4`}>
+    <li className={`${location ? style.orderContainerSmall : style.orderContainer} mt-4`}>
       <div className={style.orderInfo}>
         <span className={`${style.orderNumber} text text_type_digits-default`}>#{orderNumber}</span>
         <p className={`text text_type_main-default text_color_inactive`}>{orderDate}</p>

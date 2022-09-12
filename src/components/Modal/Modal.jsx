@@ -1,12 +1,15 @@
 import {useEffect} from "react";
 import {createPortal} from "react-dom";
-import styles from "./Modal.module.css";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import {MODAL} from '../../utils/constants';
 import {useHistory, useLocation, useRouteMatch} from "react-router-dom";
-
+import PropTypes from 'prop-types';
+//стили
+import styles from "./Modal.module.css";
+//сторонние компоненты
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+//мои компоненты
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+//константы
+import {MODAL} from '../../utils/constants';
 
 function Modal ({ closeModal, title, children }) {
   const location = useLocation();

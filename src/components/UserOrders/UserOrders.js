@@ -1,8 +1,21 @@
 import React from 'react';
+//мои компоненты
+import OrderInFeed from '../OrderInFeed/OrderInFeed';
+//стили
+import style from './UserOrders.module.css';
 
 function UserOrders() {
   return (
-    <div>UserOrders</div>
+    <ul className={style.userOrderContainer}>
+      <OrderInFeed status />
+      <OrderInFeed status />
+      <OrderInFeed status />
+      <OrderInFeed status />
+      <OrderInFeed status />
+      <OrderInFeed status />
+      <OrderInFeed status />
+
+    </ul>
   )
 }
 

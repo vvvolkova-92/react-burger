@@ -1,6 +1,9 @@
 import React from 'react';
+import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 //мои компоненты
 import OrderInFeed from '../../components/OrderInFeed/OrderInFeed';
+import OrderDetailInFeed  from '../../components/OrderDetailInFeed/OrderDetailInFeed';
+import Modal from '../../components/Modal/Modal';
 //стили
 import style from './Feed.module.css';
 
@@ -50,22 +53,43 @@ export function Stat() {
 };
 
 function Feed() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
+  // const closeModal = useCallback (() => {
+  //   dispatch(setCurrentIngredient(null));
+  //   history.replace({ pathname: "/" });
+  // }, [history]);
+
   const title = 'Лента заказов';
   return (
     <main className={style.container}>
       <h2 className={`text text_type_main-large mt-10 mb-5`}>{title}</h2>
       <div className={style.info}>
       <ul className={style.list}>
-        <OrderInFeed/>
-        <OrderInFeed/>
-        <OrderInFeed/>
-        <OrderInFeed/>
-        <OrderInFeed/>
-        <OrderInFeed/>
-        <OrderInFeed/>
+        <OrderInFeed location/>
+        <OrderInFeed location/>
+        <OrderInFeed location/>
+        <OrderInFeed location/>
+        <OrderInFeed location/>
+        <OrderInFeed location/>
+        <OrderInFeed location/>
       </ul>
       <Stat />
       </div>
+      {background && (
+            <Route
+              path={`/ingredients/:id`}
+              children={
+                <Modal
+                  // closeModal={closeModal}
+                  >
+                  <OrderDetailInFeed/>
+                </Modal>
+              }
+            >
+            </Route>
+          )}
     </main>
   );
 }
