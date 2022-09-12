@@ -22,6 +22,7 @@ import Profile from "../../pages/Profile/Profile";
 import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import PageNotFound from "../../pages/PageNotFound/PageNotFound";
+import Feed from '../../pages/Feed/Feed';
 //стили
 import styles from './App.module.css';
 
@@ -65,7 +66,7 @@ const App = () => {
             <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
-
+            <Route path="/feed" exact={true} children={<Feed/>}/>
             <Route exact={true} children={<PageNotFound/>}/>
           </Switch>
           {background && (

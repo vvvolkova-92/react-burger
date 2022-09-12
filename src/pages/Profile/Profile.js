@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {BrowserRouter, Route, Switch, NavLink, useHistory} from 'react-router-dom';
 
 import UserInfo from "../../components/UserInfo/UserInfo";
+import UserOrders from "../../components/UserOrders/UserOrders";
 // стили
 import styles from './Profile.module.css';
 import {userLogout} from "../../services/actions/authenticationAction";
@@ -52,11 +53,11 @@ const Profile = () => {
         </div>
         <div className={styles.block__details + " ml-15"}>
           <Switch>
-            <Route path={`/profile`}>
-              <UserInfo />
+            <Route path={`/profile-orders`} exact={true}>
+              <UserOrders />
             </Route>
-            <Route path={`/profile/orders`}>
-              {/* <UserOrders /> */}
+            <Route path={`/profile`} exact={true}>
+              <UserInfo />
             </Route>
           </Switch>
         </div>
