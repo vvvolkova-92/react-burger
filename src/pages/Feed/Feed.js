@@ -1,11 +1,16 @@
-import React from 'react';
-import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import {BrowserRouter, Route, Switch, useHistory, useLocation, Link} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 //мои компоненты
 import OrderInFeed from '../../components/OrderInFeed/OrderInFeed';
 import OrderDetailInFeed  from '../../components/OrderDetailInFeed/OrderDetailInFeed';
+import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 import Modal from '../../components/Modal/Modal';
+import { getIngredients } from '../../services/actions/ingredientsAction';
 //стили
 import style from './Feed.module.css';
+//конастанты
+import { ordersData } from '../../utils/constants';
 
 const Complete = ({title, number}) => {
   return (
@@ -53,43 +58,50 @@ export function Stat() {
 };
 
 function Feed() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const location = useLocation();
   const background = location.state && location.state.background;
+  const orders = ordersData.orders;
+  // useEffect( () => {
+  //   dispatch(getIngredients());
+  // }, [dispatch]);
 
-  // const closeModal = useCallback (() => {
-  //   dispatch(setCurrentIngredient(null));
-  //   history.replace({ pathname: "/" });
-  // }, [history]);
+  const closeModal = useCallback (() => {
+    dispatch(setCurrentOrderDetail(null));
+    history.replace({ pathname: "/" });
+  }, [history]);
 
+  const onClickCard = evt => {
+    const currentOrder = orders.find((order) => order._id === evt.currentTarget.id);
+    dispatch(setCurrentOrderDetail(currentOrder));
+    history.push(`/feed/${currentOrder._id}`);
+  }
   const title = 'Лента заказов';
+
+  const order = useMemo( () => orders.map(order => {
+    return (
+      <Link to={{
+        pathname: `/feed/${order._id}`,
+        state: { background: location },
+      }}
+      key={order._id}
+      className={style.link}
+      >
+        <OrderInFeed {...order} onClick={onClickCard} inProfile/>
+      </Link>
+    )
+  }),[orders]);
+
   return (
     <main className={style.container}>
       <h2 className={`text text_type_main-large mt-10 mb-5`}>{title}</h2>
       <div className={style.info}>
       <ul className={style.list}>
-        <OrderInFeed location/>
-        <OrderInFeed location/>
-        <OrderInFeed location/>
-        <OrderInFeed location/>
-        <OrderInFeed location/>
-        <OrderInFeed location/>
-        <OrderInFeed location/>
+        {order}
       </ul>
       <Stat />
       </div>
-      {background && (
-            <Route
-              path={`/ingredients/:id`}
-              children={
-                <Modal
-                  // closeModal={closeModal}
-                  >
-                  <OrderDetailInFeed/>
-                </Modal>
-              }
-            >
-            </Route>
-          )}
     </main>
   );
 }

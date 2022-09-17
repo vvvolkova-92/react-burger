@@ -23,6 +23,7 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 import Feed from '../../pages/Feed/Feed';
+import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
 //стили
 import styles from './App.module.css';
 
@@ -67,8 +68,22 @@ const App = () => {
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
             <Route path="/feed" exact={true} children={<Feed/>}/>
+            <Route exact path={`/feed/:id`} children={<OrderDetailInFeed/>}/>
             <Route exact={true} children={<PageNotFound/>}/>
           </Switch>
+          {background && (
+            <Route
+              path={`/feed/:id`}
+              children={
+                <Modal
+                  closeModal={closeModal}
+                  >
+                  <OrderDetailInFeed/>
+                </Modal>
+              }
+            >
+            </Route>
+          )}
           {background && (
             <Route
               path={`/ingredients/:id`}

@@ -13,7 +13,7 @@
   max-width: 584px;
 }
 
-.orderContainer:hover {
+.orderContainer, .orderContainerSmall:hover {
   background-color: #2F2F37;
   transition: background-color .3s ease-in-out;
 }
