@@ -1,4 +1,4 @@
-import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODAL_OPEN_ORDER_CARD, IN_MODAL_OPEN_HISTORY_ORDER_CARD, SET_CURRENT_HISTORY_ORDER} from '../types';
+import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODAL_OPEN_ORDER_CARD, IN_MODAL_OPEN_HISTORY_ORDER_CARD, SET_CURRENT_HISTORY_ORDER, TOTAL_PRICE_ORDER} from '../types';
 import {BASEURL} from '../../utils/constants';
 import { closeModal } from './modalAction';
 import { checkResponse } from '../../utils/constants';
@@ -59,3 +59,12 @@ export function setCurrentOrderDetail (item) {
     });
   }
 };
+
+// export function setTotalPrice (total) {
+//   return function(dispatch) {
+//     dispatch({
+//       type: TOTAL_PRICE_ORDER,
+//       total,
+//     });
+//   }
+// }

@@ -1,5 +1,5 @@
 import {useCallback, useEffect} from 'react';
-import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, useHistory, useLocation, useRouteMatch} from 'react-router-dom';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,6 +24,7 @@ import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 import Feed from '../../pages/Feed/Feed';
 import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
+import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 //стили
 import styles from './App.module.css';
 
@@ -31,11 +32,17 @@ const App = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const { url, path } = useRouteMatch();
   const background = location.state && location.state.background;
 
   const { isFetching } = useSelector(store => store.ingredients);
   const {ingredientCardModal} = useSelector(state => state.modalReducer);
   const currentIngredient= useSelector(store => store.currentIngredient);
+
+  const closeOrderFeedmodal = useCallback (() => {
+    dispatch(setCurrentOrderDetail(null));
+    history.replace({ pathname: location?.state?.from || '/feed' });
+  }, [history]);
 
   const closeModal = useCallback (() => {
     dispatch(setCurrentIngredient(null));
@@ -46,7 +53,6 @@ const App = () => {
     dispatch(getIngredients());
     dispatch(getUserData());
   }, []);
-
   return (
     <>
       {!isFetching && (
@@ -73,10 +79,11 @@ const App = () => {
           </Switch>
           {background && (
             <Route
-              path={`/feed/:id`}
+              path={`${background.pathname}/:id`}
               children={
                 <Modal
-                  closeModal={closeModal}
+                  closeModal={closeOrderFeedmodal}
+                  orderModal
                   >
                   <OrderDetailInFeed/>
                 </Modal>

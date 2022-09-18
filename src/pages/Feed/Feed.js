@@ -63,14 +63,15 @@ function Feed() {
   const location = useLocation();
   const background = location.state && location.state.background;
   const orders = ordersData.orders;
+  
   // useEffect( () => {
   //   dispatch(getIngredients());
   // }, [dispatch]);
 
-  const closeModal = useCallback (() => {
-    dispatch(setCurrentOrderDetail(null));
-    history.replace({ pathname: "/" });
-  }, [history]);
+  // const closeModal = useCallback (() => {
+  //   dispatch(setCurrentOrderDetail(null));
+  //   history.replace({ pathname: "/" });
+  // }, [history]);
 
   const onClickCard = evt => {
     const currentOrder = orders.find((order) => order._id === evt.currentTarget.id);

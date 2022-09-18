@@ -1,13 +1,16 @@
 import React, { useMemo } from 'react';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //сторонние компоненты
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 //стили
 // мои компоненты 
 import style from './OrderInFeed.module.css';
+import { setTotalPrice } from '../../services/actions/orderAction';
 
 
 export default function OrderInFeed({inProfile, status, _id, ingredients, name, createdAt, updatedAt, number, onClick}) {
+
+  const dispatch = useDispatch();
 
   const data = useSelector (store => store.ingredients.ingredients);
   //для неактивной карточки ингредиента
@@ -40,6 +43,7 @@ export default function OrderInFeed({inProfile, status, _id, ingredients, name, 
     return activeCards;
   }), [ingredients]);
   activeIngredients.push(noActiveCard);
+  // dispatch(setTotalPrice(total));
   return (
     <li className={`${inProfile ? style.orderContainerSmall : style.orderContainer} mt-4`} key={`order-${_id}`} onClick={onClick} id={_id}>
       <div className={style.orderInfo}>

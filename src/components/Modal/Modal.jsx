@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 import {createPortal} from "react-dom";
+import { useSelector } from "react-redux";
 import {useHistory, useLocation, useRouteMatch} from "react-router-dom";
 import PropTypes from 'prop-types';
 //стили
@@ -11,10 +12,13 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 //константы
 import {MODAL} from '../../utils/constants';
 
-function Modal ({ closeModal, title, children }) {
+
+function Modal ({ closeModal, title, children, orderModal }) {
   const location = useLocation();
   const history = useHistory();
   const { url } = useRouteMatch();
+
+  const {number} = useSelector(state => state.currentOrderReducer);
 
   useEffect( () => {
       function closeByEscape (evt) {
@@ -34,6 +38,7 @@ function Modal ({ closeModal, title, children }) {
         <ModalOverlay onClose={closeModal}/>
         <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
           <div className={styles.titleBlock}>
+            {orderModal && (<h3 className={styles.title + " text text_type_digits-default"}>#{number}</h3>)}
             <h2 className={styles.title + " text text_type_main-large"}>{title}</h2>
             <div className={styles.btnClose}>
               <CloseIcon type="primary" onClick={closeModal} />
@@ -51,6 +56,7 @@ Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
   closeModal: PropTypes.func.isRequired,
+  orderModal: PropTypes.bool,
 }
 
 export default Modal
