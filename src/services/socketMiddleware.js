@@ -7,17 +7,17 @@ export const socketMiddleware = (wsUrl) => {
       const { dispatch, getState } = store;
       const { type, payload } = action;
 
-      const { isLogin } = getState().userReducer;
+      const data = getState().socketReducer;
 
       if (type === WS_CONNECTION_START) {
         // объект класса WebSocket
         console.log('WS_CONNECTION_START');
-        socket = new WebSocket(wsUrl);
+        socket = new WebSocket(payload);
       }
-      // if (type === WS_CONNECTION_CLOSE) {
-      //   // объект класса WebSocket
-      //   socket.close('messsage');
-      // }
+      if (type === WS_CONNECTION_CLOSE) {
+        // объект класса WebSocket
+        socket.close('1000');
+      }
       if (socket) {
         // функция, которая вызывается при открытии сокета
         socket.onopen = event => {

@@ -1,9 +1,10 @@
-import { WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSED, WS_GET_MESSAGE } from '../types.js';
+import { WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSED, WS_GET_MESSAGE, WS_CONNECTION_CLOSE } from '../types.js';
 
 const initialState = {
   wsConnected: false,
   messages: [],
   error: undefined,
+  close: false,
 };
 
 export const socketReducer = (state = initialState, action) => {
@@ -27,13 +28,20 @@ export const socketReducer = (state = initialState, action) => {
         ...state,
         wsConnected: false,
         error: undefined,
+        close: false,
       };
     }
     case WS_GET_MESSAGE: {
       return {
         ...state,
-        messages: [...state.messages, action.payload],
+        messages: action.payload,
         error: undefined,
+      };
+    }
+    case WS_CONNECTION_CLOSE: {
+      return {
+        ...state,
+        close: true,
       };
     }
     default: {

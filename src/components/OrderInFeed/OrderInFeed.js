@@ -11,6 +11,7 @@ import { setTotalPrice } from '../../services/actions/orderAction';
 export default function OrderInFeed({inProfile, status, _id, ingredients, name, createdAt, updatedAt, number, onClick}) {
 
   const dispatch = useDispatch();
+  const orderDate = new Date(createdAt).toLocaleString();
 
   const data = useSelector (store => store.ingredients.ingredients);
   //для неактивной карточки ингредиента
@@ -48,7 +49,7 @@ export default function OrderInFeed({inProfile, status, _id, ingredients, name, 
     <li className={`${inProfile ? style.orderContainerSmall : style.orderContainer} mt-4`} key={`order-${_id}`} onClick={onClick} id={_id}>
       <div className={style.orderInfo}>
         <span className={`${style.orderNumber} text text_type_digits-default`}>#{number}</span>
-        <p className={`text text_type_main-default text_color_inactive`}>{createdAt}</p>
+        <p className={`text text_type_main-default text_color_inactive`}>{orderDate}</p>
       </div>
       <p className={`text text_type_main-medium mt-6 mb-2`}>{name}</p>
       {!inProfile && (<span className={`${style.orderStatus} text text_type_main-default`}>{status}</span>)}

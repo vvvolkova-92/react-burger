@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState, useRef} from "react";
+import { useMemo, useCallback, useState, useRef, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {BrowserRouter, Route, Switch, NavLink, useHistory, useLocation} from 'react-router-dom';
 
@@ -10,7 +10,8 @@ import {userLogout} from "../../services/actions/authenticationAction";
 import OrderDetailInFeed from "../../components/OrderDetailInFeed/OrderDetailInFeed";
 import Modal from "../../components/Modal/Modal";
 import { setCurrentOrderDetail } from "../../services/actions/orderAction";
-
+import { getCookie } from "../../utils/constants";
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from "../../services/types";
 const Profile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -23,6 +24,20 @@ const Profile = () => {
     // history.replace({ pathname: location?.state?.from || '/profile/orders'});
     console.log(history);
   }, [history]);
+
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: `wss://norma.nomoreparties.space/orders?token=${getCookie(
+          'accessToken')}`,
+    });
+    return () => {
+      dispatch({
+        type: WS_CONNECTION_CLOSE,
+      });
+    };
+  }, []);
+
 
   return (
     <BrowserRouter>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import {BrowserRouter, Route, Switch, useHistory, useLocation, Link} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 //мои компоненты
 import OrderInFeed from '../../components/OrderInFeed/OrderInFeed';
 import OrderDetailInFeed  from '../../components/OrderDetailInFeed/OrderDetailInFeed';
@@ -11,7 +11,7 @@ import { getIngredients } from '../../services/actions/ingredientsAction';
 import style from './Feed.module.css';
 //конастанты
 import { ordersData } from '../../utils/constants';
-
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
 const Complete = ({title, number}) => {
   return (
     <div className={`${style.complete} mt-15`}>
@@ -21,11 +21,10 @@ const Complete = ({title, number}) => {
   )
 };
 
-export function Stat() {
-  const dayTotal = 150;
+export function Stat({orders, total, totalToday}) {
   const dayTitle = 'Выполнено за сегодня:';
   const monthTitle = 'Выполнено за все время:';
-  const monthTotal = 234123;
+  const ordersDone = useMemo(() => orders?.filter(order => order.status === 'done'),[orders]);
 
   return (
     <div className={style.stat}>
@@ -51,8 +50,8 @@ export function Stat() {
           </ul>
         </div>
       </div>
-      <Complete title={monthTitle} number={monthTotal} />
-        <Complete title={dayTitle} number={dayTotal} />
+      <Complete title={monthTitle} number={total} />
+      <Complete title={dayTitle} number={totalToday} />
     </div>
   )
 };
@@ -62,25 +61,29 @@ function Feed() {
   const history = useHistory();
   const location = useLocation();
   const background = location.state && location.state.background;
-  const orders = ordersData.orders;
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: "wss://norma.nomoreparties.space/orders/all",
+    });
+    return () => {
+      dispatch({
+        type: WS_CONNECTION_CLOSE,
+      });
+    };
+  }, []);
   
-  // useEffect( () => {
-  //   dispatch(getIngredients());
-  // }, [dispatch]);
-
-  // const closeModal = useCallback (() => {
-  //   dispatch(setCurrentOrderDetail(null));
-  //   history.replace({ pathname: "/" });
-  // }, [history]);
+  // const { orders, total, totalToday } = useSelector((state) => state.socketReducer.messages);
+  const { messages, wsConnected } = useSelector((state) => state.socketReducer);
 
   const onClickCard = evt => {
-    const currentOrder = orders.find((order) => order._id === evt.currentTarget.id);
-    dispatch(setCurrentOrderDetail(currentOrder));
-    history.push(`/feed/${currentOrder._id}`);
+    // const currentOrder = orders.find((order) => order._id === evt.currentTarget.id);
+    // dispatch(setCurrentOrderDetail(currentOrder));
+    history.push(`/feed/${order._id}`);
   }
   const title = 'Лента заказов';
-
-  const order = useMemo( () => orders.map(order => {
+  const { orders } = messages; 
+  const order = orders?.map(order => {
     return (
       <Link to={{
         pathname: `/feed/${order._id}`,
@@ -92,19 +95,19 @@ function Feed() {
         <OrderInFeed {...order} onClick={onClickCard} inProfile/>
       </Link>
     )
-  }),[orders]);
-
-  return (
+  });
+  console.log(messages);
+  return wsConnected && (
     <main className={style.container}>
       <h2 className={`text text_type_main-large mt-10 mb-5`}>{title}</h2>
       <div className={style.info}>
       <ul className={style.list}>
         {order}
       </ul>
-      <Stat />
+      <Stat {...messages}/>
       </div>
     </main>
-  );
+  )
 }
 
 export default Feed;

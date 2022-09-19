@@ -21,7 +21,10 @@ function Modal ({ closeModal, title, children, orderModal }) {
   const order = useMemo(() => {
     return ordersData.orders.find(order => order._id === id);
   }, [id]);
-  const number = order.number;
+  let number;
+  if (orderModal) {
+    number = order.number;
+  }
 
   useEffect( () => {
       function closeByEscape (evt) {
