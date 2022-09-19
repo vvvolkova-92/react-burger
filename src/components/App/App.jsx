@@ -23,10 +23,12 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 import Feed from '../../pages/Feed/Feed';
+import UserOrders from '../UserOrders/UserOrders';
 import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 //стили
 import styles from './App.module.css';
+import UserInfo from '../UserInfo/UserInfo';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +49,11 @@ const App = () => {
   const closeModal = useCallback (() => {
     dispatch(setCurrentIngredient(null));
     history.replace({ pathname: "/" });
+  }, [history]);
+
+  const closeOrderOrdermodal = useCallback (() => {
+    dispatch(setCurrentOrderDetail(null));
+    history.replace({ pathname: location?.state?.from || '/profile/orders'});
   }, [history]);
 
   useEffect( () => {
@@ -71,6 +78,8 @@ const App = () => {
             <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
             <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
             <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
+            <PrivateRouteUnloggedUser path="/profile/orders" exact={true} children={<Profile/>}/>
+            <PrivateRouteUnloggedUser path="/profile/orders/:id" exact={true} children={<OrderDetailInFeed/>}/>
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
             <Route path="/feed" exact={true} children={<Feed/>}/>
@@ -88,6 +97,21 @@ const App = () => {
                   <OrderDetailInFeed/>
                 </Modal>
               }
+            >
+            </Route>
+          )}
+          {background && (
+            <Route
+              path={`/profile/orders/:id`}
+              children={
+                <Modal
+                  closeModal={closeOrderOrdermodal}
+                  orderModal
+                  >
+                  <OrderDetailInFeed/>
+                </Modal>
+              }
+              exact
             >
             </Route>
           )}

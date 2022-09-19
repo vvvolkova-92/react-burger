@@ -6,3 +6,9 @@
   max-height: 744px;
   overflow: scroll;
 }
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+

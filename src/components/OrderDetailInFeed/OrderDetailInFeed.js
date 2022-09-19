@@ -23,11 +23,11 @@ import style from './OrderDetailInFeed.module.css';
 function OrderDetailInFeed() {
 
   const { id } = useParams();
+  const location = useLocation();
   const order = useMemo(() => {
     return ordersData.orders.find(order => order._id === id);
   }, [id]);
-  const location = useLocation();
-  const {name, status, ingredients, createdAt } = order;
+  const {name, number, status, ingredients, createdAt } = order;
   const allIngr = useSelector (store => store.ingredients.ingredients);
   //считаем дубли и получаем данные по айди ингредиенты
   const sortIngredients = ingredients.sort(); //сортировка массива
@@ -45,7 +45,8 @@ function OrderDetailInFeed() {
 
 };
   return (
-    <div>
+    <div className={location.state === undefined ? style.container : undefined}>
+      { location.state === undefined && (<h3 className={style.title + " text text_type_digits-default"}>#{number}</h3>)}
       <h2 className={`text text_type_main-medium mt-5 mb-2`}>{name}</h2>
       <span className={`${style.orderStatus} text text_type_main-default`}>{status}</span>
       <span className={`text text_type_main-medium mt-5`}>Состав:</span>

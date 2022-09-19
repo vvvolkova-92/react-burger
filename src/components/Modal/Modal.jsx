@@ -1,7 +1,7 @@
-import {useEffect} from "react";
+import {useEffect, useMemo} from "react";
 import {createPortal} from "react-dom";
 import { useSelector } from "react-redux";
-import {useHistory, useLocation, useRouteMatch} from "react-router-dom";
+import {useHistory, useLocation, useRouteMatch, useParams} from "react-router-dom";
 import PropTypes from 'prop-types';
 //стили
 import styles from "./Modal.module.css";
@@ -11,14 +11,17 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 //константы
 import {MODAL} from '../../utils/constants';
-
+import { ordersData } from "../../utils/constants";
 
 function Modal ({ closeModal, title, children, orderModal }) {
   const location = useLocation();
   const history = useHistory();
   const { url } = useRouteMatch();
-
-  const {number} = useSelector(state => state.currentOrderReducer);
+  const { id } = useParams();
+  const order = useMemo(() => {
+    return ordersData.orders.find(order => order._id === id);
+  }, [id]);
+  const number = order.number;
 
   useEffect( () => {
       function closeByEscape (evt) {
