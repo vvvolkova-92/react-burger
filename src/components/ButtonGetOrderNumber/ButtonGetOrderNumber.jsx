@@ -1,13 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderNumber } from '../../services/actions/orderAction';
 import {useHistory} from "react-router-dom";
+import { InfinitySpin } from 'react-loader-spinner';
 
 function ButtonGetOrderNumber() {
-
+  const [state, setState] = useState(false);
   const { isLogin } = useSelector(store => store.userReducer);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -24,22 +25,26 @@ function ButtonGetOrderNumber() {
         const postIngredients = main.concat(bun).map(item => {
           return item._id;
         })
-
         isLogin ? dispatch(getOrderNumber(postIngredients)) : history.replace({ pathname: "/login" });
-
       }
+      setState(true);
     },
     [bun, main],
   );
-
   const closeModal = () => {
     dispatch(getOrderNumber(null));
+    setState(false);
   }
 
   return ( <>
     <Button type="primary" size="large" onClick={clickHandler}>
       Оформить заказ
     </Button>
+    {state && (    
+      <InfinitySpin 
+        width='200'
+        color="rgba(128, 26, 178, 1)"
+      />)}
     {orderModal && (
       <Modal closeModal ={closeModal}>
         <OrderDetails />

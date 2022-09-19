@@ -2,7 +2,7 @@ import { ORDER_GET_ORDER_NUMBER_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, IN_MODA
 import {BASEURL} from '../../utils/constants';
 import { closeModal } from './modalAction';
 import { checkResponse } from '../../utils/constants';
-
+import { getCookie } from '../../utils/constants';
 export function getOrderNumber (ingredients) {
   if (ingredients === null) {
     return closeModal();
@@ -13,7 +13,8 @@ export function getOrderNumber (ingredients) {
         const res = await fetch(`${BASEURL}/orders`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + getCookie('accessToken'),
           },
           body: JSON.stringify({
             'ingredients': ingredients,
