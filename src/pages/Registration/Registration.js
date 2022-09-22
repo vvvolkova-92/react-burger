@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useMemo, useCallback, useState, useRef, useEffect } from "react";
 import { Link, useHistory, BrowserRouter } from 'react-router-dom';
 // сторонние компоненты
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';

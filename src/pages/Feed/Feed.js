@@ -1,17 +1,13 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import {BrowserRouter, Route, Switch, useHistory, useLocation, Link} from 'react-router-dom';
+import React, { useEffect, useMemo } from 'react';
+import { useHistory, useLocation, Link} from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 //мои компоненты
 import OrderInFeed from '../../components/OrderInFeed/OrderInFeed';
-import OrderDetailInFeed  from '../../components/OrderDetailInFeed/OrderDetailInFeed';
-import { setCurrentOrderDetail } from '../../services/actions/orderAction';
-import Modal from '../../components/Modal/Modal';
-import { getIngredients } from '../../services/actions/ingredientsAction';
 //стили
 import style from './Feed.module.css';
 //конастанты
-import { ordersData } from '../../utils/constants';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
+
 const Complete = ({title, number}) => {
   return (
     <div className={`${style.complete} mt-15`}>
@@ -25,28 +21,20 @@ export function Stat({orders, total, totalToday}) {
   const dayTitle = 'Выполнено за сегодня:';
   const monthTitle = 'Выполнено за все время:';
   const ordersDone = useMemo(() => orders?.filter(order => order.status === 'done'),[orders]);
-
+  const ordersInProgress = useMemo(() => orders?.filter(order => order.status === 'pending'),[orders]);
   return (
     <div className={style.stat}>
       <div className={style.orderStats}>
         <div className={style.orderDone}>
           <span className={`${style.statusTitle} text text_type_main-medium mb-4`}>Готовы:</span>
           <ul className={`${style.orderDoneList}`}>
-            <li className="text text_type_digits-default mb-2">1111</li>
-            <li className="text text_type_digits-default mb-2">2222</li>
-            <li className="text text_type_digits-default mb-2">3333</li>
-            <li className="text text_type_digits-default mb-2">4444</li>
-            <li className="text text_type_digits-default mb-2">5555</li>
-            <li className="text text_type_digits-default mb-2">6666</li>
+            {ordersDone?.map(order => (<li className="text text_type_digits-default mb-2">{order.number}</li>))}
           </ul>
         </div>
         <div className={style.orderInProgress}>
           <span className={`${style.statusTitle} text text_type_main-medium mb-4`}>В работе:</span>
           <ul className={`${style.orderInProgressList}`}>
-          <li className="text text_type_digits-default mb-2">7777</li>
-            <li className="text text_type_digits-default mb-2">8888</li>
-            <li className="text text_type_digits-default mb-2">9999</li>
-            <li className="text text_type_digits-default mb-2">10000</li>
+          {ordersInProgress?.map(order => (<li className="text text_type_digits-default mb-2" key={order.number}>{order.number}</li>))}
           </ul>
         </div>
       </div>
@@ -83,7 +71,7 @@ function Feed() {
   }
   const title = 'Лента заказов';
   const { orders } = messages; 
-  const order = orders?.map(order => {
+  const order = useMemo(() => orders?.map(order => {
     return (
       <Link to={{
         pathname: `/feed/${order._id}`,
@@ -95,8 +83,7 @@ function Feed() {
         <OrderInFeed {...order} onClick={onClickCard} inProfile/>
       </Link>
     )
-  });
-  console.log(messages);
+  }));
   return wsConnected && (
     <main className={style.container}>
       <h2 className={`text text_type_main-large mt-10 mb-5`}>{title}</h2>

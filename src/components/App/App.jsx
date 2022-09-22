@@ -1,5 +1,5 @@
 import {useCallback, useEffect} from 'react';
-import {BrowserRouter, Route, Switch, useHistory, useLocation, useRouteMatch} from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {useDispatch, useSelector} from 'react-redux';
@@ -13,8 +13,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import {getIngredients } from '../../services/actions/ingredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
-import {getUserData, refreshToken} from "../../services/actions/authenticationAction";
-import {getCookie} from "../../utils/constants";
+import {getUserData} from "../../services/actions/authenticationAction";
 // страницы
 import Login from "../../pages/Login/Login";
 import Registration from "../../pages/Registration/Registration";
@@ -23,12 +22,10 @@ import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 import Feed from '../../pages/Feed/Feed';
-import UserOrders from '../UserOrders/UserOrders';
 import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 //стили
 import styles from './App.module.css';
-import UserInfo from '../UserInfo/UserInfo';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -92,7 +89,6 @@ const App = () => {
               children={
                 <Modal
                   closeModal={closeOrderFeedmodal}
-                  orderModal
                   >
                   <OrderDetailInFeed/>
                 </Modal>
@@ -106,7 +102,6 @@ const App = () => {
               children={
                 <Modal
                   closeModal={closeOrderOrdermodal}
-                  orderModal
                   >
                   <OrderDetailInFeed/>
                 </Modal>

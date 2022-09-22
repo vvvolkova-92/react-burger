@@ -1,5 +1,5 @@
-import { useMemo, useCallback, useState, useRef, useEffect} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useEffect} from "react";
+import { useDispatch } from "react-redux";
 import {BrowserRouter, Route, Switch, NavLink, useHistory, useLocation} from 'react-router-dom';
 
 import UserInfo from "../../components/UserInfo/UserInfo";
@@ -11,7 +11,9 @@ import OrderDetailInFeed from "../../components/OrderDetailInFeed/OrderDetailInF
 import Modal from "../../components/Modal/Modal";
 import { setCurrentOrderDetail } from "../../services/actions/orderAction";
 import { getCookie } from "../../utils/constants";
+
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from "../../services/types";
+
 const Profile = () => {
   const dispatch = useDispatch();
   const history = useHistory();

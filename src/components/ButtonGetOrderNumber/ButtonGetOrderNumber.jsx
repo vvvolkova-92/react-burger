@@ -34,7 +34,7 @@ function ButtonGetOrderNumber() {
   const closeModal = () => {
     dispatch(getOrderNumber(null));
     setState(false);
-  }
+  };
 
   return ( <>
     <Button type="primary" size="large" onClick={clickHandler}>

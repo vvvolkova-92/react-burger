@@ -3,14 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 //сторонние компоненты
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 //стили
-// мои компоненты 
 import style from './OrderInFeed.module.css';
-import { setTotalPrice } from '../../services/actions/orderAction';
 
+export default function OrderInFeed({inProfile, status, _id, ingredients, name, createdAt, number, onClick}) {
 
-export default function OrderInFeed({inProfile, status, _id, ingredients, name, createdAt, updatedAt, number, onClick}) {
-
-  const dispatch = useDispatch();
   const orderDate = new Date(createdAt).toLocaleString();
 
   const data = useSelector (store => store.ingredients.ingredients);
@@ -24,19 +20,19 @@ export default function OrderInFeed({inProfile, status, _id, ingredients, name, 
     let activeCards;
       const image = ingredientsData[0]?.image_mobile;
       const name = ingredientsData[0]?.name;
-      const price = ingredientsData[0]?.price;
+      const price = ingredientsData[0]?.type === 'bun' ? ingredientsData[0]?.price * 2 : ingredientsData[0]?.price;
       if (index < 5 ) {
         activeCards = (      
-          <li className={style.ingredientsList} style={{zIndex: 100-index}}>
-            <img src={image} alt={name} className={style.ingredientImage} key={`activeIng-${ingr}`}/>
+          <li className={style.ingredientsList} style={{zIndex: 100-index}} key={`activeIng-${ingr}-${index}`}>
+            <img src={image} alt={name} className={style.ingredientImage} key={`activeIngImg-${ingr}`}/>
           </li>
         )
       } 
       else {
         count = index - 5;
         noActiveCard = (      
-          <li className={`text text_type_main-default ${style.ingredientsList}`} style={{zIndex: 100-index}} data-count={`+${count}`}>
-            <img src={image} alt={name} className={style.ingredientImageNoActive} key={`noActiveIng-${ingr}`}/>
+          <li className={`text text_type_main-default ${style.ingredientsList}`} style={{zIndex: 100-index}} data-count={`+${count}`} key={`noActiveIng-${ingr}${index}`}>
+            <img src={image} alt={name} className={style.ingredientImageNoActive} key={`noActiveIngImg-${ingr}`}/>
           </li>
         )
       };
@@ -44,7 +40,6 @@ export default function OrderInFeed({inProfile, status, _id, ingredients, name, 
     return activeCards;
   }), [ingredients]);
   activeIngredients.push(noActiveCard);
-  // dispatch(setTotalPrice(total));
   return (
     <li className={`${inProfile ? style.orderContainerSmall : style.orderContainer} mt-4`} key={`order-${_id}`} onClick={onClick} id={_id}>
       <div className={style.orderInfo}>

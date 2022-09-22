@@ -32,13 +32,20 @@
 
 .orderDone, .orderInProgress {
   width: 280px;
-  max-height: 206px;
+  max-height: 412px;
 
 }
 .orderDoneList, .orderInProgressList {
+  display: flex;
+  flex-direction: column;
+  max-height: 412px;
+  width: 240px;
+  flex-wrap: wrap;
+  gap: 10px;
   list-style-type: none;
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 .orderDoneList li {

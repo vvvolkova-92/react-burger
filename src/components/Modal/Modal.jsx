@@ -11,15 +11,17 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 //константы
 import {MODAL} from '../../utils/constants';
-import { ordersData } from "../../utils/constants";
 
-function Modal ({ closeModal, title, children, orderModal }) {
+function Modal ({ closeModal, title, children }) {
   const location = useLocation();
   const history = useHistory();
   const { url } = useRouteMatch();
   const { id } = useParams();
+  const { messages, wsConnected } = useSelector((state) => state.socketReducer);
+  const orderModal = useSelector((state) => state.modalReducer);
+  const { orders } = messages; 
   const order = useMemo(() => {
-    return ordersData.orders.find(order => order._id === id);
+    return orders?.find(order => order._id === id);
   }, [id]);
   let number;
   if (orderModal) {
@@ -62,7 +64,6 @@ Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
   closeModal: PropTypes.func.isRequired,
-  orderModal: PropTypes.bool,
 }
 
 export default Modal
