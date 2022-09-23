@@ -1,4 +1,4 @@
-import { useState, useContext, useRef} from "react";
+import { useState, useContext, useRef, useEffect, useCallback} from "react";
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {getIngredientsInConstructor} from '../../services/actions/constructorIngredientsAction';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 import { Link, useLocation, useRouteMatch, useHistory } from "react-router-dom";
+import { useInView } from 'react-intersection-observer';
 
 function BurgerIngredients () {
   const history = useHistory();
@@ -17,6 +18,42 @@ function BurgerIngredients () {
 
   const [current, setCurrent] = useState('one');
 
+  const { ref: mainR, inView: mainInView } = useInView();
+  const { ref: bunR, inView: bunInView } = useInView();
+  const { ref: souceR, inView: souceInView } = useInView();
+  const refMain = useRef(null);
+  const refBun = useRef(null);
+  const refSouce = useRef(null);
+
+  const setMainRefs = useCallback(
+    (node) => {
+      refMain.current = node;
+      mainR(node);
+    },
+    [mainR],
+  );
+  const setBunRefs = useCallback(
+    (node) => {
+      refBun.current = node;
+      bunR(node);
+    },
+    [bunR],
+  );
+
+  const setSouceRefs = useCallback(
+    (node) => {
+      refSouce.current = node;
+      souceR(node);
+    },
+    [souceR],
+  );
+
+  useEffect(() => {
+    souceInView && setCurrent('two');
+    bunInView && setCurrent('one');
+    mainInView && setCurrent('three');
+  },[mainInView, bunInView, souceInView]);
+
   const data = useSelector (store => store.ingredients.ingredients);
   const dispatch = useDispatch();
 
@@ -24,23 +61,19 @@ function BurgerIngredients () {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);
     dispatch(setCurrentIngredient(currentItem));
     history.push(`/ingredients/${currentItem._id}`);
-  }
-
-  const bunRef = useRef(null);
-  const souceRef = useRef(null);
-  const mainRef = useRef(null);
+  };
 
   const menu = menuItems.map(item => {
     return (<li key={item.id}>
         <Tab value={item.value} active = {current === item.value} onClick={value => {
           setCurrent(value);
-          if(bunRef.current.id === value) {
-            bunRef.current.scrollIntoView({behavior: "smooth"});
+          if(refBun.current.id === value) {
+            refBun.current.scrollIntoView({behavior: "smooth"});
           }
-          if(souceRef.current.id === value) {
-            souceRef.current.scrollIntoView({behavior: "smooth"});
-          } else if(mainRef.current.id === value) {
-            mainRef.current.scrollIntoView({behavior: "smooth"});
+          if(refSouce.current.id === value) {
+            refSouce.current.scrollIntoView({behavior: "smooth"});
+          } else if(refMain.current.id === value) {
+            refMain.current.scrollIntoView({behavior: "smooth"});
           }
         }}>
           {item.name}
@@ -131,15 +164,15 @@ function BurgerIngredients () {
         {menu}
       </ul>
       <div className={styles.ingr}>
-        <h2 className="text text_type_main-medium mt-10 mb-6" id="one" ref={bunRef}>Пол булки - плати дважды!</h2>
+        <h2 className="text text_type_main-medium mt-10 mb-6" id="one" ref={setBunRefs}>Булки (цена за половинку)</h2>
         <ul className={styles.flex}>
           {bun}
         </ul>
-        <h2 className="text text_type_main-medium mt-10 mb-6" id="two" ref={souceRef}>Соусы</h2>
+        <h2 className="text text_type_main-medium mt-10 mb-6" id="two" ref={setSouceRefs}>Соусы</h2>
         <ul className={styles.flex}>
           {sauce}
         </ul>
-        <h2 className="text text_type_main-medium mt-10 mb-6" id="three" ref={mainRef}>Начинки</h2>
+        <h2 className="text text_type_main-medium mt-10 mb-6" id="three" ref={setMainRefs}>Начинки</h2>
         <ul className={styles.flex}>
           {main}
         </ul>

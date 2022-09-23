@@ -13,10 +13,12 @@
   width: 100%;
   min-height: 539px;
   max-width: 720px;
+  z-index: 10000000;
 }
 
 .titleBlock {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
 }
@@ -30,4 +32,7 @@
   width: 24px;
   height: 24px;
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
 }

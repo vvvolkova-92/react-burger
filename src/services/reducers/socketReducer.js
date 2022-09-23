@@ -5,6 +5,7 @@ const initialState = {
   messages: [],
   error: undefined,
   close: false,
+  getMessage: false,
 };
 
 export const socketReducer = (state = initialState, action) => {
@@ -34,6 +35,7 @@ export const socketReducer = (state = initialState, action) => {
     case WS_GET_MESSAGE: {
       return {
         ...state,
+        getMessage: true,
         messages: action.payload,
         error: undefined,
       };

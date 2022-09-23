@@ -61,11 +61,3 @@ export function setCurrentOrderDetail (item) {
   }
 };
 
-// export function setTotalPrice (total) {
-//   return function(dispatch) {
-//     dispatch({
-//       type: TOTAL_PRICE_ORDER,
-//       total,
-//     });
-//   }
-// }

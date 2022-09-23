@@ -12,21 +12,10 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 //константы
 import {MODAL} from '../../utils/constants';
 
-function Modal ({ closeModal, title, children }) {
+function Modal ({ closeModal, title, children, orderModal }) {
   const location = useLocation();
   const history = useHistory();
   const { url } = useRouteMatch();
-  const { id } = useParams();
-  const { messages, wsConnected } = useSelector((state) => state.socketReducer);
-  const orderModal = useSelector((state) => state.modalReducer);
-  const { orders } = messages; 
-  const order = useMemo(() => {
-    return orders?.find(order => order._id === id);
-  }, [id]);
-  let number;
-  if (orderModal) {
-    number = order.number;
-  }
 
   useEffect( () => {
       function closeByEscape (evt) {
@@ -46,7 +35,7 @@ function Modal ({ closeModal, title, children }) {
         <ModalOverlay onClose={closeModal}/>
         <div className={styles.container + " pt-10 pr-10 pb-15 pl-10"}>
           <div className={styles.titleBlock}>
-            {orderModal && (<h3 className={styles.title + " text text_type_digits-default"}>#{number}</h3>)}
+            {orderModal && (<h3 className={styles.title + " text text_type_digits-default"}>#{orderModal}</h3>)}
             <h2 className={styles.title + " text text_type_main-large"}>{title}</h2>
             <div className={styles.btnClose}>
               <CloseIcon type="primary" onClick={closeModal} />

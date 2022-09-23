@@ -26,7 +26,7 @@ import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 //стили
 import styles from './App.module.css';
-
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
 const App = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -56,6 +56,15 @@ const App = () => {
   useEffect( () => {
     dispatch(getIngredients());
     dispatch(getUserData());
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: "wss://norma.nomoreparties.space/orders/all",
+    });
+    return () => {
+      dispatch({
+        type: WS_CONNECTION_CLOSE,
+      });
+    };
   }, []);
   return (
     <>
@@ -85,7 +94,8 @@ const App = () => {
           </Switch>
           {background && (
             <Route
-              path={`${background.pathname}/:id`}
+              exact
+              path={`/feed/:id`}
               children={
                 <Modal
                   closeModal={closeOrderFeedmodal}
@@ -98,6 +108,7 @@ const App = () => {
           )}
           {background && (
             <Route
+              exact
               path={`/profile/orders/:id`}
               children={
                 <Modal
@@ -106,12 +117,12 @@ const App = () => {
                   <OrderDetailInFeed/>
                 </Modal>
               }
-              exact
             >
             </Route>
           )}
           {background && (
             <Route
+              exact
               path={`/ingredients/:id`}
               children={
                 <Modal
