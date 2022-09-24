@@ -18,14 +18,13 @@ const Profile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const background = location.state && location.state.background;
+  const background = location?.state && location?.state?.background;
 
   const closeOrderOrdermodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
     history.replace({ pathname: location?.state?.from }) || history.go(-2);
     // history.replace({ pathname: location?.state?.from || '/profile/orders'});
-    console.log(history);
-  }, [history]);
+  }, [history, location?.state?.from, dispatch]);
 
   useEffect(() => {
     dispatch({
@@ -38,7 +37,7 @@ const Profile = () => {
         type: WS_CONNECTION_CLOSE,
       });
     };
-  }, []);
+  }, [dispatch]);
 
 
   return (

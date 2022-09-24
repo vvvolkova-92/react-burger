@@ -22,9 +22,10 @@ function ButtonGetOrderNumber() {
   const clickHandler = useCallback (
     () => {
       if(bun && main) {
-        const postIngredients = main.concat(bun).map(item => {
+        const postIngredients = main.concat(bun).concat(bun).map(item => {
           return item._id;
         })
+        console.log('postIngredients');
         isLogin ? dispatch(getOrderNumber(postIngredients)) : history.replace({ pathname: "/login" });
       }
       setState(true);

@@ -1,11 +1,11 @@
 import { useMemo, useEffect } from 'react';
 import { useLocation, useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from 'prop-types';
 //сторонние компоненты 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 //стили
 import style from './OrderDetailInFeed.module.css';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
 
  const Ingredient = ({image, name, price, count}) => {
   return (
@@ -20,6 +20,13 @@ import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
   )
  };
 
+ Ingredient.propTypes = {
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+};
+
 function OrderDetailInFeed() {
   const { messages, getMessage } = useSelector((state) => state.socketReducer);
   const orders  = messages?.orders; 
@@ -29,9 +36,6 @@ function OrderDetailInFeed() {
   const order = useMemo(() => {
     return orders?.find(order => order._id === id);
   }, [orders, id]);
-  console.log('id >'+ id);
-  console.log('orders >');
-  console.log(orders);
   // const {name, number, status, ingredients, createdAt } = order;
   const orderDate = new Date(order?.createdAt).toLocaleString();
 
@@ -50,6 +54,7 @@ function OrderDetailInFeed() {
       ingredientsInOrderData.push(obj); // пушим в пустой массив
     }
   };
+
   let totalPrice = 0;
   const orderIngrDetail = useMemo(() => ingredientsInOrderData?.map(item => {
     totalPrice += item.price * item.count;

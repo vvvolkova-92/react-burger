@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useHistory, useLocation, Link} from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
+import PropTypes from 'prop-types';
 //мои компоненты
 import OrderInFeed from '../../components/OrderInFeed/OrderInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
@@ -17,6 +18,12 @@ const Complete = ({title, number}) => {
     </div>
   )
 };
+
+Complete.propTypes = {
+  title: PropTypes.string.isRequired,
+  number: PropTypes.number,
+};
+
 
 export function Stat({orders, total, totalToday}) {
   const dayTitle = 'Выполнено за сегодня:';
@@ -45,22 +52,30 @@ export function Stat({orders, total, totalToday}) {
   )
 };
 
+Stat.propTypes = {
+  total: PropTypes.number,
+  totalToday: PropTypes.number,
+  orders: PropTypes.array,
+};
+
+
 function Feed() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const background = location.state && location.state.background;
-  // useEffect(() => {
-  //   dispatch({
-  //     type: WS_CONNECTION_START,
-  //     payload: "wss://norma.nomoreparties.space/orders/all",
-  //   });
-  //   return () => {
-  //     dispatch({
-  //       type: WS_CONNECTION_CLOSE,
-  //     });
-  //   };
-  // }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: "wss://norma.nomoreparties.space/orders/all",
+    });
+    return () => {
+      dispatch({
+        type: WS_CONNECTION_CLOSE,
+      });
+    };
+  }, [dispatch]);
   
   // const { orders, total, totalToday } = useSelector((state) => state.socketReducer.messages);
   const { messages, wsConnected } = useSelector((state) => state.socketReducer);

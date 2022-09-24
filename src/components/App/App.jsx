@@ -31,7 +31,6 @@ const App = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const { url, path } = useRouteMatch();
   const background = location.state && location.state.background;
 
   const { isFetching } = useSelector(store => store.ingredients);

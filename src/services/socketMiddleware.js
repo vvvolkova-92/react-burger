@@ -1,13 +1,9 @@
-import { WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSED, WS_GET_MESSAGE, WS_SEND_MESSAGE, WS_CONNECTION_CLOSE } from '../services/types';
-
 export const socketMiddleware = (wsTypes) => {
   return store => {
     let socket = null;
     return next => action => {
-      const { dispatch, getState } = store;
+      const { dispatch } = store;
       const { type, payload } = action;
-
-      const data = getState().socketReducer;
 
       if (type === wsTypes.start) {
         // объект класса WebSocket
@@ -33,7 +29,7 @@ export const socketMiddleware = (wsTypes) => {
         socket.onmessage = event => {
           const { data } = event;
           console.log('WS_GET_MESSAGE');
-          dispatch({ type: WS_GET_MESSAGE, payload: JSON.parse(data) });
+          dispatch({ type: wsTypes.getMes, payload: JSON.parse(data) });
         };
         // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
