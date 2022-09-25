@@ -55,15 +55,6 @@ const App = () => {
   useEffect( () => {
     dispatch(getIngredients());
     dispatch(getUserData());
-    dispatch({
-      type: WS_CONNECTION_START,
-      payload: "wss://norma.nomoreparties.space/orders/all",
-    });
-    return () => {
-      dispatch({
-        type: WS_CONNECTION_CLOSE,
-      });
-    };
   }, []);
   return (
     <>
@@ -83,7 +74,7 @@ const App = () => {
             <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
             <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
             <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
-            <PrivateRouteUnloggedUser path="/profile/orders" exact={true} children={<Profile/>}/>
+            {/* <PrivateRouteUnloggedUser path="/profile/orders" exact={true} children={<Profile/>}/> */}
             <PrivateRouteUnloggedUser path="/profile/orders/:id" exact={true} children={<OrderDetailInFeed/>}/>
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>

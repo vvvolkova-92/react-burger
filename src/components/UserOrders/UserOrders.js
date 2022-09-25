@@ -1,12 +1,16 @@
 import { useCallback, useMemo, useEffect } from 'react';
-import { useHistory, useLocation, Link, useRouteMatch } from 'react-router-dom';
+import { useHistory, useLocation, Link, useRouteMatch, Route} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //мои компоненты
 import OrderInFeed from '../OrderInFeed/OrderInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
+import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
+import Modal from '../Modal/Modal';
+
 //стили
 import style from './UserOrders.module.css';
+import { getCookie } from '../../utils/constants';
 
 function UserOrders() {
   const dispatch = useDispatch();
@@ -14,20 +18,8 @@ function UserOrders() {
   const location = useLocation();
   const { path } = useRouteMatch();
   const background = history.action === "PUSH";
-  const { messages } = useSelector((state) => state.socketReducer);
+  const { messages, wsConnected } = useSelector((state) => state.socketReducer);
   const { orders } = messages; 
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: WS_CONNECTION_START,
-  //     payload: "wss://norma.nomoreparties.space/orders/all",
-  //   });
-  //   return () => {
-  //     dispatch({
-  //       type: WS_CONNECTION_CLOSE,
-  //     });
-  //   };
-  // }, [dispatch]);
 
   const onClickCard = useCallback((evt) => {
     const currentOrder = orders.find((order) => order._id === evt.currentTarget.id);
@@ -49,11 +41,9 @@ function UserOrders() {
     )
   }),[orders, location, path, onClickCard]);
 
-  return (
-    <ul className={style.userOrderContainer}>
+  return  <ul className={style.userOrderContainer}>
       {order}
     </ul>
-  )
 }
 
 export default UserOrders

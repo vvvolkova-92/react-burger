@@ -41,7 +41,6 @@ const Profile = () => {
 
 
   return (
-    <BrowserRouter>
       <div className={styles.block}>
         <div className={styles.block__profile + " mt-20"}>
           <ul className={styles.menu}>
@@ -82,33 +81,16 @@ const Profile = () => {
           </ul>
         </div>
         <div className={styles.block__details + " ml-15"}>
-
-          <Switch >
+          <BrowserRouter>
             <Route path={`/profile/orders`} exact={true}>
               <UserOrders />
             </Route>
             <Route path={`/profile`} exact={true}>
               <UserInfo />
-            </Route>
-          </Switch>
-          {!background && (
-            <Route
-              path={`/profile/orders/:id`}
-              children={
-                <Modal
-                  closeModal={closeOrderOrdermodal}
-                  orderModal
-                  >
-                  <OrderDetailInFeed/>
-                </Modal>
-              }
-              exact
-            >
-            </Route>
-          )}
+            </Route>  
+            </BrowserRouter>
         </div>
       </div>
-    </BrowserRouter>
   )
 }
 

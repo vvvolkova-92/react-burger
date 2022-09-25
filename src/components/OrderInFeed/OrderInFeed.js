@@ -20,7 +20,6 @@ export default function OrderInFeed({inProfile, status, _id, ingredients, name, 
     let activeCards;
       const image = ingredientsData[0]?.image_mobile;
       const name = ingredientsData[0]?.name;
-      // const price = ingredientsData[0]?.type === 'bun' ? ingredientsData[0]?.price * 2 : ingredientsData[0]?.price;
       const price = ingredientsData[0]?.price;
       if (index < 5 ) {
         activeCards = (      
