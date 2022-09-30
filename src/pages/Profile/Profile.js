@@ -26,8 +26,8 @@ export const ProfilePage = () => {
   }, []);
   return (
     <>
-    <Route path={`${path}`} component={ProfileNav} />
     <Route path={`/profile/orders/:id`} component={OrderDetailInFeed} exact/>
+    <Route path={`${path}`} component={ProfileNav} exact/>
     </>
 )
 
@@ -79,10 +79,9 @@ export const ProfileNav = () => {
           </ul>
         </div>
         <div className={styles.block__details + " ml-15"}>
-        <Switch >
+        <Switch background={background || location }>
           <Route exact path={`/profile`} component={UserInfo} />
           <Route exact path={`/profile/orders`} component={UserOrders}/>
-          {/* <Route path={`/profile/orders/:id`} component={OrderDetailInFeed} exact/> */}
         </Switch>
         </div>
       </div>

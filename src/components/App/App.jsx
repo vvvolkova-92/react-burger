@@ -34,9 +34,9 @@ const App = () => {
   const location = useLocation();
   const background = location.state && location.state.background;
   const { historyOrderModal } = useSelector(state => state.modalReducer);
-  
+  console.log('history');
+  console.log(history);
   const { isFetching } = useSelector(store => store.ingredients);
-
   const closeOrderFeedmodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
     history.replace({ pathname: location?.state?.from || '/feed' });
@@ -75,7 +75,7 @@ const App = () => {
             <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
             <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
             <PrivateRouteUnloggedUser path="/profile" exact={true} children={<ProfilePage/>}/>
-            {/* <PrivateRouteUnloggedUser path="/profile/orders" exact={true} children={<ProfilePage/>}/> */}
+            <Route path="/profile/orders" exact={true} children={<ProfilePage/>}/> 
             <PrivateRouteUnloggedUser path="/profile/orders/:id" exact={true} children={<OrderDetailInFeed/>}/>
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>

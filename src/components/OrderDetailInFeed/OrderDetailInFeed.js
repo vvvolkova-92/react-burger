@@ -73,7 +73,7 @@ function OrderDetailInFeed() {
     totalPrice += item.price * item.count;
     return <Ingredient image={item.image_mobile} name={item.name} price={item.price} count={item.count} key={item._id}/>
 }),[ingredientsInOrderData]);
-  return  orders && (    <div className={location.state === undefined ? style.container : undefined}>
+  return  orders ? (    <div className={location.state === undefined ? style.container : undefined}>
       { location.state === undefined ? (<h3 className={style.title + " text text_type_digits-default"}>#{order.number}</h3>) 
       : (<h3 className={'text text_type_digits-default'}>#{order.number}</h3>)}
       <h2 className={`text text_type_main-medium mt-5 mb-2`}>{order.name}</h2>
@@ -90,7 +90,7 @@ function OrderDetailInFeed() {
         </div>
 
       </div>
-    </div>);
+    </div>): '';
 }
 
 export default OrderDetailInFeed
