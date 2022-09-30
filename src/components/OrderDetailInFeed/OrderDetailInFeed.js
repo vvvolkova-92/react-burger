@@ -1,12 +1,14 @@
 import { useMemo, useEffect } from 'react';
-import { useLocation, useParams} from "react-router-dom";
+import { useLocation, useParams, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 //сторонние компоненты 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+//мои
+import { getCookie } from '../../utils/constants';
+import { getOrder } from '../../services/actions/orderAction';
 //стили
 import style from './OrderDetailInFeed.module.css';
-
  const Ingredient = ({image, name, price, count}) => {
   return (
     <li className={style.listItem} key={name}>
@@ -28,17 +30,28 @@ import style from './OrderDetailInFeed.module.css';
 };
 
 function OrderDetailInFeed() {
-  const { messages, getMessage } = useSelector((state) => state.socketReducer);
-  const orders  = messages?.orders; 
-
+  const dispatch = useDispatch();
+  const { messages, wsConnected } = useSelector((state) => state.socketReducer);
+  const { historyOrderModal, data } = useSelector(state => state.modalReducer);
+  const orders = wsConnected ? messages?.orders : data;
   const { id } = useParams();
   const location = useLocation();
+  const { path} = useRouteMatch();
+  console.log(path);
+  const url = path === "/profile/orders/:id"
+    ? `/orders?token=${getCookie('accessToken')}`
+    : "/orders/all";
+
+  useEffect(() => {
+    !wsConnected && dispatch(getOrder(url));
+  }, []);
+
   const order = useMemo(() => {
     return orders?.find(order => order._id === id);
   }, [orders, id]);
   // const {name, number, status, ingredients, createdAt } = order;
   const orderDate = new Date(order?.createdAt).toLocaleString();
-
+  console.log(order);
   const allIngr = useSelector (store => store.ingredients.ingredients);
   //считаем дубли и получаем данные по айди ингредиенты
   const sortIngredients = order?.ingredients.sort(); //сортировка массива
@@ -60,7 +73,7 @@ function OrderDetailInFeed() {
     totalPrice += item.price * item.count;
     return <Ingredient image={item.image_mobile} name={item.name} price={item.price} count={item.count} key={item._id}/>
 }),[ingredientsInOrderData]);
-  return  getMessage ? (    <div className={location.state === undefined ? style.container : undefined}>
+  return  orders && (    <div className={location.state === undefined ? style.container : undefined}>
       { location.state === undefined ? (<h3 className={style.title + " text text_type_digits-default"}>#{order.number}</h3>) 
       : (<h3 className={'text text_type_digits-default'}>#{order.number}</h3>)}
       <h2 className={`text text_type_main-medium mt-5 mb-2`}>{order.name}</h2>
@@ -77,7 +90,7 @@ function OrderDetailInFeed() {
         </div>
 
       </div>
-    </div>) : '';
+    </div>);
 }
 
 export default OrderDetailInFeed

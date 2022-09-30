@@ -30,7 +30,13 @@ export const socketMiddleware = (wsTypes) => {
           const { data } = event;
           console.log('WS_GET_MESSAGE');
           dispatch({ type: wsTypes.getMes, payload: JSON.parse(data) });
+          dispatch({ type: wsTypes.getUsrOrd, payload: JSON.parse(data) });
         };
+        // socket.onmessage = event => {
+        //   const { data } = event;
+        //   console.log('WS_GET_USER_ORDERS');
+        //   dispatch({ type: wsTypes.getUsrOrd, payload: JSON.parse(data) });
+        // };
         // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
           console.log('WS_CONNECTION_CLOSED');

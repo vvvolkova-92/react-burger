@@ -1,45 +1,43 @@
 import { useCallback, useEffect} from "react";
 import { useDispatch } from "react-redux";
-import {BrowserRouter, Route, Switch, NavLink, useHistory, useLocation} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, NavLink, useHistory, useLocation, useRouteMatch} from 'react-router-dom';
 
 import UserInfo from "../../components/UserInfo/UserInfo";
 import UserOrders from "../../components/UserOrders/UserOrders";
 // стили
 import styles from './Profile.module.css';
 import {userLogout} from "../../services/actions/authenticationAction";
-import OrderDetailInFeed from "../../components/OrderDetailInFeed/OrderDetailInFeed";
-import Modal from "../../components/Modal/Modal";
 import { setCurrentOrderDetail } from "../../services/actions/orderAction";
 import { getCookie } from "../../utils/constants";
-
+import OrderDetailInFeed from "../../components/OrderDetailInFeed/OrderDetailInFeed";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from "../../services/types";
+import Modal from "../../components/Modal/Modal";
 
-const Profile = () => {
+export const ProfilePage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const background = location?.state && location?.state?.background;
+  const { path } = useRouteMatch();
+  const background = history.action === "PUSH" && location.state && location.state.background;
 
   const closeOrderOrdermodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
-    history.replace({ pathname: location?.state?.from }) || history.go(-2);
-    // history.replace({ pathname: location?.state?.from || '/profile/orders'});
-  }, [history, location?.state?.from, dispatch]);
+    history.replace({ pathname: location?.state?.from || '/profile/orders'});
+  }, []);
+  return (
+    <>
+    <Route path={`${path}`} component={ProfileNav} />
+    <Route path={`/profile/orders/:id`} component={OrderDetailInFeed} exact/>
+    </>
+)
 
-  useEffect(() => {
-    dispatch({
-      type: WS_CONNECTION_START,
-      payload: `wss://norma.nomoreparties.space/orders?token=${getCookie(
-          'accessToken')}`,
-    });
-    return () => {
-      dispatch({
-        type: WS_CONNECTION_CLOSE,
-      });
-    };
-  }, [dispatch]);
+}
 
-
+export const ProfileNav = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const background = history.action === "PUSH" && location.state && location.state.background;
   return (
       <div className={styles.block}>
         <div className={styles.block__profile + " mt-20"}>
@@ -81,17 +79,12 @@ const Profile = () => {
           </ul>
         </div>
         <div className={styles.block__details + " ml-15"}>
-          <BrowserRouter>
-            <Route path={`/profile/orders`} exact={true}>
-              <UserOrders />
-            </Route>
-            <Route path={`/profile`} exact={true}>
-              <UserInfo />
-            </Route>  
-            </BrowserRouter>
+        <Switch >
+          <Route exact path={`/profile`} component={UserInfo} />
+          <Route exact path={`/profile/orders`} component={UserOrders}/>
+          {/* <Route path={`/profile/orders/:id`} component={OrderDetailInFeed} exact/> */}
+        </Switch>
         </div>
       </div>
   )
-}
-
-export default Profile
+};

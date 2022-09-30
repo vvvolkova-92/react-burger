@@ -1,8 +1,10 @@
-import { WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSED, WS_GET_MESSAGE, WS_CONNECTION_CLOSE } from '../types.js';
+import { WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSED, WS_GET_MESSAGE, WS_CONNECTION_CLOSE, WS_GET_USER_ORDERS } from '../types.js';
 
 const initialState = {
   wsConnected: false,
   messages: [],
+  userOrders: [],
+  getUserOrders: false,
   error: undefined,
   close: false,
   getMessage: false,
@@ -37,6 +39,14 @@ export const socketReducer = (state = initialState, action) => {
         ...state,
         getMessage: true,
         messages: action.payload,
+        error: undefined,
+      };
+    }
+    case WS_GET_USER_ORDERS: {
+      return {
+        ...state,
+        getUserOrders: true,
+        userOrder: action.payload,
         error: undefined,
       };
     }

@@ -17,7 +17,7 @@ import {getUserData} from "../../services/actions/authenticationAction";
 // страницы
 import Login from "../../pages/Login/Login";
 import Registration from "../../pages/Registration/Registration";
-import Profile from "../../pages/Profile/Profile";
+import { ProfilePage } from '../../pages/Profile/Profile';
 import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import PageNotFound from "../../pages/PageNotFound/PageNotFound";
@@ -26,16 +26,16 @@ import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 //стили
 import styles from './App.module.css';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../../services/types';
+
+
 const App = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const background = location.state && location.state.background;
-
+  const { historyOrderModal } = useSelector(state => state.modalReducer);
+  
   const { isFetching } = useSelector(store => store.ingredients);
-  const {ingredientCardModal} = useSelector(state => state.modalReducer);
-  const currentIngredient= useSelector(store => store.currentIngredient);
 
   const closeOrderFeedmodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
@@ -49,8 +49,9 @@ const App = () => {
 
   const closeOrderOrdermodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
+     console.log(history);
     history.replace({ pathname: location?.state?.from || '/profile/orders'});
-  }, [history]);
+  }, []);
 
   useEffect( () => {
     dispatch(getIngredients());
@@ -73,8 +74,8 @@ const App = () => {
             </Route>
             <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
             <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
-            <PrivateRouteUnloggedUser path="/profile" exact={true} children={<Profile/>}/>
-            {/* <PrivateRouteUnloggedUser path="/profile/orders" exact={true} children={<Profile/>}/> */}
+            <PrivateRouteUnloggedUser path="/profile" exact={true} children={<ProfilePage/>}/>
+            {/* <PrivateRouteUnloggedUser path="/profile/orders" exact={true} children={<ProfilePage/>}/> */}
             <PrivateRouteUnloggedUser path="/profile/orders/:id" exact={true} children={<OrderDetailInFeed/>}/>
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>

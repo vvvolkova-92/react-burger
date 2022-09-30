@@ -76,9 +76,10 @@ function Feed() {
       });
     };
   }, [dispatch]);
+
   
   // const { orders, total, totalToday } = useSelector((state) => state.socketReducer.messages);
-  const { messages, wsConnected } = useSelector((state) => state.socketReducer);
+  const { messages } = useSelector((state) => state.socketReducer);
 
   const onClickCard = evt => {
     const currentOrder = orders.find((order) => order._id === evt.currentTarget.id);
@@ -100,8 +101,7 @@ function Feed() {
       </Link>
     )
   }),[orders]);
-  return wsConnected && (
-    <main className={style.container}>
+  return <main className={style.container}>
       <h2 className={`text text_type_main-large mt-10 mb-5`}>{title}</h2>
       <div className={style.info}>
       <ul className={style.list}>
@@ -110,7 +110,6 @@ function Feed() {
       <Stat {...messages}/>
       </div>
     </main>
-  )
-}
+};
 
 export default Feed;
