@@ -1,6 +1,6 @@
 import { useCallback, useEffect} from "react";
-import { useDispatch } from "react-redux";
-import {BrowserRouter, Route, Switch, NavLink, useHistory, useLocation, useRouteMatch} from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import {BrowserRouter, Route, Switch, NavLink, useHistory, useLocation, useRouteMatch , Redirect} from 'react-router-dom';
 
 import UserInfo from "../../components/UserInfo/UserInfo";
 import UserOrders from "../../components/UserOrders/UserOrders";
@@ -19,7 +19,6 @@ export const ProfilePage = () => {
   const location = useLocation();
   const { path } = useRouteMatch();
   const background = history.action === "PUSH" && location.state && location.state.background;
-
   const closeOrderOrdermodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
     history.replace({ pathname: location?.state?.from || '/profile/orders'});
@@ -30,14 +29,15 @@ export const ProfilePage = () => {
     <Route path={`${path}`} component={ProfileNav} exact/>
     </>
 )
-
 }
 
 export const ProfileNav = () => {
+  const isLogin = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const background = history.action === "PUSH" && location.state && location.state.background;
+  console.log(isLogin);
   return (
       <div className={styles.block}>
         <div className={styles.block__profile + " mt-20"}>

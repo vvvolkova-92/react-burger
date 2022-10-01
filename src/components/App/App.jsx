@@ -1,11 +1,11 @@
 import {useCallback, useEffect} from 'react';
-import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation, useRouteMatch, Redirect} from 'react-router-dom';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {useDispatch, useSelector} from 'react-redux';
 // мои компоненты
 import PrivateRouteLoginUser from "../ProtectedRoute/PrivateRouteLoginUser";
-import PrivateRouteUnloggedUser from "../ProtectedRoute/PrivateRouteUnloggedUser";
+import { PrivateRouteUnloggedUser, PrivateRouteModal } from '../ProtectedRoute/PrivateRouteUnloggedUser';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
@@ -34,9 +34,10 @@ const App = () => {
   const location = useLocation();
   const background = location.state && location.state.background;
   const { historyOrderModal } = useSelector(state => state.modalReducer);
-  console.log('history');
-  console.log(history);
+  const isLogin = useSelector((state) => state.userReducer.isLogin);
   const { isFetching } = useSelector(store => store.ingredients);
+
+  
   const closeOrderFeedmodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(null));
     history.replace({ pathname: location?.state?.from || '/feed' });
@@ -75,15 +76,15 @@ const App = () => {
             <PrivateRouteLoginUser path="/login" exact={true} children={<Login/>}/>
             <PrivateRouteLoginUser path="/register" exact={true} children={<Registration/>}/>
             <PrivateRouteUnloggedUser path="/profile" exact={true} children={<ProfilePage/>}/>
-            <Route path="/profile/orders" exact={true} children={<ProfilePage/>}/> 
-            <PrivateRouteUnloggedUser path="/profile/orders/:id" exact={true} children={<OrderDetailInFeed/>}/>
+            <PrivateRouteModal path="/profile/orders" exact={true} children={<ProfilePage/>}/>
+            <PrivateRouteModal path="/profile/orders/:id" exact={true} children={<OrderDetailInFeed/>}/>
             <Route path="/reset-password" exact={true} children={<ResetPassword/>}/>
             <PrivateRouteLoginUser path="/forgot-password" exact={true} children={<ForgotPassword/>}/>
             <Route path="/feed" exact={true} children={<Feed/>}/>
             <Route exact path={`/feed/:id`} children={<OrderDetailInFeed/>}/>
             <Route exact={true} children={<PageNotFound/>}/>
           </Switch>
-          {background && (
+          {(background || historyOrderModal) && (
             <Route
               exact
               path={`/feed/:id`}
