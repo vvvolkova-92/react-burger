@@ -25,7 +25,7 @@ export const ProfilePage = () => {
   }, []);
   return (
     <>
-    <Route path={`/profile/orders/:id`} component={OrderDetailInFeed} exact/>
+    {/* <Route path={`/profile/orders/:id`} component={OrderDetailInFeed} exact/> */}
     <Route path={`${path}`} component={ProfileNav} exact/>
     </>
 )
@@ -37,7 +37,6 @@ export const ProfileNav = () => {
   const history = useHistory();
   const location = useLocation();
   const background = history.action === "PUSH" && location.state && location.state.background;
-  console.log(isLogin);
   return (
       <div className={styles.block}>
         <div className={styles.block__profile + " mt-20"}>

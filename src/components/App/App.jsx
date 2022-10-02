@@ -99,7 +99,7 @@ const App = () => {
             </Route>
           )}
           {background && (
-            <Route
+            <PrivateRouteModal
               exact
               path={`/profile/orders/:id`}
               children={
@@ -110,7 +110,7 @@ const App = () => {
                 </Modal>
               }
             >
-            </Route>
+            </PrivateRouteModal>
           )}
           {background && (
             <Route

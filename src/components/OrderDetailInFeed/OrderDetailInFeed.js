@@ -37,7 +37,6 @@ function OrderDetailInFeed() {
   const { id } = useParams();
   const location = useLocation();
   const { path} = useRouteMatch();
-  console.log(path);
   const url = path === "/profile/orders/:id"
     ? `/orders?token=${getCookie('accessToken')}`
     : "/orders/all";
@@ -51,7 +50,6 @@ function OrderDetailInFeed() {
   }, [orders, id]);
   // const {name, number, status, ingredients, createdAt } = order;
   const orderDate = new Date(order?.createdAt).toLocaleString();
-  console.log(order);
   const allIngr = useSelector (store => store.ingredients.ingredients);
   //считаем дубли и получаем данные по айди ингредиенты
   const sortIngredients = order?.ingredients.sort(); //сортировка массива

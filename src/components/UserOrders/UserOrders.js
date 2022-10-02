@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useEffect } from 'react';
-import { useHistory, useLocation, Link, useRouteMatch, Route} from 'react-router-dom';
+import { useHistory, useLocation, Link, useRouteMatch, Redirect} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //мои компоненты
 import OrderInFeed from '../OrderInFeed/OrderInFeed';
@@ -15,9 +15,9 @@ function UserOrders() {
   const location = useLocation();
   const { path } = useRouteMatch();
   const { messages, wsConnected, userOrder, getUserOrders } = useSelector((state) => state.socketReducer);
-  console.log(userOrder);
   const orders = userOrder?.orders; 
   const background = history.action === "PUSH" && location.state && location.state.background;
+  const { isLogin } = useSelector((state) => state.userReducer);
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
@@ -49,10 +49,9 @@ function UserOrders() {
       </Link>
     )
   }),[orders]);
-
-  return getUserOrders && <ul className={style.userOrderContainer}>
-      {order}
-    </ul>
+  
+  const userOrders = getUserOrders && <ul className={style.userOrderContainer}>{order}</ul>;
+  return userOrders;
 }
 
 export default UserOrders

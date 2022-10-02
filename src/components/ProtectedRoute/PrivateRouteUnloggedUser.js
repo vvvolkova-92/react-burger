@@ -24,14 +24,13 @@ export function PrivateRouteModal({ children, ...rest }) {
     <Route
         {...rest}
         render={(e) => {
-          if (isLogin && e.match.path === "/profile/orders") {
-            console.log("/profile/orders");
+          if (!isLogin) return <Redirect to={{ pathname: "/login", state: { from: e.location } }} />
+          if (e.match.path === "/profile/orders") {
             return <ProfilePage />
-          } else if (isLogin && e.match.path === "/profile/orders/:id") {
-            console.log("/profile/orders/:id");
-            return <OrderDetailInFeed /> };
-        console.log('Redirect');
-        return <Redirect to={{ pathname: "/login", state: { from: e.location } }} />
+          }
+          if (isLogin && e.match.path === "/profile/orders/:id") {
+            return children
+          }
 
         }}
       />
