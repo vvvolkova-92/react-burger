@@ -1,5 +1,5 @@
-import { ALL_GET_INGREDIENTS_FAILURE, ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, GET_ORDER_INFO_FAILURE, GET_ORDER_INFO_SUCCESS, IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_CLEAN, IN_CONSTRUCTOR_MAIN, IN_MODAL_CLOSE_CARD, IN_MODAL_OPEN_HISTORY_ORDER_CARD, IN_MODAL_OPEN_INGREDIENT_CARD, IN_MODAL_OPEN_ORDER_CARD, ORDER_GET_ORDER_NUMBER_FAILURE, ORDER_GET_ORDER_NUMBER_SUCCESS, SET_CURRENT_HISTORY_ORDER, SET_CURRENT_INGREDIENT } from "../types";
-import { IAnswerOrderNumber, IIngredient, TOrderData } from "./interfaces";
+import { ALL_GET_INGREDIENTS_FAILURE, ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, GET_ORDER_INFO_FAILURE, GET_ORDER_INFO_SUCCESS, INPUT_VERIFICATION_CODE, IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_CLEAN, IN_CONSTRUCTOR_MAIN, IN_MODAL_CLOSE_CARD, IN_MODAL_OPEN_HISTORY_ORDER_CARD, IN_MODAL_OPEN_INGREDIENT_CARD, IN_MODAL_OPEN_ORDER_CARD, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, ORDER_GET_ORDER_NUMBER_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, RESET_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, SET_CURRENT_HISTORY_ORDER, SET_CURRENT_INGREDIENT } from "../types";
+import { IAnswerOrderNumber, IIngredient, TOrderData, TUserInfo } from "./interfaces";
 
 
 type TCloseModal = {
@@ -83,9 +83,7 @@ type TCurrentOrderInfo = {
   readonly createdAt: string;
 };
 
-
-
-type TActions = TCloseModal
+export type TActions = TCloseModal
 | TCleanConstructor
 | TBunsInconstructor
 | TMainIngrInconstructor
@@ -102,4 +100,77 @@ type TActions = TCloseModal
 | TCurrentOrderInfo
 | TOpenModalHistoryOrder;
 
-export default TActions;
+type TRegRequest = {
+  readonly type: typeof REGISTER_REQUEST,
+};
+
+type TRegSuccess = {
+  readonly type: typeof REGISTER_SUCCESS,
+  readonly data: object,
+};
+
+type TRegFail = {
+  readonly type: typeof REGISTER_FAILURE,
+  readonly error: string,
+};
+
+type TRemindPswrdRequest = {
+  readonly type: typeof FORGOT_PASSWORD_REQUEST,
+};
+
+type TRemindPswrdSuccess = {
+  readonly type: typeof FORGOT_PASSWORD_SUCCESS,
+  readonly data: object,
+};
+
+type TRemindPswrdFail = {
+  readonly type: typeof FORGOT_PASSWORD_FAILURE,
+  readonly error: string,
+};
+
+export type TVerificationCode = {
+  readonly type: typeof INPUT_VERIFICATION_CODE,
+  readonly verificationCode: string,
+};
+
+type TChangePasswordRequest = {
+  readonly type: typeof RESET_PASSWORD_REQUEST,
+};
+
+type TChangePasswordSuccess = {
+  readonly type: typeof RESET_PASSWORD_SUCCESS,
+  readonly data: object,
+};
+
+type TChangePasswordFail = {
+  readonly type: typeof RESET_PASSWORD_FAILURE,
+  readonly error: string,
+};
+
+type TLogin = {
+  readonly type: typeof LOGIN_REQUEST,
+};
+
+type TLoginSuccess = {
+  readonly type: typeof LOGIN_SUCCESS,
+  readonly data: TUserInfo,
+};
+
+type TLoginFail = {
+  readonly type: typeof LOGIN_FAILURE,
+  readonly error: string,
+};
+
+
+export type TUserAction = TRegRequest
+| TRegSuccess
+| TRegFail
+| TRemindPswrdRequest
+| TRemindPswrdSuccess
+| TRemindPswrdFail
+| TChangePasswordRequest
+| TChangePasswordSuccess
+| TChangePasswordFail
+| TLogin
+| TLoginSuccess
+| TLoginFail

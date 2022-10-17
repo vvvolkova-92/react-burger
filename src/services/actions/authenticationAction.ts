@@ -10,11 +10,15 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
 } from '../types';
 import { checkResponse, setCookie, getCookie, deleteCookie } from '../../utils/constants';
 import {BASEURL} from '../../utils/constants';
-
+import { IUserData } from '../types/interfaces';
+import { Dispatch } from 'redux';
+import { RouteComponentProps } from 'react-router-dom';
+import { TUserAction, TVerificationCode } from '../types/actions';
+import React from 'react';
 // AC регистрации пользователя
-export function userRegistration(data, history) {
+export function userRegistration(data: IUserData, history: RouteComponentProps["history"]) {
   const { userName, userEmail, userPassword } = data;
-  return function (dispatch) {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -40,9 +44,8 @@ export function userRegistration(data, history) {
             history.replace({ pathname: '/login' });
           })
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
-        console.log(err);
         dispatch({
           type: REGISTER_FAILURE,
           error: err.message,
@@ -52,8 +55,8 @@ export function userRegistration(data, history) {
   }
 };
 // AC восстановление пароля
-export function remindPassword(email, history) {
-  return function (dispatch) {
+export function remindPassword(email: string, history: RouteComponentProps["history"]) {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -77,7 +80,7 @@ export function remindPassword(email, history) {
             history.replace({ pathname: "/reset-password" });
           })
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
         dispatch({
           type: FORGOT_PASSWORD_FAILURE,
@@ -88,7 +91,7 @@ export function remindPassword(email, history) {
   }
 }
 //А проверочный код
-export const verifity = (evt) => {
+export const verifity = (evt: React.ChangeEvent<HTMLInputElement>):TVerificationCode => {
   return {
     type: INPUT_VERIFICATION_CODE,
     verificationCode: evt.target.value,

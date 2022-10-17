@@ -46,3 +46,19 @@ export interface IOrder {
 export type TOrderData = {
   orders: IOrder[],
 }
+
+export interface IUserData {
+  userName: string; 
+  userEmail: string; 
+  userPassword: string;
+}
+
+interface IUser {
+  email: string;
+  name: string;
+  password: string;
+}
+
+export type TUserInfo = {
+  user: IUser
+}
