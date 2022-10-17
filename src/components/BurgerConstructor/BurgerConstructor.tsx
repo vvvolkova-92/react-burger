@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop} from 'react-dnd';
 //сторонние компоненты
@@ -26,7 +26,7 @@ function BurgerConstructor () {
     [main]
   );
   
-  const findIngredient = (id) => {
+  const findIngredient = (id: string) => {
       const ingredient = main.filter(item => item.id === id)[0];
       return {
         ingredient,

@@ -3,13 +3,16 @@ import {BASEURL} from '../../utils/constants';
 import { closeModal } from './modalAction';
 import { checkResponse } from '../../utils/constants';
 import { getCookie } from '../../utils/constants';
+import { Dispatch } from 'redux';
+import TActions from '../types/actions';
+import { IOrder } from '../types/interfaces';
 
-export function getOrderNumber (ingredients) {
+export function getOrderNumber (ingredients: object[]) {
   if (ingredients === null) {
     return closeModal();
   };
 
-  return async (dispatch) => {
+  return async (dispatch: Dispatch<TActions>) => {
       try {
         const res = await fetch(`${BASEURL}/orders`, {
           method: 'POST',
@@ -33,7 +36,7 @@ export function getOrderNumber (ingredients) {
           });
         })
     } 
-    catch(error) {
+    catch(error: any) {
         dispatch({
           type: ORDER_GET_ORDER_NUMBER_FAILURE,
           order: error,
@@ -42,8 +45,8 @@ export function getOrderNumber (ingredients) {
     };
 };
 
-export function getOrder(url) {
-  return async (dispatch) => {
+export function getOrder(url: string) {
+  return async (dispatch: Dispatch<TActions>) => {
       try {
         const res = await fetch(`${BASEURL}${url}`, {
           headers: {
@@ -61,7 +64,7 @@ export function getOrder(url) {
           });
         })
     } 
-    catch(error) {
+    catch(error: any) {
       console.log(error)
         dispatch({
           type: GET_ORDER_INFO_FAILURE,
@@ -72,11 +75,11 @@ export function getOrder(url) {
 };
 
 
-export function setCurrentOrderDetail (item) {
+export function setCurrentOrderDetail (item: IOrder | null) {
   if (item === null) {
     return closeModal();
   }
-  return function (dispatch) {
+  return function (dispatch: Dispatch<TActions>) {
     dispatch({
       type: SET_CURRENT_HISTORY_ORDER,
       name: item.name,

@@ -1,10 +1,14 @@
-import {SET_CURRENT_INGREDIENT, IN_MODAL_OPEN_INGREDIENT_CARD, IN_MODAL_ACTIVE} from '../types';
+import {SET_CURRENT_INGREDIENT, IN_MODAL_OPEN_INGREDIENT_CARD} from '../types';
 import { closeModal } from './modalAction';
-export function setCurrentIngredient (item) {
+import { ICurrentIngredient } from '../types/interfaces';
+import { Dispatch } from 'redux';
+import TActions from '../types/actions';
+
+export function setCurrentIngredient (item: ICurrentIngredient) {
   if (item === null) {
     return closeModal();
   }
-  return function (dispatch) {
+  return function (dispatch: Dispatch<TActions>) {
     dispatch({
       type: SET_CURRENT_INGREDIENT,
       name: item.name,

@@ -8,8 +8,9 @@ import { nanoid } from 'nanoid';
 import MenuItem from '../MenuItem/MenuItem';
 //стили
 import styles from './AppHeader.module.css';
+import { FC } from 'react';
 
-function AppHeader () {
+const AppHeader: FC = () => {
   const { isLogin, userData } = useSelector(store => store.userReducer);
   return (
     <header className={styles.menuContainer}>
