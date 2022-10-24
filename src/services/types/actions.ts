@@ -1,5 +1,5 @@
-import { ALL_GET_INGREDIENTS_FAILURE, ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, GET_ORDER_INFO_FAILURE, GET_ORDER_INFO_SUCCESS, INPUT_VERIFICATION_CODE, IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_CLEAN, IN_CONSTRUCTOR_MAIN, IN_MODAL_CLOSE_CARD, IN_MODAL_OPEN_HISTORY_ORDER_CARD, IN_MODAL_OPEN_INGREDIENT_CARD, IN_MODAL_OPEN_ORDER_CARD, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, ORDER_GET_ORDER_NUMBER_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, RESET_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, SET_CURRENT_HISTORY_ORDER, SET_CURRENT_INGREDIENT } from "../types";
-import { IAnswerOrderNumber, IIngredient, TOrderData, TUserInfo } from "./interfaces";
+import { ALL_GET_INGREDIENTS_FAILURE, ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, FORGOT_PASSWORD_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, GET_ORDER_INFO_FAILURE, GET_ORDER_INFO_SUCCESS, GET_USERDATA_FAILURE, GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, INPUT_USER_EMAIL, INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_VERIFICATION_CODE, IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_CLEAN, IN_CONSTRUCTOR_MAIN, IN_MODAL_CLOSE_CARD, IN_MODAL_OPEN_HISTORY_ORDER_CARD, IN_MODAL_OPEN_INGREDIENT_CARD, IN_MODAL_OPEN_ORDER_CARD, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, ORDER_GET_ORDER_NUMBER_FAILURE, ORDER_GET_ORDER_NUMBER_SUCCESS, REFRESH_TOKEN_FAILURE, REFRESH_TOKEN_REQUEST, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, RESET_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, SET_CURRENT_HISTORY_ORDER, SET_CURRENT_INGREDIENT, REFRESH_TOKEN_SUCCESS, CHANGE_USERDATA_REQUEST, CHANGE_USERDATA_FAILURE, CHANGE_USERDATA_SUCCESS, LOGOUT_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS, IN_CONSTRUCTOR_DELETE_INGREDIENT, IN_CONSTRUCTOR_MOVE_INGREDIENT, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_CONNECTION_CLOSED, WS_CONNECTION_CLOSE, WS_GET_MESSAGE, WS_GET_USER_ORDERS } from '../types';
+import { IAnswerOrderNumber, IIngredient, IWebSocketMessages, IWebSocketUserMessages, TOrderData, TUserInfo } from "./interfaces";
 
 
 type TCloseModal = {
@@ -9,7 +9,7 @@ type TCloseModal = {
 type TCleanConstructor = {
   readonly type: typeof IN_CONSTRUCTOR_CLEAN,
   readonly main: [],
-  readonly bun: string,
+  readonly bun: null,
 };
 
 type TBunsInconstructor = {
@@ -19,6 +19,16 @@ type TBunsInconstructor = {
 
 type TMainIngrInconstructor = {
   readonly type: typeof IN_CONSTRUCTOR_MAIN,
+  readonly main: IIngredient[],
+};
+
+type TInconstructorDeleteIngredient = {
+  readonly type: typeof IN_CONSTRUCTOR_DELETE_INGREDIENT,
+  readonly main: IIngredient[],
+};
+
+type TInconstructorMoveIngredient = {
+  readonly type: typeof IN_CONSTRUCTOR_MOVE_INGREDIENT,
   readonly main: IIngredient[],
 };
 
@@ -33,10 +43,6 @@ type TGetAllIngrSuccess = {
 
 type TGetAllIngrFailed = {
   readonly type: typeof ALL_GET_INGREDIENTS_FAILURE,
-};
-
-type TSetCurrentIngredient = {
-  readonly type: typeof SET_CURRENT_INGREDIENT
 };
 
 type TOpenModalIngredient = {
@@ -76,21 +82,36 @@ type TGetOrderInfoFail = {
 
 type TCurrentOrderInfo = {
   readonly type: typeof SET_CURRENT_HISTORY_ORDER,
-  readonly name: string;
-  readonly number: number;
-  readonly status: string;
-  readonly ingredients: object[];
-  readonly createdAt: string;
+  readonly name: string,
+  readonly number: number,
+  readonly status: number | string,
+  readonly ingredients: object[],
+  readonly createdAt: string,
+};
+
+type TCurrentIngredient = {
+  readonly type: typeof SET_CURRENT_INGREDIENT,
+  readonly name: string,
+  readonly image: string | undefined,
+  readonly image_large: string,
+  readonly image_mobile: string,
+  readonly calories: number,
+  readonly proteins: number,
+  readonly fat: null | number,
+  readonly carbohydrates: number,
+  readonly _id: string,
+  readonly price: number,
 };
 
 export type TActions = TCloseModal
 | TCleanConstructor
 | TBunsInconstructor
 | TMainIngrInconstructor
+| TInconstructorDeleteIngredient
+| TInconstructorMoveIngredient
 | TGetAllIngrRequest
 | TGetAllIngrSuccess
 | TGetAllIngrFailed
-| TSetCurrentIngredient
 | TOpenModalIngredient
 | TOpenModalOrder
 | TGetOrderNumber
@@ -98,6 +119,7 @@ export type TActions = TCloseModal
 | TGetOrderInfo
 | TGetOrderInfoFail
 | TCurrentOrderInfo
+| TCurrentIngredient
 | TOpenModalHistoryOrder;
 
 type TRegRequest = {
@@ -161,6 +183,82 @@ type TLoginFail = {
   readonly error: string,
 };
 
+type TGetUserRequest = {
+  readonly type: typeof GET_USERDATA_REQUEST,
+};
+
+type TGetUserSuccess = {
+  readonly type: typeof GET_USERDATA_SUCCESS;
+  readonly data: TUserInfo;
+};
+
+type TGetUserFail = {
+  readonly type: typeof GET_USERDATA_FAILURE,
+  readonly error: string;
+};
+
+type TCleanInputEmail = {
+  readonly type: typeof INPUT_USER_EMAIL,
+  readonly userEmail: string;
+};
+
+type TCleanInputName = {
+  readonly type: typeof INPUT_USER_NAME,
+  readonly userName: string;
+};
+
+type TCleanInputPasswrd = {
+  readonly type: typeof INPUT_USER_PASSWORD,
+  readonly userPassword: string;
+};
+
+type TInputVerCode = {
+  readonly type: typeof INPUT_VERIFICATION_CODE,
+  readonly verificationCode: string;
+};
+
+type TRefreshTokenRequest = {
+  readonly type: typeof REFRESH_TOKEN_REQUEST,
+};
+
+type TRefreshTokenSuccess = {
+  readonly type: typeof REFRESH_TOKEN_SUCCESS,
+  readonly data: object;
+};
+
+type TRefreshTokenFail = {
+  readonly type: typeof REFRESH_TOKEN_FAILURE,
+  readonly error: string;
+};
+
+type TChangeUserdataRequest = {
+  readonly type: typeof CHANGE_USERDATA_REQUEST,
+};
+
+type TChangeUserdataSuccess = {
+  readonly type: typeof CHANGE_USERDATA_SUCCESS,
+  readonly data: TUserInfo;
+};
+
+type TChangeUserdataFail = {
+  readonly type: typeof CHANGE_USERDATA_FAILURE,
+  readonly error: string;
+};
+
+type TUserLogoutRequest = {
+  readonly type: typeof LOGOUT_REQUEST,
+};
+
+type TUserLogoutSuccess = {
+  readonly type: typeof LOGOUT_SUCCESS,
+  readonly data: TUserInfo;
+};
+
+type TUserLogoutFail = {
+  readonly type: typeof LOGOUT_FAILURE,
+  readonly error: string;
+};
+
 
 export type TUserAction = TRegRequest
 | TRegSuccess
@@ -174,3 +272,56 @@ export type TUserAction = TRegRequest
 | TLogin
 | TLoginSuccess
 | TLoginFail
+| TGetUserRequest
+| TGetUserSuccess
+| TGetUserFail
+| TCleanInputEmail
+| TCleanInputName
+| TCleanInputPasswrd
+| TInputVerCode
+| TRefreshTokenRequest
+| TRefreshTokenSuccess
+| TRefreshTokenFail
+| TChangeUserdataRequest
+| TChangeUserdataSuccess
+| TChangeUserdataFail
+| TUserLogoutRequest
+| TUserLogoutSuccess
+| TUserLogoutFail;
+
+type TWSConnectSuccess = {
+  readonly type: typeof WS_CONNECTION_SUCCESS,
+};
+
+type TWSConnectError = {
+  readonly type: typeof WS_CONNECTION_ERROR,
+  readonly payload: string,
+};
+
+type TWSConnectClosed = {
+  readonly type: typeof WS_CONNECTION_CLOSED,
+};
+
+type TWSConnectClose = {
+  readonly type: typeof WS_CONNECTION_CLOSE,
+};
+
+type TWSGetMessage = {
+  readonly type: typeof WS_GET_MESSAGE,
+  readonly payload: IWebSocketMessages,
+};
+
+type TWSUserOrders = {
+  readonly type: typeof WS_GET_USER_ORDERS,
+  readonly payload: IWebSocketUserMessages,
+};
+
+export type WSActions = TWSConnectSuccess
+| TWSConnectError
+| TWSConnectClosed
+| TWSConnectClose
+| TWSGetMessage
+| TWSUserOrders;
+
+
+

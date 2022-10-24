@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 export const BASEURL = 'https://norma.nomoreparties.space/api';
-export const MODAL = document.getElementById('modal');
+export const MODAL = document.getElementById('modal')!;
 export const WSURL = 'wss://norma.nomoreparties.space/orders';
 
 export const menuItems = [
@@ -35,11 +35,11 @@ export function getMessage(message: string):string {
   }
 };
 
-export function getCookie(name: string): string|undefined {
+export function getCookie(name: string): string {
   let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : 'undefined';
 };
 
 

@@ -2,7 +2,7 @@ import { IN_CONSTRUCTOR_BUNS, IN_CONSTRUCTOR_MAIN, IN_CONSTRUCTOR_DELETE_INGREDI
 import { nanoid } from 'nanoid';
 import update from 'immutability-helper';
 import { IIngredient } from '../types/interfaces';
-import TActions from '../types/actions';
+import { TActions } from '../types/actions';
 
 export function addIngredientCard (item: IIngredient, main: IIngredient[]): TActions {
   return item.type !== "bun"
@@ -16,7 +16,7 @@ export function addIngredientCard (item: IIngredient, main: IIngredient[]): TAct
       };
 };
 
-export function deleteIngredientCard (main: IIngredient[], id: string) {
+export function deleteIngredientCard (main: IIngredient[], id: string | undefined) {
   return {
     type: IN_CONSTRUCTOR_DELETE_INGREDIENT,
     main: main.filter( item => item.id !== id)

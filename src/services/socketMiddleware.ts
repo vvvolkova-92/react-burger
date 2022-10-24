@@ -1,7 +1,9 @@
-export const socketMiddleware = (wsTypes) => {
-  return store => {
-    let socket = null;
-    return next => action => {
+import { IWsEvent, IWsTypes } from "./types/interfaces";
+
+export const socketMiddleware = (wsTypes: IWsTypes) => {
+  return (store: any) => {
+    let socket: any = null;
+    return (next: any) => (action: any) => {
       const { dispatch } = store;
       const { type, payload } = action;
 
@@ -16,17 +18,17 @@ export const socketMiddleware = (wsTypes) => {
       }
       if (socket) {
         // функция, которая вызывается при открытии сокета
-        socket.onopen = event => {
+        socket.onopen = (event: IWsEvent) => {
           console.log('WS_CONNECTION_SUCCESS');
           dispatch({ type: wsTypes.sucess, payload: event });
         };
         // функция, которая вызывается при ошибке соединения
-        socket.onerror = event => {
+        socket.onerror = (event: IWsEvent) => {
           console.log('WS_CONNECTION_ERROR');
           dispatch({ type: wsTypes.error, payload: event });
         };
         // функция, которая вызывается при получении события от сервера
-        socket.onmessage = event => {
+        socket.onmessage = (event: IWsEvent) => {
           const { data } = event;
           console.log('WS_GET_MESSAGE');
           dispatch({ type: wsTypes.getMes, payload: JSON.parse(data) });
@@ -38,7 +40,7 @@ export const socketMiddleware = (wsTypes) => {
         //   dispatch({ type: wsTypes.getUsrOrd, payload: JSON.parse(data) });
         // };
         // функция, которая вызывается при закрытии соединения
-        socket.onclose = event => {
+        socket.onclose = (event: IWsEvent) => {
           console.log('WS_CONNECTION_CLOSED');
           dispatch({ type: wsTypes.closed, payload: event });
         };

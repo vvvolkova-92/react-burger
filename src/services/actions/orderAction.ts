@@ -4,10 +4,10 @@ import { closeModal } from './modalAction';
 import { checkResponse } from '../../utils/constants';
 import { getCookie } from '../../utils/constants';
 import { Dispatch } from 'redux';
-import TActions from '../types/actions';
+import { TActions } from '../types/actions';
 import { IOrder } from '../types/interfaces';
 
-export function getOrderNumber (ingredients: object[]) {
+export function getOrderNumber (ingredients: string[] | null) {
   if (ingredients === null) {
     return closeModal();
   };
@@ -75,8 +75,8 @@ export function getOrder(url: string) {
 };
 
 
-export function setCurrentOrderDetail (item: IOrder | null) {
-  if (item === null) {
+export function setCurrentOrderDetail (item: IOrder | undefined) {
+  if (item === undefined) {
     return closeModal();
   }
   return function (dispatch: Dispatch<TActions>) {

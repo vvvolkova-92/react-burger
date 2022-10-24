@@ -10,7 +10,7 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
 } from '../types';
 import { checkResponse, setCookie, getCookie, deleteCookie } from '../../utils/constants';
 import {BASEURL} from '../../utils/constants';
-import { IUserData } from '../types/interfaces';
+import { IUserData, TUserInfo } from '../types/interfaces';
 import { Dispatch } from 'redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { TUserAction, TVerificationCode } from '../types/actions';
@@ -99,8 +99,8 @@ export const verifity = (evt: React.ChangeEvent<HTMLInputElement>):TVerification
 };
 
 //AC изменения пароля
-export function changePassword(newUserPassword, verificationCode, history) {
-  return function (dispatch) {
+export function changePassword(newUserPassword: string, verificationCode: string, history: RouteComponentProps["history"]) {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -125,7 +125,7 @@ export function changePassword(newUserPassword, verificationCode, history) {
             history.replace({ pathname: "/login" });
           })
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
         dispatch({
           type: RESET_PASSWORD_FAILURE,
@@ -136,9 +136,9 @@ export function changePassword(newUserPassword, verificationCode, history) {
   }
 };
 //АС авторизация юзера
-export function userLogin(data, history) {
+export function userLogin(data: {userEmail: string, userPassword: string}) {
   const { userEmail, userPassword } = data;
-  return function (dispatch) {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -164,10 +164,9 @@ export function userLogin(data, history) {
               type: LOGIN_SUCCESS,
               data: res,
             });
-            // history.replace({ pathname: "/" });
           })
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
         dispatch({
           type: LOGIN_FAILURE,
@@ -182,7 +181,7 @@ export function userLogin(data, history) {
 export function getUserData() {
   const at = getCookie('accessToken');
   const rt = getCookie('refreshToken');
-    return function (dispatch) {
+    return function (dispatch: Dispatch<TUserAction>) {
       (async () => {
         if (at === undefined) dispatch(refreshToken(rt, getUserData))
         else {
@@ -222,7 +221,7 @@ export function getUserData() {
                 });
               })
           }
-          catch (error) {
+          catch (error: any) {
             let err = await error;
             if (err.message === 'jwt expired') {
 
@@ -241,8 +240,8 @@ export function getUserData() {
 
 };
 //рефреш токен
-export function refreshToken(token, getUserData) {
-  return function (dispatch) {
+export function refreshToken(token: string, getUserData: any): any {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -268,7 +267,7 @@ export function refreshToken(token, getUserData) {
             if (getUserData) dispatch(getUserData());
           })
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
         dispatch({
           type: REFRESH_TOKEN_FAILURE,
@@ -279,8 +278,8 @@ export function refreshToken(token, getUserData) {
   }
 }
 // АС если передумали изменить данные в профиле
-export function dontEditProfile(userData) {
-  return function (dispatch) {
+export function dontEditProfile(userData: TUserInfo) {
+  return function (dispatch: Dispatch<TUserAction>) {
     dispatch({
       type: INPUT_USER_EMAIL,
       userEmail: userData.user.email,
@@ -296,8 +295,8 @@ export function dontEditProfile(userData) {
   }
 };
 //АС изменить данные в профиле
-export function editProfile(userName, userEmail, userPassword) {
-  return function (dispatch) {
+export function editProfile(userName: string, userEmail: string, userPassword: string) {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -323,7 +322,7 @@ export function editProfile(userName, userEmail, userPassword) {
             });
           })
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
         dispatch({
           type: CHANGE_USERDATA_FAILURE,
@@ -335,10 +334,10 @@ export function editProfile(userName, userEmail, userPassword) {
 };
 
 //АС логаут
-export function userLogout(history) {
+export function userLogout(history: RouteComponentProps["history"]) {
   const rt = getCookie('refreshToken');
   const at = getCookie('accessToken');
-  return function (dispatch) {
+  return function (dispatch: Dispatch<TUserAction>) {
     (async () => {
       try {
         dispatch({
@@ -364,7 +363,7 @@ export function userLogout(history) {
           })
             history.replace({ pathname: "/" });
       }
-      catch (error) {
+      catch (error: any) {
         let err = await error;
         dispatch({
           type: LOGOUT_FAILURE,

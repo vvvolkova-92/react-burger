@@ -1,14 +1,15 @@
 import {Link} from 'react-router-dom';
-import {useSelector} from "react-redux";
+import { FC } from 'react';
 //сторонние компоненты
 import {BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 //сторонние библиотеки
 import { nanoid } from 'nanoid';
 //мои компоненты
 import MenuItem from '../MenuItem/MenuItem';
+import { useSelector } from '../../services/types/hooks';
 //стили
 import styles from './AppHeader.module.css';
-import { FC } from 'react';
+
 
 const AppHeader: FC = () => {
   const { isLogin, userData } = useSelector(store => store.userReducer);
@@ -44,7 +45,7 @@ const AppHeader: FC = () => {
           link={"/profile"}
           stylesComp={`pl-5 pt-4 pr-5 pb-4 ${styles.flex}`}
           stylesText={`text text_type_main-default text_color_inactive ${styles.text} ${styles.menuItem}`}
-          title={isLogin ? userData.user.name : "Личный кабинет"}
+          title={ (isLogin && userData !== null) ? userData.user.name : "Личный кабинет"}
         />
       </div>
     </header>

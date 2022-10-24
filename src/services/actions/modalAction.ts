@@ -1,6 +1,6 @@
 import {IN_MODAL_CLOSE_CARD, IN_CONSTRUCTOR_CLEAN} from '../types';
 import { Dispatch } from 'redux';
-import TActions from '../types/actions';
+import { TActions } from '../types/actions';
 
 export function closeModal () {
   return function (dispatch: Dispatch<TActions>) {
@@ -10,7 +10,7 @@ export function closeModal () {
     dispatch({
       type: IN_CONSTRUCTOR_CLEAN,
       main: [],
-      bun: '',
+      bun: null,
     });
   }
 };

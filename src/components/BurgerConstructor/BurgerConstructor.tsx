@@ -1,5 +1,6 @@
-import { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useMemo, FC } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from '../../services/types/hooks';
 import { useDrop} from 'react-dnd';
 //сторонние компоненты
 import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,24 +10,24 @@ import styles from './BurgerConstructor.module.css';
 import ButtonGetOrderNumber from '../ButtonGetOrderNumber/ButtonGetOrderNumber';
 // функции
 import { addIngredientCard, moveCard } from '../../services/actions/constructorIngredientsAction';
-import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor.jsx';
+import { IngredientInConstructor } from '../IngredientInConstructor/IngredientInConstructor';
 import { DROP_INGREDIENT, DROP_CARD } from '../../services/types';
 
-function BurgerConstructor () {
+const BurgerConstructor: FC = () => {
   const {bun, main} = useSelector (store => store.constructorIngredients);
   const dispatch = useDispatch();
 
   const [, dropIngredient] = useDrop(
     () => ({
       accept: DROP_INGREDIENT,
-      drop(item) {
+      drop(item: any) {
         dispatch(addIngredientCard(item, main));
       },
     }),
     [main]
   );
   
-  const findIngredient = (id: string) => {
+  const findIngredient = (id: string | undefined) => {
       const ingredient = main.filter(item => item.id === id)[0];
       return {
         ingredient,
@@ -34,7 +35,7 @@ function BurgerConstructor () {
       };
     };
 
-  const moveIngredient = (id, overIndex) => {
+  const moveIngredient = (id : string | undefined, overIndex: number) => {
       const { ingredient, index } = findIngredient(id);
       dispatch(moveCard(ingredient, index, overIndex, main));
     };

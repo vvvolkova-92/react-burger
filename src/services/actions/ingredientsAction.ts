@@ -3,7 +3,7 @@ import {BASEURL} from '../../utils/constants';
 import { nanoid } from 'nanoid';
 import { checkResponse } from '../../utils/constants';
 import { Dispatch } from 'redux';
-import TActions from '../types/actions';
+import { TActions } from '../types/actions';
 
 interface Iingredient {
   key: string;
