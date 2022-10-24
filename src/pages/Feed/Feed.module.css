@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  min-width: 608px;
+  max-height: 744px;
+  overflow: scroll;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat {
+  width: 584px;
+  min-height: 626px;
+}
+
+.orderStats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderDone, .orderInProgress {
+  width: 280px;
+  max-height: 412px;
+
+}
+.orderDoneList, .orderInProgressList {
+  display: flex;
+  flex-direction: column;
+  max-height: 412px;
+  width: 240px;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.orderDoneList li {
+  color: #00CCCC;
+}
+
+.statusTitle {
+  display: block;
+}
+
+.complete {
+  min-height: 150px;
+  width: 100%;
+
+}
+
+.completeNumber {
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

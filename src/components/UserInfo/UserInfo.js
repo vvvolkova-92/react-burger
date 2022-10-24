@@ -1,6 +1,5 @@
-import { useMemo, useCallback, useState, useRef, useEffect} from "react";
+import { useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom'
 //сторонние компоненты
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 //мои компоненты
@@ -12,8 +11,6 @@ import {dontEditProfile, editProfile, getUserData} from "../../services/actions/
 
 //стили
 import styles from './UserInfo.module.css';
-import {getIngredients} from "../../services/actions/ingredientsAction";
-
 
 function UserInfo() {
   const dispatch = useDispatch();

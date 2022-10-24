@@ -1,10 +1,7 @@
 import styles from './IngredientDetails.module.css';
-import {Link, useHistory, useLocation, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useMemo} from "react";
-import {getIngredients} from "../../services/actions/ingredientsAction";
-import {getCookie} from "../../utils/constants";
-import {refreshToken} from "../../services/actions/authenticationAction";
+import {useLocation, useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {useMemo} from "react";
 
 function IngredientDetails () {
   const { id } = useParams();

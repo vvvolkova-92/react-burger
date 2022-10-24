@@ -1,0 +1,14 @@
+.userOrderContainer {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  min-width: 872px;
+  max-height: 744px;
+  overflow: scroll;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
