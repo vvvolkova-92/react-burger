@@ -68,7 +68,7 @@ const Feed = () => {
   
   // const { orders, total, totalToday } = useSelector((state) => state.socketReducer.messages);
   const { messages } = useSelector((state) => state.socketReducer);
-  const { orders } = messages!; 
+  const orders = messages?.orders;
   const onClickCard = (order: IOrder, evt: React.ChangeEvent<HTMLElement>) => {
     const currentOrder = orders!.find((order: IOrder) => order._id === evt.currentTarget.id);
     dispatch(setCurrentOrderDetail(currentOrder!));
