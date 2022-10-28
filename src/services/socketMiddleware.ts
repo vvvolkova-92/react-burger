@@ -1,9 +1,10 @@
-import { IWsEvent, IWsTypes } from "./types/interfaces";
-
-export const socketMiddleware = (wsTypes: IWsTypes) => {
-  return (store: any) => {
-    let socket: any = null;
-    return (next: any) => (action: any) => {
+import { IWsTypes } from "./types/interfaces";
+import { Middleware, MiddlewareAPI } from "redux";
+import { RootState, AppDispatch } from './types/index';
+export const socketMiddleware = (wsTypes: IWsTypes): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
+    return (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
 
@@ -14,21 +15,21 @@ export const socketMiddleware = (wsTypes: IWsTypes) => {
       }
       if (type === wsTypes.close) {
         // объект класса WebSocket
-        socket.close('1000');
+        socket!.close(1000);
       }
       if (socket) {
         // функция, которая вызывается при открытии сокета
-        socket.onopen = (event: IWsEvent) => {
+        socket.onopen = (event) => {
           console.log('WS_CONNECTION_SUCCESS');
           dispatch({ type: wsTypes.sucess, payload: event });
         };
         // функция, которая вызывается при ошибке соединения
-        socket.onerror = (event: IWsEvent) => {
+        socket.onerror = (event) => {
           console.log('WS_CONNECTION_ERROR');
           dispatch({ type: wsTypes.error, payload: event });
         };
         // функция, которая вызывается при получении события от сервера
-        socket.onmessage = (event: IWsEvent) => {
+        socket.onmessage = (event) => {
           const { data } = event;
           console.log('WS_GET_MESSAGE');
           dispatch({ type: wsTypes.getMes, payload: JSON.parse(data) });
@@ -40,7 +41,7 @@ export const socketMiddleware = (wsTypes: IWsTypes) => {
         //   dispatch({ type: wsTypes.getUsrOrd, payload: JSON.parse(data) });
         // };
         // функция, которая вызывается при закрытии соединения
-        socket.onclose = (event: IWsEvent) => {
+        socket.onclose = (event) => {
           console.log('WS_CONNECTION_CLOSED');
           dispatch({ type: wsTypes.closed, payload: event });
         };

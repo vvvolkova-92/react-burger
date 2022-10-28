@@ -1,6 +1,5 @@
 import { FC} from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../services/types/hooks";
+import { useSelector, useAppDispatch } from "../../services/types/hooks";
 import { Link, useHistory, Redirect } from 'react-router-dom';
 // сторонние компоненты
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -14,7 +13,7 @@ import {getMessage} from "../../utils/constants";
 
 
 const ResetPassword: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const { hasError, error, result } = useSelector((state) => state.ForgotPasswordReducer);
   const { userPassword, verificationCode } = useSelector((state) => state.inputReducer);

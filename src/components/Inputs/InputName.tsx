@@ -1,6 +1,5 @@
 import React, { useState, FC } from 'react';
-import { useDispatch } from "react-redux";
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 // сторонние компоненты
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 // todo: по возможности убрать это
@@ -12,7 +11,7 @@ const InputName: FC<TInputName> = ({ icon, type, value }) => {
   const input = inputRef.current;
   const [disabled, setDisabled] = useState<boolean>(true);
   const userName = useSelector((state) => state.inputReducer.userName);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const allowedСharacters = evt.target.value.replace(/[0-9]/g, "");

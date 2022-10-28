@@ -1,8 +1,6 @@
 import { FC} from "react";
-import { useDispatch } from "react-redux";
 import { Route, Switch, NavLink, useHistory, useLocation, useRouteMatch} from 'react-router-dom';
-import { ILocationState } from "../../services/types/interfaces";
-
+import { useAppDispatch } from "../../services/types/hooks";
 import UserInfo from "../../components/UserInfo/UserInfo";
 import UserOrders from "../../components/UserOrders/UserOrders";
 // стили
@@ -12,11 +10,11 @@ import {userLogout} from "../../services/actions/authenticationAction";
 
 export const ProfilePage: FC = () => {
   const { path } = useRouteMatch();
-  return <Route path={`${path}`} component={ProfileNav} exact/>
+  return <Route path={`${path}`} exact><ProfileNav /></Route>
 }
 
-export const ProfileNav: FC = () => {
-  const dispatch = useDispatch();
+const ProfileNav: FC = () => {
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation<any>();
   const background = history.action === "PUSH" && location.state && location.state.background;
@@ -61,9 +59,13 @@ export const ProfileNav: FC = () => {
           </ul>
         </div>
         <div className={styles.block__details + " ml-15"}>
-        <Switch location={background || location }>
-          <Route exact path={`/profile`} children={UserInfo} />
-          <Route exact path={`/profile/orders`} children={UserOrders}/>
+        <Switch >
+          <Route exact path={`/profile`}>
+            <UserInfo />
+          </Route>
+          <Route exact path={`/profile/orders`}>
+            <UserOrders />
+          </Route>
         </Switch>
         </div>
       </div>

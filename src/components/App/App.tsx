@@ -2,8 +2,7 @@ import {useCallback, useEffect} from 'react';
 import { Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {useDispatch} from 'react-redux';
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 // мои компоненты
 import PrivateRouteLoginUser from "../ProtectedRoute/PrivateRouteLoginUser";
 import { PrivateRouteUnloggedUser, PrivateRouteModal } from '../ProtectedRoute/PrivateRouteUnloggedUser';
@@ -29,7 +28,7 @@ import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 import styles from './App.module.css';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation<any>();
   const background = location.state && location.state.background;

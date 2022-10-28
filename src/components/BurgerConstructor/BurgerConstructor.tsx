@@ -1,6 +1,5 @@
 import { useMemo, FC } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 import { useDrop} from 'react-dnd';
 //сторонние компоненты
 import { ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,7 +14,7 @@ import { DROP_INGREDIENT, DROP_CARD } from '../../services/types';
 
 const BurgerConstructor: FC = () => {
   const {bun, main} = useSelector (store => store.constructorIngredients);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [, dropIngredient] = useDrop(
     () => ({

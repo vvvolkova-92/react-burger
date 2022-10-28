@@ -2,17 +2,16 @@ import { useCallback, useState, FC } from 'react';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { getOrderNumber } from '../../services/actions/orderAction';
 import {useHistory} from "react-router-dom";
 import { InfinitySpin } from 'react-loader-spinner';
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 
 const ButtonGetOrderNumber: FC = () => {
   const [state, setState] = useState(false);
   const { isLogin } = useSelector(store => store.userReducer);
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { main, bun} = useSelector( store => ({
     main: store.constructorIngredients.main,
     bun: store.constructorIngredients.bun,

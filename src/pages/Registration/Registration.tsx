@@ -1,6 +1,5 @@
-import { useDispatch } from "react-redux";
 import { FC } from "react";
-import { useSelector } from "../../services/types/hooks";
+import { useSelector, useAppDispatch } from "../../services/types/hooks";
 import { Link, useHistory, BrowserRouter } from 'react-router-dom';
 // сторонние компоненты
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -18,7 +17,7 @@ import styles from './Registration.module.css';
 export const Registration: FC = () => {
   const { hasError, error} = useSelector( store => store.registrationUserReducer);
   const errorText = getMessage(error!);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const inputData = useSelector(store => store.inputReducer);
   let history = useHistory();
 

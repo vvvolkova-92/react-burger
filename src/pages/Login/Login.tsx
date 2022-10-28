@@ -1,6 +1,5 @@
 import { FC } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../services/types/hooks";
+import { useSelector, useAppDispatch } from "../../services/types/hooks";
 import { Link } from 'react-router-dom';
 // сторонние компоненты
 import { Button} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,7 +14,7 @@ import styles from "./Login.module.css";
 
 
 const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { error, hasError } = useSelector(state => state.userReducer);
   const inputData = useSelector(state => state.inputReducer);
   const errorText = getMessage(error!);

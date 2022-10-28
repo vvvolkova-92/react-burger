@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import { useHistory, useLocation, Link} from 'react-router-dom';
-import { useDispatch} from 'react-redux';
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 //мои компоненты
 import OrderInFeed from '../../components/OrderInFeed/OrderInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
@@ -48,7 +47,7 @@ export const Stat:FC<IWebSocketMessages> = ({orders, total, totalToday}) => {
 };
 
 const Feed = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation<ILocationState>();
   const background = location.state && location.state.background;

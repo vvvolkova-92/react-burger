@@ -1,6 +1,5 @@
 import { FC, useEffect} from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../services/types/hooks";
+import { useSelector, useAppDispatch } from "../../services/types/hooks";
 //сторонние компоненты
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 //мои компоненты
@@ -14,13 +13,13 @@ import {dontEditProfile, editProfile, getUserData} from "../../services/actions/
 import styles from './UserInfo.module.css';
 
 const UserInfo: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { userData, isLogin } = useSelector((state) => state.userReducer);
   const { userName, userEmail, userPassword } = useSelector((state) => state.inputReducer);
 
   useEffect( () => {
     dispatch(getUserData());
-  }, []);
+  }, [dispatch]);
 
   const onClickCancel = () => {
     if (userData) dispatch(dontEditProfile(userData));

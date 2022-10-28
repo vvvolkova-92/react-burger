@@ -2,8 +2,7 @@ import {ALL_GET_INGREDIENTS_REQUEST, ALL_GET_INGREDIENTS_SUCCESS, ALL_GET_INGRED
 import {BASEURL} from '../../utils/constants';
 import { nanoid } from 'nanoid';
 import { checkResponse } from '../../utils/constants';
-import { Dispatch } from 'redux';
-import { TActions } from '../types/actions';
+import { AppDispatch } from '../types/index';
 
 interface Iingredient {
   key: string;
@@ -12,7 +11,7 @@ interface Iingredient {
 }
 
 export function getIngredients () {
-  return function (dispatch: Dispatch<TActions>) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: ALL_GET_INGREDIENTS_REQUEST,
     });

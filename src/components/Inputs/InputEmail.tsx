@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 // сторонние компоненты
 // todo: по возможности убрать это!
 import { INPUT_USER_EMAIL } from '../../services/types'
@@ -14,7 +13,7 @@ export const InputEmail:FC<TInputEmail> = ({ icon, placeholder, type, value}) =>
   const userEmail = useSelector((state) => state.inputReducer.userEmail);
   // const userData = useSelector((state) => state.userData);
   const [disabled, setDisabled] = useState<boolean>(true);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({

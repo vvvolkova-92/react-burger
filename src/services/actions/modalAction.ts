@@ -1,9 +1,8 @@
+import { AppDispatch } from '../types/index';
 import {IN_MODAL_CLOSE_CARD, IN_CONSTRUCTOR_CLEAN} from '../types';
-import { Dispatch } from 'redux';
-import { TActions } from '../types/actions';
 
 export function closeModal () {
-  return function (dispatch: Dispatch<TActions>) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: IN_MODAL_CLOSE_CARD,
     });

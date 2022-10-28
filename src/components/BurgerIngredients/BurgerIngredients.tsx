@@ -3,8 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCard from '../IngredientsCard/IngredientsCard';
 import styles from './BurgerIngredients.module.css';
 import {menuItems} from '../../utils/constants';
-import { useDispatch } from "react-redux";
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 import { setCurrentIngredient } from '../../services/actions/currentIngredientAction';
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useInView } from 'react-intersection-observer';
@@ -54,7 +53,7 @@ const BurgerIngredients: FC = () => {
   },[mainInView, bunInView, souceInView]);
 
   const data = useSelector (store => store.ingredients.ingredients);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onClickCard = (evt: React.MouseEvent<HTMLElement> ) => {
     const currentItem = data.find((element) => element._id === evt.currentTarget.id);

@@ -1,7 +1,6 @@
 import { useMemo, useEffect, FC } from 'react';
 import { useLocation, useParams, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 //сторонние компоненты 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 //мои
@@ -25,10 +24,10 @@ import { IIngredient, IngredientInOrder } from '../../services/types/interfaces'
  };
 
 const OrderDetailInFeed: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { messages, wsConnected } = useSelector((state) => state.socketReducer);
   const { data } = useSelector(state => state.modalReducer);
-  const orders = wsConnected ? messages?.orders : data!.orders;
+  const orders = wsConnected ? messages?.orders : data?.orders;
   const { id } = useParams<{id: string}>();
   const location = useLocation();
   const { path} = useRouteMatch();
@@ -41,14 +40,14 @@ const OrderDetailInFeed: FC = () => {
   }, []);
 
   const order = useMemo(() => {
-    return orders?.find((order: any) => order._id === id);
+    return orders?.find((order) => order._id === id);
   }, [orders, id]);
   // const {name, number, status, ingredients, createdAt } = order;
   const orderDate = new Date(order!.createdAt).toLocaleString();
   const allIngr = useSelector (store => store.ingredients.ingredients);
   //считаем дубли и получаем данные по айди ингредиенты
   const sortIngredients = order?.ingredients.sort(); //сортировка массива
-  const duplicates: any = [];
+  const duplicates: any[] = [];
   sortIngredients?.forEach((element: any) => { 
     duplicates[element] = duplicates[element] + 1 || 1; //получаем пару ключ - значение на дубли
   });

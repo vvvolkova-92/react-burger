@@ -3,16 +3,15 @@ import {BASEURL} from '../../utils/constants';
 import { closeModal } from './modalAction';
 import { checkResponse } from '../../utils/constants';
 import { getCookie } from '../../utils/constants';
-import { Dispatch } from 'redux';
-import { TActions } from '../types/actions';
 import { IOrder } from '../types/interfaces';
+import { AppDispatch } from '../types/index';
 
 export function getOrderNumber (ingredients: string[] | null) {
   if (ingredients === null) {
     return closeModal();
   };
 
-  return async (dispatch: Dispatch<TActions>) => {
+  return async (dispatch: AppDispatch) => {
       try {
         const res = await fetch(`${BASEURL}/orders`, {
           method: 'POST',
@@ -46,7 +45,7 @@ export function getOrderNumber (ingredients: string[] | null) {
 };
 
 export function getOrder(url: string) {
-  return async (dispatch: Dispatch<TActions>) => {
+  return async (dispatch: AppDispatch) => {
       try {
         const res = await fetch(`${BASEURL}${url}`, {
           headers: {
@@ -79,7 +78,7 @@ export function setCurrentOrderDetail (item: IOrder | undefined) {
   if (item === undefined) {
     return closeModal();
   }
-  return function (dispatch: Dispatch<TActions>) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: SET_CURRENT_HISTORY_ORDER,
       name: item.name,

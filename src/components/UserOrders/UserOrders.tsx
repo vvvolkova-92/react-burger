@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useMemo, useEffect, FC } from 'react';
 import { useHistory, useLocation, Link, useRouteMatch} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 //мои компоненты
 import OrderInFeed from '../OrderInFeed/OrderInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
@@ -12,7 +11,7 @@ import style from './UserOrders.module.css';
 import { ILocationState } from '../../services/types/interfaces';
 
 const UserOrders = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation<ILocationState>();
   const { path } = useRouteMatch();
@@ -34,7 +33,7 @@ const UserOrders = () => {
   }, []);
   const onClickCard = useCallback((evt: React.ChangeEvent<HTMLElement>) => {
     const currentOrder = orders!.find((order) => order._id === evt.currentTarget.id);
-    dispatch(setCurrentOrderDetail(currentOrder!));
+    setCurrentOrderDetail(currentOrder!);
     history.push(`${path}/${currentOrder!._id}`);
   },[dispatch, history, orders, path]);
 
@@ -52,7 +51,7 @@ const UserOrders = () => {
     )
   }),[orders]);
   
-  const userOrders = getUserOrders && <ul className={style.userOrderContainer}>{order}</ul>;
+  const userOrders = getUserOrders ? <ul className={style.userOrderContainer}>{order}</ul> : null;
   return userOrders;
 }
 

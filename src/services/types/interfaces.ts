@@ -176,17 +176,14 @@ export type TComplete = {
 }
 
 export interface IWsTypes {
-  start: string,
-  sucess: string,
-  error: string,
-  closed: string,
-  close: string,
-  getMes: string,
-  getUsrOrd: string,
-  sendMes: string,
+  start: 'WS_CONNECTION_START',
+  sucess: 'WS_CONNECTION_SUCCESS',
+  error: 'WS_CONNECTION_ERROR',
+  closed: 'WS_CONNECTION_CLOSED',
+  close: 'WS_CONNECTION_CLOSE',
+  getMes: 'WS_GET_MESSAGE',
+  getUsrOrd: 'WS_GET_USER_ORDERS',
+  sendMes: 'WS_SEND_MESSAGE',
 };
 
-export interface IWsEvent {
-  data: string,
-  message: string
-}
+export type IWsEvent = IWebSocketMessages | IWebSocketUserMessages;

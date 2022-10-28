@@ -6,19 +6,19 @@ import { INPUT_USER_NAME, INPUT_USER_PASSWORD, INPUT_USER_EMAIL, INPUT_VERIFICAT
   LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE,
   GET_USERDATA_REQUEST, GET_USERDATA_SUCCESS, GET_USERDATA_FAILURE,
   CHANGE_USERDATA_REQUEST, CHANGE_USERDATA_SUCCESS, CHANGE_USERDATA_FAILURE,
-  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE,
+  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE, WS_CONNECTION_START, WS_CONNECTION_CLOSE,
 } from '../types';
 import { checkResponse, setCookie, getCookie, deleteCookie } from '../../utils/constants';
 import {BASEURL} from '../../utils/constants';
 import { IUserData, TUserInfo } from '../types/interfaces';
-import { Dispatch } from 'redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { TUserAction, TVerificationCode } from '../types/actions';
 import React from 'react';
+import { AppDispatch } from '../types/index';
 // AC регистрации пользователя
 export function userRegistration(data: IUserData, history: RouteComponentProps["history"]) {
   const { userName, userEmail, userPassword } = data;
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -56,7 +56,7 @@ export function userRegistration(data: IUserData, history: RouteComponentProps["
 };
 // AC восстановление пароля
 export function remindPassword(email: string, history: RouteComponentProps["history"]) {
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -100,7 +100,7 @@ export const verifity = (evt: React.ChangeEvent<HTMLInputElement>):TVerification
 
 //AC изменения пароля
 export function changePassword(newUserPassword: string, verificationCode: string, history: RouteComponentProps["history"]) {
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -138,7 +138,7 @@ export function changePassword(newUserPassword: string, verificationCode: string
 //АС авторизация юзера
 export function userLogin(data: {userEmail: string, userPassword: string}) {
   const { userEmail, userPassword } = data;
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -181,7 +181,7 @@ export function userLogin(data: {userEmail: string, userPassword: string}) {
 export function getUserData() {
   const at = getCookie('accessToken');
   const rt = getCookie('refreshToken');
-    return function (dispatch: Dispatch<TUserAction>) {
+    return function (dispatch: AppDispatch) {
       (async () => {
         if (at === undefined) dispatch(refreshToken(rt, getUserData))
         else {
@@ -241,7 +241,7 @@ export function getUserData() {
 };
 //рефреш токен
 export function refreshToken(token: string, getUserData: any): any {
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -279,7 +279,7 @@ export function refreshToken(token: string, getUserData: any): any {
 }
 // АС если передумали изменить данные в профиле
 export function dontEditProfile(userData: TUserInfo) {
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: INPUT_USER_EMAIL,
       userEmail: userData.user.email,
@@ -296,7 +296,7 @@ export function dontEditProfile(userData: TUserInfo) {
 };
 //АС изменить данные в профиле
 export function editProfile(userName: string, userEmail: string, userPassword: string) {
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -337,7 +337,7 @@ export function editProfile(userName: string, userEmail: string, userPassword: s
 export function userLogout(history: RouteComponentProps["history"]) {
   const rt = getCookie('refreshToken');
   const at = getCookie('accessToken');
-  return function (dispatch: Dispatch<TUserAction>) {
+  return function (dispatch: AppDispatch) {
     (async () => {
       try {
         dispatch({
@@ -373,5 +373,26 @@ export function userLogout(history: RouteComponentProps["history"]) {
     })();
   }
 };
+
+export function ConnectionStart () {
+  return function (dispatch: AppDispatch) {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: `wss://norma.nomoreparties.space/orders?token=${getCookie(
+          'accessToken')}`,
+    });
+  }
+};
+
+export function ConnectionClose () {
+  return function (dispatch: AppDispatch) {
+    dispatch({
+      type: WS_CONNECTION_CLOSE,
+    });
+  }
+};
+
+
+
 
 

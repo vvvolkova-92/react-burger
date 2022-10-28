@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
 import React, {FC, useState} from "react";
 import {Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
 import { INPUT_USER_PASSWORD } from '../../services/types'
-import { useSelector } from "../../services/types/hooks";
+import { useSelector, useAppDispatch } from "../../services/types/hooks";
 import { TInputPassword } from '../../services/types/interfaces';
 
 const InputPassword:FC<TInputPassword> = ({ type }) => {
@@ -10,7 +9,7 @@ const InputPassword:FC<TInputPassword> = ({ type }) => {
   const input = inputRef.current;
   const [disabled, setDisabled] = useState(true);
   const userPassword = useSelector((state) => state.inputReducer.userPassword);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const allowedСharacters = evt.target.value.replace(/[^a-zA-Z0-9]/g,'');

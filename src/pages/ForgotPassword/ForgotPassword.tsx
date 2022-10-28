@@ -1,5 +1,4 @@
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../services/types/hooks";
+import { useSelector, useAppDispatch } from "../../services/types/hooks";
 import { Link, useHistory} from 'react-router-dom';
 import { FC } from "react";
 //сторонние компоненты
@@ -14,7 +13,7 @@ import styles from './ForgotPassword.module.css';
 
 const ForgotPassword:FC = () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const email = useSelector(state => state.inputReducer.userEmail);
   const { result, sendLetter } = useSelector( state => state.ForgotPasswordReducer);

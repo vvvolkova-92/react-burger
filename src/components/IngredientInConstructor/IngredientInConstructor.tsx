@@ -1,17 +1,16 @@
 import { FC } from "react";
-import { useDispatch} from "react-redux";
 import { useDrop, useDrag } from 'react-dnd';
 import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {deleteIngredientCard} from '../../services/actions/constructorIngredientsAction';
 import {DROP_CARD} from '../../services/types';
-import { useSelector } from '../../services/types/hooks';
+import { useSelector, useAppDispatch } from '../../services/types/hooks';
 import styles from './IngredientInConstructor.module.css';
 import { TIngredientInConstructor } from "../../services/types/interfaces";
 
 
 export const IngredientInConstructor: FC<TIngredientInConstructor> = ({id, moveIngredient, findIngredient, name, image, price }) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {main} = useSelector (store => store.constructorIngredients);
   const itemIndex = findIngredient(id).index;
 
