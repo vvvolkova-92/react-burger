@@ -39,9 +39,9 @@ const UserInfo: FC = () => {
           <InputPassword type={'profile'}/>
           <div className={styles.buttons}>
             {/* <Button type="primary" size="medium" form='profile'>Сохранить</Button> */}
-            <Button type="primary" size="medium" >Сохранить</Button>
+            <Button type="primary" size="medium"  htmlType={'submit'}>Сохранить</Button>
             {(userData!.user.email !== userEmail) || (userData!.user.name !== userName) &&  (
-              <Button type="primary" size="medium" onClick={onClickCancel}>Отмена</Button>
+              <Button type="primary" size="medium" onClick={onClickCancel} htmlType={'button'}>Отмена</Button>
             )}
           </div>
         </form>

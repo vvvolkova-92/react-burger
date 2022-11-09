@@ -22,21 +22,21 @@ const Complete: FC<TComplete> = ({title, number}) => {
 export const Stat:FC<IWebSocketMessages> = ({orders, total, totalToday}) => {
   const dayTitle = 'Выполнено за сегодня:';
   const monthTitle = 'Выполнено за все время:';
-  const ordersDone = useMemo(() => orders?.filter((order:IOrder) => order.status === 'done'),[orders]);
-  const ordersInProgress = useMemo(() => orders?.filter((order: IOrder) => order.status === 'pending'),[orders]);
+  const ordersDone = useMemo(() => orders?.filter(order => order.status === 'done'),[orders]);
+  const ordersInProgress = useMemo(() => orders?.filter(order => order.status === 'pending'),[orders]);
   return (
     <div className={style.stat}>
       <div className={style.orderStats}>
         <div className={style.orderDone}>
           <span className={`${style.statusTitle} text text_type_main-medium mb-4`}>Готовы:</span>
           <ul className={`${style.orderDoneList}`}>
-            {ordersDone?.map((order:IOrder) => (<li className="text text_type_digits-default mb-2" key={order.number}>{order.number}</li>))}
+            {ordersDone?.map(order => (<li className="text text_type_digits-default mb-2" key={order.number}>{order.number}</li>))}
           </ul>
         </div>
         <div className={style.orderInProgress}>
           <span className={`${style.statusTitle} text text_type_main-medium mb-4`}>В работе:</span>
           <ul className={`${style.orderInProgressList}`}>
-          {ordersInProgress?.map((order: IOrder) => (<li className="text text_type_digits-default mb-2" key={order.number}>{order.number}</li>))}
+          {ordersInProgress?.map(order => (<li className="text text_type_digits-default mb-2" key={order.number}>{order.number}</li>))}
           </ul>
         </div>
       </div>
@@ -64,18 +64,17 @@ const Feed = () => {
     };
   }, [dispatch]);
 
-  
-  // const { orders, total, totalToday } = useSelector((state) => state.socketReducer.messages);
   const { messages } = useSelector((state) => state.socketReducer);
   const orders = messages?.orders;
   const onClickCard = (order: IOrder, evt: React.ChangeEvent<HTMLElement>) => {
-    const currentOrder = orders!.find((order: IOrder) => order._id === evt.currentTarget.id);
+    const currentOrder = orders!.find(order => order._id === evt.currentTarget.id);
     dispatch(setCurrentOrderDetail(currentOrder!));
     history.push(`/feed/${order._id}`);
   }
   const title = 'Лента заказов';
 
-  const order = useMemo(() => orders?.map((order: any) => {
+  const order = useMemo(() => orders?.map(order => {
+    console.log(order);
     return (
       <Link to={{
         pathname: `/feed/${order._id}`,
@@ -84,7 +83,7 @@ const Feed = () => {
       key={order._id}
       className={style.link}
       >
-        <OrderInFeed {...order} onClick={(evt) => onClickCard(order, evt)} inProfile/>
+        <OrderInFeed {...order} onClick={(evt) => onClickCard(order, evt)} inProfile />
       </Link>
     )
   }),[orders]);

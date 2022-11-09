@@ -35,7 +35,7 @@ export const Registration: FC = () => {
           <InputEmail placeholder={'Email'}/>
           <InputPassword />
           <div className={styles.button_container}>
-            <Button type="primary" size="medium">Зарегистрироваться</Button>
+            <Button type="primary" size="medium"  htmlType={'submit'}>Зарегистрироваться</Button>
           </div>
         </form>
         {hasError && <span className={styles.error}>{errorText}</span>}

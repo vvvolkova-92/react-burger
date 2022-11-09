@@ -37,7 +37,7 @@ const ButtonGetOrderNumber: FC = () => {
   };
 
   return ( <>
-    <Button type="primary" size="large" onClick={clickHandler}>
+    <Button type="primary" size="large" onClick={clickHandler} htmlType={'button'}>
       Оформить заказ
     </Button>
     {state && (    

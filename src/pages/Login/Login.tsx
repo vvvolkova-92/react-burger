@@ -20,7 +20,7 @@ const Login: FC = () => {
   const errorText = getMessage(error!);
 
   //TODO : сделать обработку ошибок и их вывод!
-  const submitHandler = (evt: React.ChangeEvent<HTMLFormElement>) => {
+  const submitHandler = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(userLogin(inputData));
   }
@@ -32,7 +32,7 @@ const Login: FC = () => {
         <InputEmail placeholder={'Email'}/>
         <InputPassword/>
         <div className={styles.button_container}>
-          <Button type="primary" size="medium">Войти</Button>
+          <Button type="primary" size="medium"  htmlType={'submit'}>Войти</Button>
         </div>
       </form>
       {hasError && <span className={styles.error}>{errorText}</span>}

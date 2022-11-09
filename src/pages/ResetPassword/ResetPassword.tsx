@@ -47,7 +47,7 @@ const ResetPassword: FC = () => {
             errorText={'Ошибка'}
             size={'default'}
           />
-          <Button type="primary" size="medium">Изменить</Button>
+          <Button type="primary" size="medium" htmlType={'submit'}>Изменить</Button>
         </form>
         {hasError && <span className={styles.error}>{errorText}</span>}
         {result && <span className={styles.error}>{successText}</span>}

@@ -67,8 +67,7 @@ export type TModalState = {
   orderModal: boolean,
   historyOrderModal: boolean,
   closeModal: boolean,
-  data: TOrderData | null,
-  // data: TOrderData | null | IOrder[],
+  data: null | IOrder[],
 }
 
 export type TOrderState = {
@@ -79,7 +78,7 @@ export type THistoryOrderState = {
   name: string,
   number: undefined | number,
   status: undefined | number | string,
-  ingredients: object[],
+  ingredients: string[],
   createdAt: undefined | string,
   totalPrice: null| number,
 };

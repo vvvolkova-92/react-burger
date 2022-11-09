@@ -102,7 +102,7 @@ export type IngredientInOrder = {
 
 export interface IOrder {
   _id: string,
-  ingredients: object[];
+  ingredients: string[];
   number: number;
   name: string;
   status: string;
@@ -110,14 +110,14 @@ export interface IOrder {
 }
 
 export type TOrderData = {
-  orders: IOrder[] | undefined,
+  orders: IOrder[],
 }
 
 export type TOrderInFeed = {
   inProfile?: boolean,
   status: string, 
   _id: string, 
-  ingredients: object[], 
+  ingredients: string[],
   name: string, 
   createdAt: string, 
   number: number, 
@@ -156,14 +156,14 @@ export type TRouteLogin = {
 }
 
 export interface ILocationState {
-  background: ILocationState;
-  from: {
+  background?: ILocationState;
+  from?: {
     pathname: string,
   }
-  pathname?: string, 
-  search: string, 
-  state: string, 
-  hash: string,
+  pathname?: string,
+  search?: string,
+  state?: string,
+  hash?: string,
 }
 
 export type TButton = typeof Button & {

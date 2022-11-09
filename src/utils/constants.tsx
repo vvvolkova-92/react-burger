@@ -9,7 +9,8 @@ export const menuItems = [
   {id: nanoid(10), name: 'Начинки', value: 'three'},
 ];
 
-export function checkResponse(res: any) {
+
+export function checkResponse(res: Response) {
   if (res.ok) {
     return res.json();
   }

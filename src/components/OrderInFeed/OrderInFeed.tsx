@@ -9,7 +9,6 @@ import { TOrderInFeed } from '../../services/types/interfaces';
 const OrderInFeed: FC<TOrderInFeed> = ({inProfile, status, _id, ingredients, name, createdAt, number, onClick}) => {
 
   const orderDate = new Date(createdAt).toLocaleString();
-
   const data = useSelector (store => store.ingredients.ingredients);
   //для неактивной карточки ингредиента
   let total = 0;
@@ -17,7 +16,7 @@ const OrderInFeed: FC<TOrderInFeed> = ({inProfile, status, _id, ingredients, nam
   let noActiveCard;
   //для активных карточек ингредиента
   const activeIngredients = useMemo( () => ingredients.map((ingr, index) => {
-    const ingredientsData = data.filter((element: any) => element._id === ingr);
+    const ingredientsData = data.filter((element) => element._id === ingr);
     let activeCards;
       const image = ingredientsData[0]?.image_mobile;
       const name = ingredientsData[0]?.name;

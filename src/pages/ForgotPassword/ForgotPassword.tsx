@@ -30,7 +30,7 @@ const ForgotPassword:FC = () => {
         <div className={styles.form}>
           <InputEmail placeholder={'Укажите e-mail'}/>
         </div>
-        <Button type="primary" size="medium" onClick={clickHandler}>Восстановить</Button>
+        <Button type="primary" size="medium" onClick={clickHandler} htmlType={'button'}>Восстановить</Button>
       </div>
       {sendLetter && <span className={styles.result}>{resultText}</span>}
       <div className={styles.actions + ' text text_type_main-default text_color_inactive mt-20'}>

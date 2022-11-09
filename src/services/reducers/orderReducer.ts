@@ -36,7 +36,7 @@ export const orderReducer = (state = initialState, action: TActions): TOrderStat
 export const currentOrderReducer = (state = historyOrderState, action: TActions): THistoryOrderState => {
   switch (action.type) {
     case SET_CURRENT_HISTORY_ORDER:
-      return { 
+      return {
         ...state,
         name: action.name,
         number: action.number,
@@ -44,11 +44,6 @@ export const currentOrderReducer = (state = historyOrderState, action: TActions)
         ingredients: action.ingredients,
         createdAt: action.createdAt,
       }
-    // case TOTAL_PRICE_ORDER:
-    //   return {
-    //     ...state,
-    //     totalPrice: action.total,
-    //   }
     default: return state
   }
 }

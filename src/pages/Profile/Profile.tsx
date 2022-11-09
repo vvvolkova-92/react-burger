@@ -7,6 +7,7 @@ import UserOrders from "../../components/UserOrders/UserOrders";
 import styles from './Profile.module.css';
 //экшены
 import {userLogout} from "../../services/actions/authenticationAction";
+import { ILocationState } from '../../services/types/interfaces';
 
 export const ProfilePage: FC = () => {
   const { path } = useRouteMatch();
@@ -16,7 +17,7 @@ export const ProfilePage: FC = () => {
 const ProfileNav: FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const location = useLocation<any>();
+  const location = useLocation<ILocationState>();
   const background = history.action === "PUSH" && location.state && location.state.background;
   return (
       <div className={styles.block}>

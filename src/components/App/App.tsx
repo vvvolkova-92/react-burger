@@ -26,6 +26,7 @@ import OrderDetailInFeed from '../OrderDetailInFeed/OrderDetailInFeed';
 import { setCurrentOrderDetail } from '../../services/actions/orderAction';
 //стили
 import styles from './App.module.css';
+import {ILocationState } from '../../services/types/interfaces';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +49,6 @@ const App = () => {
 
   const closeOrderOrdermodal = useCallback (() => {
     dispatch(setCurrentOrderDetail(undefined));
-     console.log(history);
     history.replace({ pathname: location?.state?.from || '/profile/orders'});
   }, []);
 
